@@ -1,5 +1,6 @@
 import itumulator.executable.DisplayInformation;
 import itumulator.executable.DynamicDisplayInformationProvider;
+import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
@@ -7,8 +8,9 @@ import itumulator.world.World;
 import java.awt.Color;
 import java.util.*;
 
-public class Hole implements NonBlocking, DynamicDisplayInformationProvider {
+public class Hole implements NonBlocking, DynamicDisplayInformationProvider, Actor {
     Rabbit rabbit;
+    int age = 100;
     TunnelNetwork network;
 
     Hole(Rabbit r) {
@@ -16,7 +18,17 @@ public class Hole implements NonBlocking, DynamicDisplayInformationProvider {
         }
 
     @Override
+    public void act(World world) {
+        age--;
+        if (age == 0) {
+            world.delete(this);
+        }
+    }
+
+    @Override
     public DisplayInformation getInformation() {
-        return new DisplayInformation(Color.BLACK, "hole");
+        if (age > 40)
+            return new DisplayInformation(Color.BLACK, "hole");
+        return new DisplayInformation(Color.BLACK,"hole-small");
     }
 }
