@@ -21,7 +21,7 @@ public class Main {
             placement.placeRandomly(w, new Rabbit(false));
         }
          */
-
+        w.setTile(new Location(0,0),new TesterBester());
         w.setTile(new Location(0,0), new Rabbit(true));
         w.setTile(new Location(2,2), new Rabbit(false));
         // p.setDisplayInformation(<MyClass>.class, new DisplayInformation(<Color>, "<ImageName>"));
