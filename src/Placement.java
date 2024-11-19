@@ -6,9 +6,8 @@ import java.util.Random;
 public class Placement {
 
     // Placerer et Object et antal gange randomly.
-    public void placeRandomly(World world, Object object, int amount) {
+    public void placeRandomly(World world, Object object) {
         Random rand = new Random();
-        for (int i = 0; i < amount; i++) {
             int x = rand.nextInt(world.getSize());
             int y = rand.nextInt(world.getSize());
             Location l = new Location(x, y);
@@ -19,7 +18,5 @@ public class Placement {
                 l = new Location(x, y);
             }
             world.setTile(l, object);
-        }
-
     }
 }

@@ -13,9 +13,23 @@ public class Main {
 
         World w = p.getWorld();
 
-        w.setTile(new Location(0,0), new Hole());
+        // w.setTile(new Location(0,0), new Hole());
         // p.setDisplayInformation(<MyClass>.class, new DisplayInformation(<Color>, "<ImageName>"));
 
         p.show();
+
+        Placement placement = new Placement();
+
+        // eks på brugen af placeRandomly
+        int amount = 4;
+        for (int i = 0; i < amount; i++) {
+            placement.placeRandomly(w, new Hole());
+        }
+
+        int steps = 200;
+        for (int i = 0; i < steps; i++) {
+            p.simulate();
+        }
+
     }
 }
