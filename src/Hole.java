@@ -13,7 +13,7 @@ public class Hole implements NonBlocking, DynamicDisplayInformationProvider {
 
     Hole(Rabbit r) {
         this.rabbit = r;
-        }
+    }
 
     @Override
     public DisplayInformation getInformation() {
