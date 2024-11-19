@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class Rabbit extends Herbivore implements DynamicDisplayInformationProvider {
+    Random rand = new Random();
+    private Hole h;
     boolean grownup;
 
     Rabbit() {
@@ -38,6 +40,8 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         }
         // Moves the rabbit to target tile
         world.move(this, target);
+
+        digHole(world);
     }
 
     @Override
@@ -46,4 +50,12 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
             return new DisplayInformation(Color.GRAY,"rabbit-large");
         return new DisplayInformation(Color.BLACK,"rabbit-small");
     }
+
+
+    public void digHole(World world) {
+        if (1 == (rand.nextInt(10) + 1)) {
+            h = new Hole(this, world);
+        }
+    }
+
 }
