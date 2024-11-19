@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/grpro_eksamensprojekt.iml" filepath="$PROJECT_DIR$/grpro_eksamensprojekt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/itumulator/itumulator.iml" filepath="$PROJECT_DIR$/src/itumulator/itumulator.iml" />
     </modules>
   </component>
 </project>
