@@ -13,7 +13,8 @@ public class Main {
 
         World w = p.getWorld();
 
-        w.setTile(new Location(0,0), new Hole());
+        w.setTile(new Location(0,0), new Rabbit(true));
+        w.setTile(new Location(2,2), new Rabbit(false));
         // p.setDisplayInformation(<MyClass>.class, new DisplayInformation(<Color>, "<ImageName>"));
 
         p.show();
