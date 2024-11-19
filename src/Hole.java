@@ -1,7 +1,6 @@
 import itumulator.executable.DisplayInformation;
 import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
-import itumulator.world.Location;
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
 
@@ -13,8 +12,9 @@ public class Hole implements NonBlocking, DynamicDisplayInformationProvider, Act
     int age = 100;
     TunnelNetwork network;
 
-    Hole(Rabbit r) {
-        this.rabbit = r;
+    Hole(TunnelNetwork network) {
+        this.network = network;
+        network.addHole(this);
         }
 
     @Override
@@ -22,6 +22,7 @@ public class Hole implements NonBlocking, DynamicDisplayInformationProvider, Act
         age--;
         if (age == 0) {
             world.delete(this);
+            network.removeHole(this);
         }
     }
 

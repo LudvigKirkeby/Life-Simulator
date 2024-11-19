@@ -2,6 +2,7 @@ import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Animal implements Actor {
@@ -12,7 +13,35 @@ public abstract class Animal implements Actor {
     }
 
     protected List<Location> path(World world, Location target) {
-        throw new RuntimeException("path method not implemented!");
+        if(target == null) throw new RuntimeException("Target is null!");
+        if(world == null) throw new RuntimeException("World is null!");
+        if(!world.contains(this)) throw new RuntimeException("This is not in the world!");
+
+        if(world.getCurrentLocation().equals(target)) {
+            return new ArrayList<Location>();
+        }
+
+        List<Location> final_path = new ArrayList<>();
+        List<Location> previous_locations = new ArrayList<>();
+        final_path.add(world.getCurrentLocation());
+        while(true) {
+            Location next = final_path.getLast();
+            double least_dist = Double.MAX_VALUE;
+            for(Location l : world.getEmptySurroundingTiles(next)) {
+                if(!previous_locations.contains(l) && Math.pow(l.getX()-target.getX(),2)+Math.pow(l.getY()-target.getY(),2)<least_dist) {
+                    least_dist = Math.pow(l.getX()-target.getX(),2)+Math.pow(l.getY()-target.getY(),2);
+                    next = l;
+                }
+            }
+            if(next.equals(final_path.getLast())) {
+                return final_path;
+            }
+            previous_locations.add(next);
+            final_path.add(next);
+            if(next.equals(target)) {
+                return final_path;
+            }
+        }
     }
 
     protected List<Location> path(World world, Object object) {
@@ -22,5 +51,5 @@ public abstract class Animal implements Actor {
     protected void reproduce(Animal animal) {
 
     }
-    
+
 }
