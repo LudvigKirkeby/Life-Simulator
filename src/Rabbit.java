@@ -41,7 +41,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         // Moves the rabbit to target tile
         world.move(this, target);
 
-        digHole(world);
+        digHole(world, world.getCurrentLocation());
     }
 
     @Override
@@ -51,11 +51,9 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         return new DisplayInformation(Color.BLACK,"rabbit-small");
     }
 
-
-    public void digHole(World world) {
-        if (1 == (rand.nextInt(10) + 1)) {
-            h = new Hole(this, world);
+    public void digHole(World world, Location location) {
+        if (1 == (rand.nextInt(10) + 1) && !world.containsNonBlocking(location)) {
+            world.setTile(location, new Hole(this));
         }
     }
-
 }

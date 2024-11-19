@@ -9,13 +9,10 @@ import java.util.*;
 
 public class Hole implements NonBlocking, DynamicDisplayInformationProvider {
     Rabbit rabbit;
-    DisplayInformation displayInformation;
     TunnelNetwork network;
 
-    Hole(Rabbit r, World w) {
+    Hole(Rabbit r) {
         this.rabbit = r;
-        getInformation();
-        w.setTile(w.getLocation(r), this);
         }
 
     @Override
