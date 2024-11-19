@@ -13,17 +13,17 @@ public class Main {
 
         World w = p.getWorld();
 
-        // Below code is an example of placeRandomly.
-
+        /* Below code is an example of placeRandomly.
         Placement placement = new Placement();
         int amount = 1;
         for (int i = 0; i < amount; i++) {
             placement.placeRandomly(w, new Rabbit(true));
             placement.placeRandomly(w, new Rabbit(false));
         }
+         */
 
-        //w.setTile(new Location(0,0), new Rabbit(true));
-        //w.setTile(new Location(2,2), new Rabbit(false));
+        w.setTile(new Location(0,0), new Rabbit(true));
+        w.setTile(new Location(2,2), new Rabbit(false));
         // p.setDisplayInformation(<MyClass>.class, new DisplayInformation(<Color>, "<ImageName>"));
 
         p.show();
