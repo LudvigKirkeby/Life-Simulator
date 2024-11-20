@@ -17,6 +17,8 @@ public class Main {
         int amount = 1;
         for (int i = 0; i < amount; i++) {
             placement.placeRandomly(w, new Rabbit(true));
+            placement.placeRandomly(w, new Rabbit(true));
+            placement.placeRandomly(w, new Rabbit(true));
             placement.placeRandomly(w, new Rabbit(false));
             placement.placeRandomly(w, new Grass());
         }

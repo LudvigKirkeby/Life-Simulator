@@ -13,7 +13,6 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     boolean grownup;
     TunnelNetwork network;
     private int cooldown;
-    private int view_distance;
 
     Rabbit() {
         grownup = false;
@@ -29,9 +28,14 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     @Override
     public void act(World world) {
-        age += 0.1; // 1 år per 10 steps. En rabbit er gammel efter 6 år, aka 60 steps.
-        if (age > 8) { // En rabbit dør ved age 8, aka 80 steps.
+        age += 0.1; // 1 år per 10 steps. En rabbit er gammel efter 8 år, aka 60 steps.
+        if (age > 150) { // En rabbit dør ved age 15, aka 150 steps.
            die(world);
+        }
+
+        if (age > 5 && !this.grownup) {
+            this.grownup = true;
+            getInformation();
         }
 
         if (cooldown > 0) {
@@ -50,7 +54,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
             seekGrass(world, target);
 
-            //reproduce();
+            reproduce(world);
 
             seekMate(world, target);
 
@@ -110,7 +114,9 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 Hole hole = network.getHole(new Random().nextInt(network.getSize()));
                 Location l = world.getLocation(hole);
                 world.setCurrentLocation(l);
-                world.setTile(l, this);
+                if (world.isTileEmpty(l)) {
+                    world.setTile(l, this);
+                }
             } else {// Else create a new hole and add it to the network
                 Placement placement = new Placement();
                 placement.placeRandomly(world, new Hole(network));
@@ -158,12 +164,13 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     public void wander(World world, Location target) {
         target = random_move(world);
+        if (target == null) return;
         world.move(this, target); // Moves the rabbit to target tile
     }
 
     public void seekGrass(World world, Location target) {
         if (hunger > 6/*Temporary*/) {// Seek out grass
-            Grass closest_grass = (Grass)closest_object(Grass.class, world.getCurrentLocation(), world);
+            Grass closest_grass = (Grass)closest_object(Grass.class, world.getCurrentLocation(), world, view_distance, false);
             if(closest_grass != null) {
                 List<Location> path = path(world, world.getLocation(closest_grass));
                 if(path.size()<2) return;
@@ -175,11 +182,10 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         }
     }
 
+    // DOES NOT WORK (?)
     public void seekMate(World world, Location target) {
         if (hunger <= 10/*Temporary*/) {// Seek out Mate
-            Rabbit closest_rabbit = (Rabbit)closest_object(Rabbit.class, world.getCurrentLocation(), world);
-            System.out.println(this);
-            System.out.println(closest_rabbit);
+            Rabbit closest_rabbit = (Rabbit)closest_object(Rabbit.class, world.getCurrentLocation(), world, view_distance, false);
             if(closest_rabbit != null) {
                 List<Location> path = path(world, world.getLocation(closest_rabbit));
                 if(path.size()<2) return;
@@ -195,6 +201,29 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
             eat(world, ((Grass)world.getNonBlocking(world.getCurrentLocation())));
             return;
+        }
+    }
+
+    protected void reproduce(World world) {
+        Rabbit closest_rabbit = (Rabbit) closest_object(Rabbit.class, world.getLocation(this), world, view_distance, false);
+        if (closest_rabbit != null) {
+            Set<Location> closest_rabbit_tiles = world.getSurroundingTiles(world.getLocation(closest_rabbit));
+            List<Location> list = new ArrayList<>(closest_rabbit_tiles);
+            if (list.contains(world.getLocation(this)) && closest_rabbit.grownup) {
+                Random rand = new Random();
+                    while (energy > 9) {
+                        energy--;
+                        Location rl = world.getLocation(this);
+                        Set<Location> neighboursToRabbit = world.getEmptySurroundingTiles(rl);
+                        List<Location> list2 = new ArrayList<>(neighboursToRabbit);
+                        if (!list2.isEmpty()) {
+                            Location l = list2.get(rand.nextInt(list2.size()));
+                            world.setTile(l, new Rabbit(false));
+                        } else {
+                            return;
+                        }
+                    }
+           }
         }
     }
 

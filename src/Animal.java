@@ -50,13 +50,14 @@ public abstract class Animal implements Actor {
         return path(world, world.getLocation(object));
     }
 
-    protected void reproduce(Animal animal, int energy) {
-
+    protected void reproduce(Class c, Animal animal, World world) {
     }
 
-    public Object closest_object(Class c, Location location, World world) {
+    public Object closest_object(Class c, Location location, World world, int view_distance, boolean middle) {
         Set<Location> tiles = world.getSurroundingTiles(location, view_distance);
-        tiles.add(location);
+        if (middle) {
+            tiles.add(location);
+        }
         Object closest_object = null;
         double closest_distance = Double.MAX_VALUE;
         for(Location tile : tiles) {
