@@ -24,7 +24,7 @@ public class Grass implements Plant, DynamicDisplayInformationProvider, NonBlock
     @Override
     public void grow(World world) {
         Random rand = new Random();
-        if (1 == (rand.nextInt(10) + 1)) {
+        if (1 == (rand.nextInt(15) + 1)) {
             Set<Location> set = world.getSurroundingTiles(world.getLocation(this));
             List<Location> list = new ArrayList<>(set);
 
@@ -43,6 +43,11 @@ public class Grass implements Plant, DynamicDisplayInformationProvider, NonBlock
             // Otherwise grass is placed
             world.setTile(target, new Grass());
         }
+    }
+
+    @Override
+    public int getFoodValue() {
+        return 1;
     }
 
     @Override

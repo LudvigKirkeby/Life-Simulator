@@ -13,6 +13,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     boolean grownup;
     TunnelNetwork network;
     private int cooldown;
+    private int view_distance;
 
     Rabbit() {
         grownup = false;
@@ -20,7 +21,9 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     Rabbit(boolean grownup) {
         this.grownup = grownup;
+        view_distance = 3;
         network = new TunnelNetwork();
+        hunger = 10;
     }
 
     @Override
@@ -41,14 +44,24 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 unburrow(world);
                 return;
             }
+            if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
+                eat(world, ((Grass)world.getNonBlocking(world.getCurrentLocation())));
+                return;
+            }
 
-            if (hunger < 5 && false/*Temporary*/) {
-                //Seek out grass
+            if (hunger > 5/*Temporary*/) {// Seek out grass
+                Grass closest_grass = (Grass)closest_object(Grass.class, world.getCurrentLocation(), world);
+                if(closest_grass != null) {
+                    List<Location> path = path(world, world.getLocation(closest_grass));
+                    if(path.size()<2) return;
+                    target = path.get(1);
+                }else {
+                    target = random_move(world);
+                }
+
             } else {
                 //Just wander
-                Set<Location> available_tiles = world.getEmptySurroundingTiles();
-                if (available_tiles.isEmpty()) return;
-                target = (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
+                target = random_move(world);
             }
             world.move(this, target); // Moves the rabbit to target tile
             if(1 == (new Random().nextInt(5) + 1))
@@ -69,11 +82,14 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     public void digHole (World world, Location location) {
         if (!world.containsNonBlocking(location)) {
-            Hole hole = new Hole(network);
-            world.setTile(location, hole);
-            network.addHole(hole);
-            cooldown = 3;
-        }
+        }else if(world.getNonBlocking(location) instanceof Grass) {
+            world.delete(world.getNonBlocking(location));
+        }else return;
+
+        Hole hole = new Hole(network);
+        world.setTile(location, hole);
+        network.addHole(hole);
+        cooldown = 3;
     }
 
     public void burrow (World world) {
@@ -133,5 +149,31 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
         }
         return closest_hole;
+    }
+
+    public Object closest_object(Class c, Location location, World world) {
+        Set<Location> tiles = world.getSurroundingTiles(location, view_distance);
+        tiles.add(location);
+        Object closest_object = null;
+        double closest_distance = Double.MAX_VALUE;
+        for(Location tile : tiles) {
+            Object current = world.getTile(tile);
+            if(c.isInstance(current)) {
+                double distance = (tile.getX() - location.getX()) * (tile.getX() - location.getX()) + (tile.getY() - location.getY()) * (tile.getY() - location.getY());
+                if(distance < closest_distance) {
+                    closest_distance = distance;
+                    closest_object = world.getTile(tile);
+                }
+            }
+
+        }
+
+        return closest_object;
+    }
+
+    public Location random_move(World world) {
+        Set<Location> available_tiles = world.getEmptySurroundingTiles();
+        if (available_tiles.isEmpty()) return null;
+        return (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
     }
 }
