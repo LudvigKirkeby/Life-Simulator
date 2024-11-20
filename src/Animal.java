@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class Animal implements Actor {
-    protected int age, hunger, energy, view_distance;
+    protected int hunger, view_distance;
+    protected double age, energy;
 
     protected void die(World world) {
         world.delete(this);

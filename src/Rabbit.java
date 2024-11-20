@@ -29,6 +29,11 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     @Override
     public void act(World world) {
+        age += 0.1; // 1 år per 10 steps. En rabbit er gammel efter 6 år, aka 60 steps.
+        if (age > 8) { // En rabbit dør ved age 8, aka 80 steps.
+           die(world);
+        }
+
         if (cooldown > 0) {
             cooldown--;
             return;
@@ -39,9 +44,15 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
             unburrow(world);
 
+            wander(world, target);
+
             eatGrass(world);
 
             seekGrass(world, target);
+
+            //reproduce();
+
+            seekMate(world, target);
 
             digHole(world, world.getLocation(this));
 
@@ -145,23 +156,39 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         return (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
     }
 
+    public void wander(World world, Location target) {
+        target = random_move(world);
+        world.move(this, target); // Moves the rabbit to target tile
+    }
+
     public void seekGrass(World world, Location target) {
-        System.out.println(hunger);
-        if (hunger > 5/*Temporary*/) {// Seek out grass
+        if (hunger > 6/*Temporary*/) {// Seek out grass
             Grass closest_grass = (Grass)closest_object(Grass.class, world.getCurrentLocation(), world);
             if(closest_grass != null) {
                 List<Location> path = path(world, world.getLocation(closest_grass));
                 if(path.size()<2) return;
                 target = path.get(1);
+                world.move(this, target); // Moves the rabbit to target tile
             } else {
-                target = random_move(world);
+                wander(world, target);
             }
-
-        } else {
-            //Just wander
-            target = random_move(world);
         }
-        world.move(this, target); // Moves the rabbit to target tile
+    }
+
+    public void seekMate(World world, Location target) {
+        if (hunger <= 10/*Temporary*/) {// Seek out Mate
+            Rabbit closest_rabbit = (Rabbit)closest_object(Rabbit.class, world.getCurrentLocation(), world);
+            System.out.println(this);
+            System.out.println(closest_rabbit);
+            if(closest_rabbit != null) {
+                List<Location> path = path(world, world.getLocation(closest_rabbit));
+                if(path.size()<2) return;
+                target = path.get(1);
+                world.move(this, target); // Moves the rabbit to target tile
+            } else {
+                wander(world, target);
+            }
+        }
     }
 
     public void eatGrass(World world) {
@@ -177,5 +204,6 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
             energy++;
         }
     }
+
 
 }
