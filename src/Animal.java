@@ -4,9 +4,10 @@ import itumulator.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Animal implements Actor {
-    protected int age, hunger;
+    protected int age, hunger, energy, view_distance;
 
     protected void die(World world) {
         world.delete(this);
@@ -48,8 +49,27 @@ public abstract class Animal implements Actor {
         return path(world, world.getLocation(object));
     }
 
-    protected void reproduce(Animal animal) {
+    protected void reproduce(Animal animal, int energy) {
 
     }
+
+    public Object closest_object(Class c, Location location, World world) {
+        Set<Location> tiles = world.getSurroundingTiles(location, view_distance);
+        tiles.add(location);
+        Object closest_object = null;
+        double closest_distance = Double.MAX_VALUE;
+        for(Location tile : tiles) {
+            Object current = world.getTile(tile);
+            if(c.isInstance(current)) {
+                double distance = (tile.getX() - location.getX()) * (tile.getX() - location.getX()) + (tile.getY() - location.getY()) * (tile.getY() - location.getY());
+                if(distance < closest_distance) {
+                    closest_distance = distance;
+                    closest_object = world.getTile(tile);
+                }
+            }
+        }
+        return closest_object;
+    }
+
 
 }
