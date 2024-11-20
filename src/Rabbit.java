@@ -43,26 +43,40 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
             return;
         }
         Location target = world.getCurrentLocation();
-        //Rabbit daytime behaviour
-        if (world.isDay()) {
+
+        if (world.isDay()) { // Rabbit daytime behaviour
 
             unburrow(world);
-
+            if(!world.isOnTile(this)) return;
             wander(world, target);
 
             eatGrass(world);
 
-            seekGrass(world, target);
+            if (hunger > 6)
+                seek(Grass.class, world, target, view_distance);
 
             reproduce(world);
 
-            seekMate(world, target);
+            if (hunger <= 10)
+                seek(Rabbit.class, world, target, view_distance);
 
-            digHole(world, world.getLocation(this));
-
+            if(1 == (new Random().nextInt(5) + 1) && energy > 2)
+                digHole(world, world.getLocation(this));
         } else { // Nighttime behaviour
-
-            burrow(world);
+            /*
+                This was an attempt to make Rabbits not sit idly on a tile
+                when they cannot find a hole at night. Makes the problem
+                better(I think), but doesn't fix it.
+            */
+            try {
+                burrow(world);
+            }catch(RuntimeException e) {// Should make a custom exception instead
+                if(e.getMessage().equals("Can't find any hole!")) {
+                    if(canDig(world, world.getCurrentLocation()))
+                        digHole(world, world.getCurrentLocation());
+                    else wander(world, world.getCurrentLocation());
+                }
+            }
 
             restoreEnergy();
         }
@@ -75,22 +89,24 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         return new DisplayInformation(Color.BLACK, "rabbit-small");
     }
 
-    public void digHole (World world, Location location) {
-        if(1 == (new Random().nextInt(5) + 1) && energy > 2) {
-            energy -= 2;
-            if (!world.containsNonBlocking(location)) {
-            } else if (world.getNonBlocking(location) instanceof Grass) {
-                world.delete(world.getNonBlocking(location));
-            } else return;
-
-            Hole hole = new Hole(network);
-            world.setTile(location, hole);
-            network.addHole(hole);
-            cooldown = 3;
-        }
+    protected boolean canDig(World world, Location location) {
+        return !world.containsNonBlocking(location) || world.getNonBlocking(location) instanceof Grass;
     }
 
-    public void burrow (World world) {
+    protected void digHole (World world, Location location) {
+        energy -= 2;
+        if (!world.containsNonBlocking(location)) {
+        } else if (world.getNonBlocking(location) instanceof Grass) {
+            world.delete(world.getNonBlocking(location));
+        } else return;
+
+        Hole hole = new Hole(network);
+        world.setTile(location, hole);
+        network.addHole(hole);
+        cooldown = 3;
+    }
+
+    protected void burrow (World world) {
         if (world.isOnTile(this)) {
             Hole closest_hole = getClosestHole(world.getLocation(this), world);
             if (closest_hole == null) return;
@@ -101,12 +117,12 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 return;
             }
             List<Location> path = path(world, world.getLocation(closest_hole));
-            if (path.size() < 2) return;
-            world.move(this, path.get(1));
+            if (path.isEmpty()) throw new RuntimeException("Can't find any hole!");
+            world.move(this, path.getFirst());
         }
     }
 
-    public void unburrow(World world) {
+    protected void unburrow(World world) {
         if (!world.isOnTile(this)) {
             //!!!!!!TEMPORARY SOLUTION!!!!!!
             network.clean(world);
@@ -118,20 +134,15 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                     world.setTile(l, this);
                 }
             } else {// Else create a new hole and add it to the network
+                // This method for placing holes randomly stop them from placing on Grass
                 Placement placement = new Placement();
                 placement.placeRandomly(world, new Hole(network));
                 unburrow(world);
             }
-            return;
         }
     }
 
-    /*
-     Finds closest Hole in holes to the location
-     If no hole found, raises exception
-     */
-
-    public Hole getClosestHole(Location location, World world) {
+    protected Hole getClosestHole(Location location, World world) {
         //!!!!!!TEMPORARY SOLUTION!!!!!!
         network.clean(world);
 
@@ -143,64 +154,44 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         Hole closest_hole = null;
         double closest_distance = Double.MAX_VALUE;
         for (int i = 0; i < network.getSize(); i++) {
-            //if(world.contains(network.getHole(i))) {
-                Location l = world.getLocation(network.getHole(i));
-                double distance = (l.getX() - location.getX()) * (l.getX() - location.getX()) + (l.getY() - location.getY()) * (l.getY() - location.getY());
-                if(distance < closest_distance) {
-                    closest_distance = distance;
-                    closest_hole = network.getHole(i);
-                }
-            //}
+            Location l = world.getLocation(network.getHole(i));
+            double distance = (l.getX() - location.getX()) * (l.getX() - location.getX()) + (l.getY() - location.getY()) * (l.getY() - location.getY());
+            if(distance < closest_distance) {
+                closest_distance = distance;
+                closest_hole = network.getHole(i);
+            }
 
         }
         return closest_hole;
     }
 
-    public Location random_move(World world) {
+    protected Location random_move(World world) {
         Set<Location> available_tiles = world.getEmptySurroundingTiles();
         if (available_tiles.isEmpty()) return null;
         return (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
     }
 
-    public void wander(World world, Location target) {
+    protected void wander(World world, Location target) {
         target = random_move(world);
         if (target == null) return;
         world.move(this, target); // Moves the rabbit to target tile
     }
 
-    public void seekGrass(World world, Location target) {
-        if (hunger > 6/*Temporary*/) {// Seek out grass
-            Grass closest_grass = (Grass)closest_object(Grass.class, world.getCurrentLocation(), world, view_distance, false);
-            if(closest_grass != null) {
-                List<Location> path = path(world, world.getLocation(closest_grass));
-                if(path.size()<2) return;
-                target = path.get(1);
-                world.move(this, target); // Moves the rabbit to target tile
-            } else {
-                wander(world, target);
-            }
+    protected void seek(Class c, World world, Location target, int view_distance) {
+        Object closest = closest_object(c, world.getCurrentLocation(), world, view_distance, false);
+        if(closest != null) {
+            List<Location> path = path(world, world.getLocation(closest));
+            if(path.isEmpty()) return;
+            target = path.getFirst();
+            world.move(this, target); // Moves the rabbit to target tile
+        } else {
+            wander(world, target);
         }
     }
 
-    // DOES NOT WORK (?)
-    public void seekMate(World world, Location target) {
-        if (hunger <= 10/*Temporary*/) {// Seek out Mate
-            Rabbit closest_rabbit = (Rabbit)closest_object(Rabbit.class, world.getCurrentLocation(), world, view_distance, false);
-            if(closest_rabbit != null) {
-                List<Location> path = path(world, world.getLocation(closest_rabbit));
-                if(path.size()<2) return;
-                target = path.get(1);
-                world.move(this, target); // Moves the rabbit to target tile
-            } else {
-                wander(world, target);
-            }
-        }
-    }
-
-    public void eatGrass(World world) {
+    protected void eatGrass(World world) {
         if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
             eat(world, ((Grass)world.getNonBlocking(world.getCurrentLocation())));
-            return;
         }
     }
 
@@ -227,7 +218,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         }
     }
 
-    public void restoreEnergy() {
+    protected void restoreEnergy() {
         while (hunger < 10 && energy < 10) {
             hunger++;
             energy++;

@@ -36,11 +36,13 @@ public abstract class Animal implements Actor {
                 }
             }
             if(next.equals(final_path.getLast())) {
+                final_path.removeFirst();
                 return final_path;
             }
             previous_locations.add(next);
             final_path.add(next);
             if(next.equals(target)) {
+                final_path.removeFirst();
                 return final_path;
             }
         }

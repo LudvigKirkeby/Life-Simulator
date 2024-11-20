@@ -1,5 +1,6 @@
 import itumulator.executable.Program;
 import itumulator.world.Location;
+import itumulator.world.NonBlocking;
 import itumulator.world.World;
 
 import java.util.ArrayList;
@@ -15,11 +16,12 @@ public class Placement {
             int y = rand.nextInt(world.getSize());
             Location l = new Location(x, y);
 
-            while(!world.isTileEmpty(l)){
+            while(!world.isTileEmpty(l) && (!(object instanceof NonBlocking) || world.containsNonBlocking(l))){
                 x = rand.nextInt(world.getSize());
                 y = rand.nextInt(world.getSize());
                 l = new Location(x, y);
             }
+            // Still sometimes places a NonBlocking object on another NonBlocking object
             world.setTile(l, object);
     }
 }
