@@ -10,7 +10,6 @@ import java.util.Random;
 import java.util.Set;
 
 public class Rabbit extends Herbivore implements DynamicDisplayInformationProvider {
-    Random rand = new Random();
     boolean grownup;
     TunnelNetwork network;
     private int cooldown;
@@ -52,7 +51,8 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 target = (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
             }
             world.move(this, target); // Moves the rabbit to target tile
-            digHole(world, world.getLocation(this));
+            if(1 == (new Random().nextInt(5) + 1))
+                digHole(world, world.getLocation(this));
         } else {
             if (world.isOnTile(this)) {
                 burrow(world); // nighttime behaviour
@@ -68,7 +68,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     }
 
     public void digHole (World world, Location location) {
-        if (1 == (rand.nextInt(5) + 1) && !world.containsNonBlocking(location)) {
+        if (!world.containsNonBlocking(location)) {
             Hole hole = new Hole(network);
             world.setTile(location, hole);
             network.addHole(hole);
@@ -91,6 +91,8 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     }
 
     public void unburrow(World world) {
+        //!!!!!!TEMPORARY SOLUTION!!!!!!
+        network.clean(world);
         if (network.getSize() > 0) { // If the network has any holes, then unburrow
             Hole hole = network.getHole(new Random().nextInt(network.getSize()));
             Location l = world.getLocation(hole);
@@ -105,20 +107,30 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     /*
      Finds closest Hole in holes to the location
-     If no hole found, raises exception, even so, returns null
+     If no hole found, raises exception
      */
 
     public Hole getClosestHole(Location location, World world) {
-        if(network.getSize()==0) throw new RuntimeException("Network is empty!");
+        //!!!!!!TEMPORARY SOLUTION!!!!!!
+        network.clean(world);
+
+        if(network.getSize()==0){
+            //throw new RuntimeException("Network is empty!");
+            digHole(world, location);
+            return null;
+        }
         Hole closest_hole = null;
         double closest_distance = Double.MAX_VALUE;
         for (int i = 0; i < network.getSize(); i++) {
-            Location l = world.getLocation(network.getHole(i));
-            double distance = (l.getX() - location.getX()) * (l.getX() - location.getX()) + (l.getY() - location.getY()) * (l.getY() - location.getY());
-            if(distance < closest_distance) {
-                closest_distance = distance;
-                closest_hole = network.getHole(i);
-            }
+            //if(world.contains(network.getHole(i))) {
+                Location l = world.getLocation(network.getHole(i));
+                double distance = (l.getX() - location.getX()) * (l.getX() - location.getX()) + (l.getY() - location.getY()) * (l.getY() - location.getY());
+                if(distance < closest_distance) {
+                    closest_distance = distance;
+                    closest_hole = network.getHole(i);
+                }
+            //}
+
         }
         return closest_hole;
     }
