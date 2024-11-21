@@ -192,6 +192,8 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         return age;
     }
 
+    public int getFoodValue() { return 5; }
+
     protected void restoreEnergy() {
         while (hunger < 10 && energy < 10) {
             hunger++;
