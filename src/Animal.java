@@ -71,7 +71,7 @@ public abstract class Animal implements Actor {
     }
 
     /**
-     * Missing documentation.
+     * Currently implemented in Rabbit
      * @param c
      * @param animal
      * @param world

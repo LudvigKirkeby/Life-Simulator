@@ -10,20 +10,16 @@ import java.util.Random;
 import java.util.Set;
 
 public class Rabbit extends Herbivore implements DynamicDisplayInformationProvider {
-    boolean grownup;
     TunnelNetwork network;
     private int cooldown;
 
     Rabbit() {
-        grownup = false;
-    }
-
-    Rabbit(boolean grownup) {
-        this.grownup = grownup;
         view_distance = 3;
+        cooldown = 0;
         network = new TunnelNetwork();
         hunger = 10;
         energy = 10;
+        age = 0;
     }
 
     @Override
@@ -31,11 +27,6 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         age += 0.1; // 1 år per 10 steps. En rabbit er gammel efter 8 år, aka 60 steps.
         if (age > 150) { // En rabbit dør ved age 15, aka 150 steps.
            die(world);
-        }
-
-        if (age > 5 && !this.grownup) {
-            this.grownup = true;
-            getInformation();
         }
 
         if (cooldown > 0) {
@@ -92,7 +83,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     @Override
     public DisplayInformation getInformation () {
-        if (grownup)
+        if (age > 5)
             return new DisplayInformation(Color.GRAY, "rabbit-large");
         return new DisplayInformation(Color.BLACK, "rabbit-small");
     }
@@ -179,7 +170,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         if (closest_rabbit != null) {
             Set<Location> closest_rabbit_tiles = world.getSurroundingTiles(world.getLocation(closest_rabbit));
             List<Location> list = new ArrayList<>(closest_rabbit_tiles);
-            if (list.contains(world.getLocation(this)) && closest_rabbit.grownup) {
+            if (list.contains(world.getLocation(this)) && closest_rabbit.getAge()>5) {
                 Random rand = new Random();
                     while (energy > 9) {
                         energy--;
@@ -188,13 +179,17 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                         List<Location> list2 = new ArrayList<>(neighboursToRabbit);
                         if (!list2.isEmpty()) {
                             Location l = list2.get(rand.nextInt(list2.size()));
-                            world.setTile(l, new Rabbit(false));
+                            world.setTile(l, new Rabbit());
                         } else {
                             return;
                         }
                     }
            }
         }
+    }
+
+    public double getAge() {
+        return age;
     }
 
     protected void restoreEnergy() {
