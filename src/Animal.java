@@ -10,6 +10,7 @@ public abstract class Animal implements Actor {
     protected int hunger, view_distance;
     protected double age, energy;
 
+
     protected void die(World world) {
         world.delete(this);
     }
@@ -22,7 +23,7 @@ public abstract class Animal implements Actor {
         if(world.getCurrentLocation().equals(target)) {
             return new ArrayList<Location>();
         }
-
+        System.out.println("quick test");
         List<Location> final_path = new ArrayList<>();
         List<Location> previous_locations = new ArrayList<>();
         final_path.add(world.getCurrentLocation());
