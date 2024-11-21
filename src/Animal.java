@@ -2,6 +2,7 @@ import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +19,8 @@ public abstract class Animal implements Actor, Edible {
     protected void die(World world) {
         world.delete(this);
     }
+
+    abstract boolean getGrownup();
 
     /**
      *
@@ -76,7 +79,32 @@ public abstract class Animal implements Actor, Edible {
      * @param animal
      * @param world
      */
-    protected void reproduce(Class c, Animal animal, World world) {
+
+    protected void reproduce(Class c, Animal animal, World world) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Animal closest_animal = (Animal) closest_object(c, world.getLocation(animal), world, view_distance, false);
+        if (closest_animal != null) {
+            Set<Location> closest_animal_tiles = world.getSurroundingTiles(world.getLocation(closest_animal));
+            List<Location> list = new ArrayList<>(closest_animal_tiles);
+            if (list.contains(world.getLocation(this)) && animal.getGrownup()) {
+                while (energy > 9) {
+                    energy--;
+                    Location rl = world.getLocation(this);
+                    Set<Location> neighboursToRabbit = world.getEmptySurroundingTiles(rl);
+                    List<Location> list2 = new ArrayList<>(neighboursToRabbit);
+                    if (!list2.isEmpty()) {
+                        Location l = list2.get(new Random().nextInt(list2.size()));
+                        try {
+                            Animal baby = (Animal) c.getDeclaredConstructor().newInstance();
+                            world.setTile(l, baby);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     /**
