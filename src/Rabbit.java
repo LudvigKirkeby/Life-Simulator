@@ -34,6 +34,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 3 år, aka 60 steps.
         if (age > 12) { // En rabbit dør ved age 12, aka 2400 steps.
            die(world);
+           return;
         }
 
         if (cooldown > 0) {
@@ -146,7 +147,6 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 }
             } else {// Else create a new hole and add it to the network
                 // This method for placing holes randomly stop them from placing on Grass
-
                 Placement placement = new Placement();
                 placement.placeRandomly(world, new Hole(network));
                 unburrow(world);
