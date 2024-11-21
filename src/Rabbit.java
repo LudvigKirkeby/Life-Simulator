@@ -47,19 +47,24 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         if (world.isDay()) { // Rabbit daytime behaviour
 
             unburrow(world);
+
+            if(!world.isOnTile(this)) {
+                return;
+            }
+
             if(!world.isOnTile(this)) return;
-            wander(world, target);
+            wander(world, world.getLocation(this));
 
             if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
                 eat(world, ((Grass)world.getNonBlocking(world.getCurrentLocation())));
             }
 
             if (hunger > 6)
-                seek(Grass.class, world, target, view_distance);
+                seek(Grass.class, world, world.getLocation(this), view_distance);
 
 
             if (hunger <= 10)
-                seek(Rabbit.class, world, target, view_distance);
+                seek(Rabbit.class, world, world.getLocation(this), view_distance);
 
             reproduce(world);
 
@@ -119,7 +124,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 world.remove(this);
                 return;
             }
-            List<Location> path = path(world, world.getLocation(closest_hole));
+            List<Location> path = path(world, world.getCurrentLocation(), world.getLocation(closest_hole));
             if (path.isEmpty()) throw new RuntimeException("Can't find any hole!");
             world.move(this, path.getFirst());
         }
