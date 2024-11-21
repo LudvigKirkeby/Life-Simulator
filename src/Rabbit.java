@@ -50,7 +50,9 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
             if(!world.isOnTile(this)) return;
             wander(world, target);
 
-            eatGrass(world);
+            if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
+                eat(world, ((Grass)world.getNonBlocking(world.getCurrentLocation())));
+            }
 
             if (hunger > 6)
                 seek(Grass.class, world, target, view_distance);
@@ -163,36 +165,6 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
         }
         return closest_hole;
-    }
-
-    protected Location random_move(World world) {
-        Set<Location> available_tiles = world.getEmptySurroundingTiles();
-        if (available_tiles.isEmpty()) return null;
-        return (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
-    }
-
-    protected void wander(World world, Location target) {
-        target = random_move(world);
-        if (target == null) return;
-        world.move(this, target); // Moves the rabbit to target tile
-    }
-
-    protected void seek(Class c, World world, Location target, int view_distance) {
-        Object closest = closest_object(c, world.getCurrentLocation(), world, view_distance, false);
-        if(closest != null) {
-            List<Location> path = path(world, world.getLocation(closest));
-            if(path.isEmpty()) return;
-            target = path.getFirst();
-            world.move(this, target); // Moves the rabbit to target tile
-        } else {
-            wander(world, target);
-        }
-    }
-
-    protected void eatGrass(World world) {
-        if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
-            eat(world, ((Grass)world.getNonBlocking(world.getCurrentLocation())));
-        }
     }
 
     protected void reproduce(World world) {

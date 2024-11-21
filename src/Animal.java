@@ -4,6 +4,7 @@ import itumulator.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public abstract class Animal implements Actor {
@@ -23,7 +24,6 @@ public abstract class Animal implements Actor {
         if(world.getCurrentLocation().equals(target)) {
             return new ArrayList<Location>();
         }
-        System.out.println("quick test");
         List<Location> final_path = new ArrayList<>();
         List<Location> previous_locations = new ArrayList<>();
         final_path.add(world.getCurrentLocation());
@@ -74,6 +74,30 @@ public abstract class Animal implements Actor {
             }
         }
         return closest_object;
+    }
+
+    protected void wander(World world, Location target) {
+        target = random_move(world);
+        if (target == null) return;
+        world.move(this, target); // Moves the rabbit to target tile
+    }
+
+    protected Location random_move(World world) {
+        Set<Location> available_tiles = world.getEmptySurroundingTiles();
+        if (available_tiles.isEmpty()) return null;
+        return (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
+    }
+
+    protected void seek(Class c, World world, Location target, int view_distance) {
+        Object closest = closest_object(c, world.getCurrentLocation(), world, view_distance, false);
+        if(closest != null) {
+            List<Location> path = path(world, world.getLocation(closest));
+            if(path.isEmpty()) return;
+            target = path.getFirst();
+            world.move(this, target); // Moves the rabbit to target tile
+        } else {
+            wander(world, target);
+        }
     }
 
 
