@@ -9,18 +9,19 @@ import java.util.*;
 
 public class Hole implements NonBlocking, DynamicDisplayInformationProvider, Actor {
     Rabbit rabbit;
-    int age = 100;
+    int age;
     TunnelNetwork network;
 
     Hole(TunnelNetwork network) {
         this.network = network;
         network.addHole(this);
-        }
+        age = 0;
+    }
 
     @Override
     public void act(World world) {
-        age--;
-        if (age == 0) {
+        age++;
+        if (age >= 100) {
             world.delete(this);
             network.removeHole(this);
         }
@@ -28,7 +29,7 @@ public class Hole implements NonBlocking, DynamicDisplayInformationProvider, Act
 
     @Override
     public DisplayInformation getInformation() {
-        if (age > 40)
+        if (age < 60)
             return new DisplayInformation(Color.BLACK, "hole");
         return new DisplayInformation(Color.BLACK,"hole-small");
     }
