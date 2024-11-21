@@ -57,12 +57,13 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
             if (hunger > 6)
                 seek(Grass.class, world, target, view_distance);
 
-            reproduce(world);
 
             if (hunger <= 10)
                 seek(Rabbit.class, world, target, view_distance);
 
-            if(1 == (new Random().nextInt(5) + 1) && energy > 2)
+            reproduce(world);
+
+            if(new Random().nextInt(5) == 0 && energy > 2)
                 digHole(world, world.getLocation(this));
         } else { // Nighttime behaviour
             /*
@@ -96,12 +97,12 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     }
 
     protected void digHole (World world, Location location) {
-        energy -= 2;
+
         if (!world.containsNonBlocking(location)) {
         } else if (world.getNonBlocking(location) instanceof Grass) {
             world.delete(world.getNonBlocking(location));
         } else return;
-
+        energy -= 2;
         Hole hole = new Hole(network);
         world.setTile(location, hole);
         network.addHole(hole);
@@ -137,6 +138,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 }
             } else {// Else create a new hole and add it to the network
                 // This method for placing holes randomly stop them from placing on Grass
+
                 Placement placement = new Placement();
                 placement.placeRandomly(world, new Hole(network));
                 unburrow(world);

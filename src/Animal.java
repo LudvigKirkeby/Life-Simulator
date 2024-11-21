@@ -11,22 +11,32 @@ public abstract class Animal implements Actor {
     protected int hunger, view_distance;
     protected double age, energy;
 
-
+    /**
+     *
+     * @param world Removes this Animal from world
+     */
     protected void die(World world) {
         world.delete(this);
     }
 
-    protected List<Location> path(World world, Location target) {
+    /**
+     *
+     * @param world World to path find in
+     * @param start The start of the path
+     * @param target Where to path find to
+     * @return A path from start to target when successful. Null if start equals target.
+     */
+    protected List<Location> path(World world, Location start, Location target) {
         if(target == null) throw new RuntimeException("Target is null!");
         if(world == null) throw new RuntimeException("World is null!");
         if(!world.contains(this)) throw new RuntimeException("This is not in the world!");
 
-        if(world.getCurrentLocation().equals(target)) {
-            return new ArrayList<Location>();
+        if(start.equals(target)) {
+            return new ArrayList<>();
         }
         List<Location> final_path = new ArrayList<>();
         List<Location> previous_locations = new ArrayList<>();
-        final_path.add(world.getCurrentLocation());
+        final_path.add(start);
         while(true) {
             Location next = final_path.getLast();
             double least_dist = Double.MAX_VALUE;
@@ -49,24 +59,45 @@ public abstract class Animal implements Actor {
         }
     }
 
-    protected List<Location> path(World world, Object object) {
-        return path(world, world.getLocation(object));
+    /**
+     * Finds a path from Location start to an Object in world using path(World world, Location start, Location target)
+     * @param world World where the Animal(this) and the target(object) are placed.
+     * @param start Location to start from
+     * @param object Object to path find to
+     * @return returns a path from start to object found by path(World world, Location start, Location target)
+     */
+    protected List<Location> path(World world, Location start, Object object) {
+        return path(world, start, world.getLocation(object));
     }
 
+    /**
+     * Missing documentation.
+     * @param c
+     * @param animal
+     * @param world
+     */
     protected void reproduce(Class c, Animal animal, World world) {
     }
 
-    public Object closest_object(Class c, Location location, World world, int view_distance, boolean middle) {
-        Set<Location> tiles = world.getSurroundingTiles(location, view_distance);
-        if (middle) {
-            tiles.add(location);
+    /**
+     * @param c The type of object that is being searched for
+     * @param from Where to search from
+     * @param world World to search in
+     * @param view_distance How far away the object may be
+     * @param include_mid Whether to include from when searching
+     * @return returns the closest object of type c from location within view_distance
+     */
+    protected Object closest_object(Class c, Location from, World world, int view_distance, boolean include_mid) {
+        Set<Location> tiles = world.getSurroundingTiles(from, view_distance);
+        if (include_mid) {
+            tiles.add(from);
         }
         Object closest_object = null;
         double closest_distance = Double.MAX_VALUE;
         for(Location tile : tiles) {
             Object current = world.getTile(tile);
             if(c.isInstance(current)) {
-                double distance = (tile.getX() - location.getX()) * (tile.getX() - location.getX()) + (tile.getY() - location.getY()) * (tile.getY() - location.getY());
+                double distance = (tile.getX() - from.getX()) * (tile.getX() - from.getX()) + (tile.getY() - from.getY()) * (tile.getY() - from.getY());
                 if(distance < closest_distance) {
                     closest_distance = distance;
                     closest_object = world.getTile(tile);
@@ -76,27 +107,45 @@ public abstract class Animal implements Actor {
         return closest_object;
     }
 
-    protected void wander(World world, Location target) {
-        target = random_move(world);
+    /**
+     * Makes use of random_move to move the Animal in a random direction.
+     * @param world World to wander in
+     * @param from Location to wander from
+     */
+    protected void wander(World world, Location from) {
+        Location target = random_move(world, from);
         if (target == null) return;
         world.move(this, target); // Moves the rabbit to target tile
     }
 
-    protected Location random_move(World world) {
-        Set<Location> available_tiles = world.getEmptySurroundingTiles();
+    /**
+     * @param world The world to wander in
+     * @param start The location to wander from
+     * @return A random location exactly 1 tile from start
+     */
+    protected Location random_move(World world, Location start) {
+        Set<Location> available_tiles = world.getEmptySurroundingTiles(start);
         if (available_tiles.isEmpty()) return null;
         return (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
     }
 
-    protected void seek(Class c, World world, Location target, int view_distance) {
+    /**
+     * Makes use of closest_object to find an object of type c, then uses the path-method to find
+     * a path from start to that object. It then moves to the first Location in the List path returned.
+     * @param c Type to seek
+     * @param world World to seek in
+     * @param start Where to seek from
+     * @param view_distance How far away the target can be
+     */
+    protected void seek(Class c, World world, Location start, int view_distance) {
         Object closest = closest_object(c, world.getCurrentLocation(), world, view_distance, false);
         if(closest != null) {
-            List<Location> path = path(world, world.getLocation(closest));
+            List<Location> path = path(world, start, world.getLocation(closest));
             if(path.isEmpty()) return;
-            target = path.getFirst();
+            Location target = path.getFirst();
             world.move(this, target); // Moves the rabbit to target tile
         } else {
-            wander(world, target);
+            wander(world, start);
         }
     }
 
