@@ -10,7 +10,7 @@ public abstract class Carnivore extends Animal {
 
     public void eat(World world, Animal target) {
         if (hunger > 0) {
-            //hunger -= target.getFoodValue();
+            hunger -= target.getFoodValue();
         }
             world.delete(target);
     }

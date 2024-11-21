@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public abstract class Animal implements Actor {
+public abstract class Animal implements Actor, Edible {
     protected int hunger, view_distance;
     protected double age, energy;
 

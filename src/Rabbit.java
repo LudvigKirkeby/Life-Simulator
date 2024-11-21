@@ -13,10 +13,17 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     TunnelNetwork network;
     private int cooldown;
 
+    Rabbit(boolean grownup) {
+        this();
+        if(grownup) {
+            age = 5;
+        }
+    }
+
     Rabbit() {
+        network = new TunnelNetwork();
         view_distance = 3;
         cooldown = 0;
-        network = new TunnelNetwork();
         hunger = 10;
         energy = 10;
         age = 0;
