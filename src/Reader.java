@@ -25,7 +25,7 @@ public class Reader {
         return worldSize;
     }
 
-    public HashMap getEntities() {
+    public HashMap<String, Integer> getEntities() {
         return entities;
     }
 }
