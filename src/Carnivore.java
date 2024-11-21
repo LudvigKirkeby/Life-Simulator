@@ -3,7 +3,7 @@ import itumulator.world.World;
 public abstract class Carnivore extends Animal {
 
     /**
-     * Eats an animal and reduces hunger by the animals food value (See Animal.getFoodValue())
+     * Eats an animal and reduces hunger by the animals food value with Edible.getFoodValue().
      * @param world World to find prey in
      * @param target The target to eat. The target gets Deleted from world
      */

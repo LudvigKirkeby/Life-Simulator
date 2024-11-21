@@ -26,7 +26,7 @@ public abstract class Animal implements Actor, Edible {
      * @param target Where to path find to
      * @return A path from start to target when successful. Null if start equals target.
      */
-    protected List<Location> path(World world, Location start, Location target) {
+    protected List<Location> path_to(World world, Location start, Location target) {
         if(target == null) throw new RuntimeException("Target is null!");
         if(world == null) throw new RuntimeException("World is null!");
         if(!world.contains(this)) throw new RuntimeException("This is not in the world!");
@@ -66,8 +66,8 @@ public abstract class Animal implements Actor, Edible {
      * @param object Object to path find to
      * @return returns a path from start to object found by path(World world, Location start, Location target)
      */
-    protected List<Location> path(World world, Location start, Object object) {
-        return path(world, start, world.getLocation(object));
+    protected List<Location> path_to(World world, Location start, Object object) {
+        return path_to(world, start, world.getLocation(object));
     }
 
     /**
@@ -140,7 +140,7 @@ public abstract class Animal implements Actor, Edible {
     protected void seek(Class c, World world, Location start, int view_distance) {
         Object closest = closest_object(c, world.getCurrentLocation(), world, view_distance, false);
         if(closest != null) {
-            List<Location> path = path(world, start, world.getLocation(closest));
+            List<Location> path = path_to(world, start, world.getLocation(closest));
             if(path.isEmpty()) return;
             Location target = path.getFirst();
             world.move(this, target); // Moves the rabbit to target tile

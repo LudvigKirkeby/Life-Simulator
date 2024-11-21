@@ -31,8 +31,8 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     @Override
     public void act(World world) {
-        age += 0.1; // 1 år per 10 steps. En rabbit er gammel efter 8 år, aka 60 steps.
-        if (age > 150) { // En rabbit dør ved age 15, aka 150 steps.
+        age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 8 år, aka 60 steps.
+        if (age > 12) { // En rabbit dør ved age 12, aka 2400 steps.
            die(world);
         }
 
@@ -90,7 +90,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     @Override
     public DisplayInformation getInformation () {
-        if (age > 5)
+        if (age > 3)
             return new DisplayInformation(Color.GRAY, "rabbit-large");
         return new DisplayInformation(Color.BLACK, "rabbit-small");
     }
@@ -122,7 +122,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
                 world.remove(this);
                 return;
             }
-            List<Location> path = path(world, world.getCurrentLocation(), world.getLocation(closest_hole));
+            List<Location> path = path_to(world, world.getCurrentLocation(), world.getLocation(closest_hole));
             if (path.isEmpty()) throw new RuntimeException("Can't find any hole!");
             world.move(this, path.getFirst());
         }
@@ -177,7 +177,7 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         if (closest_rabbit != null) {
             Set<Location> closest_rabbit_tiles = world.getSurroundingTiles(world.getLocation(closest_rabbit));
             List<Location> list = new ArrayList<>(closest_rabbit_tiles);
-            if (list.contains(world.getLocation(this)) && closest_rabbit.getAge()>5) {
+            if (list.contains(world.getLocation(this)) && closest_rabbit.getAge()>3) {
                 Random rand = new Random();
                     while (energy > 9) {
                         energy--;
