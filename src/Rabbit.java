@@ -65,8 +65,12 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
             if (hunger <= 10)
                 seek(Rabbit.class, world, world.getLocation(this), view_distance);
 
-            reproduce(world);
-
+            try {
+                reproduce(Rabbit.class, this, world);
+            } catch (Exception e) {
+                System.out.println("Reproduce failure");
+                e.printStackTrace();
+            }
             if(new Random().nextInt(5) == 0 && energy > 2)
                 digHole(world, world.getLocation(this));
         } else { // Nighttime behaviour
@@ -89,9 +93,16 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         }
     }
 
+    public boolean getGrownup() {
+        if (age > 3) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public DisplayInformation getInformation () {
-        if (age > 3)
+        if (getGrownup())
             return new DisplayInformation(Color.GRAY, "rabbit-large");
         return new DisplayInformation(Color.BLACK, "rabbit-small");
     }
@@ -170,29 +181,6 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
         }
         return closest_hole;
-    }
-
-    protected void reproduce(World world) {
-        Rabbit closest_rabbit = (Rabbit) closest_object(Rabbit.class, world.getLocation(this), world, view_distance, false);
-        if (closest_rabbit != null) {
-            Set<Location> closest_rabbit_tiles = world.getSurroundingTiles(world.getLocation(closest_rabbit));
-            List<Location> list = new ArrayList<>(closest_rabbit_tiles);
-            if (list.contains(world.getLocation(this)) && closest_rabbit.getAge()>3) {
-                Random rand = new Random();
-                    while (energy > 9) {
-                        energy--;
-                        Location rl = world.getLocation(this);
-                        Set<Location> neighboursToRabbit = world.getEmptySurroundingTiles(rl);
-                        List<Location> list2 = new ArrayList<>(neighboursToRabbit);
-                        if (!list2.isEmpty()) {
-                            Location l = list2.get(rand.nextInt(list2.size()));
-                            world.setTile(l, new Rabbit());
-                        } else {
-                            return;
-                        }
-                    }
-           }
-        }
     }
 
     public double getAge() {
