@@ -74,10 +74,10 @@ public abstract class Animal implements Actor, Edible {
     }
 
     /**
-     * Currently implemented in Rabbit
-     * @param c
-     * @param animal
-     * @param world
+     * Reproduces with the closest animal of the same class, given that they are within adjacent tiles. Reproduces non-stop if the implementation does not have an energy requirement.
+     * @param c The class of the animal to breed with and the baby to be born.
+     * @param animal The animal that breeds.
+     * @param world The world in which it reproduces.
      */
 
     protected void reproduce(Class c, Animal animal, World world) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
@@ -86,8 +86,6 @@ public abstract class Animal implements Actor, Edible {
             Set<Location> closest_animal_tiles = world.getSurroundingTiles(world.getLocation(closest_animal));
             List<Location> list = new ArrayList<>(closest_animal_tiles);
             if (list.contains(world.getLocation(this)) && animal.getGrownup()) {
-                while (energy > 9) {
-                    energy--;
                     Location rl = world.getLocation(this);
                     Set<Location> neighboursToRabbit = world.getEmptySurroundingTiles(rl);
                     List<Location> list2 = new ArrayList<>(neighboursToRabbit);
@@ -102,7 +100,6 @@ public abstract class Animal implements Actor, Edible {
                     } else {
                         return;
                     }
-                }
             }
         }
     }

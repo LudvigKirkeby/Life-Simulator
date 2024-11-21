@@ -16,22 +16,22 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     Rabbit(boolean grownup) {
         this();
         if(grownup) {
-            age = 5;
+            age = 3;
         }
     }
 
     Rabbit() {
         network = new TunnelNetwork();
-        view_distance = 3;
-        cooldown = 0;
+        view_distance = 8;
         hunger = 10;
         energy = 10;
         age = 0;
+        cooldown = 0;
     }
 
     @Override
     public void act(World world) {
-        age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 8 år, aka 60 steps.
+        age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 3 år, aka 60 steps.
         if (age > 12) { // En rabbit dør ved age 12, aka 2400 steps.
            die(world);
         }
@@ -60,12 +60,14 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
             if (hunger > 6)
                 seek(Grass.class, world, world.getLocation(this), view_distance);
 
-
             if (hunger <= 10)
                 seek(Rabbit.class, world, world.getLocation(this), view_distance);
 
             try {
-                reproduce(Rabbit.class, this, world);
+                if (energy > 0) {
+                    energy--;
+                    reproduce(Rabbit.class, this, world);
+                }
             } catch (Exception e) {
                 System.out.println("Reproduce failure");
                 e.printStackTrace();
@@ -92,13 +94,6 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         }
     }
 
-    public boolean getGrownup() {
-        if (age > 3) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public DisplayInformation getInformation () {
         if (getGrownup())
@@ -111,12 +106,11 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
     }
 
     protected void digHole (World world, Location location) {
-
         if (!world.containsNonBlocking(location)) {
         } else if (world.getNonBlocking(location) instanceof Grass) {
             world.delete(world.getNonBlocking(location));
         } else return;
-        energy -= 2;
+        energy -= 3;
         Hole hole = new Hole(network);
         world.setTile(location, hole);
         network.addHole(hole);
@@ -183,18 +177,29 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
         return closest_hole;
     }
 
+    protected void restoreEnergy() {
+        while (hunger < 10 && energy < 10) {
+            hunger++;
+            if (age < 7) {
+                energy++;
+            } else {
+                energy += 0.5;
+            }
+        }
+    }
+
+    public boolean getGrownup() {
+        if (age > 3) {
+            return true;
+        }
+        return false;
+    }
+
     public double getAge() {
         return age;
     }
 
     public int getFoodValue() { return 5; }
-
-    protected void restoreEnergy() {
-        while (hunger < 10 && energy < 10) {
-            hunger++;
-            energy++;
-        }
-    }
 
 
 }
