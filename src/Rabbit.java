@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class Rabbit extends Herbivore implements DynamicDisplayInformationProvider {
+public class Rabbit extends Animal implements DynamicDisplayInformationProvider, Edible {
     TunnelNetwork network;
     private int cooldown;
 
@@ -201,5 +201,11 @@ public class Rabbit extends Herbivore implements DynamicDisplayInformationProvid
 
     public int getFoodValue() { return 5; }
 
+    public void eat(World world, Edible edible) {
+        if (hunger > 0) {
+            hunger -= edible.getFoodValue();
+        }
+        world.delete(edible);
+    }
 
 }
