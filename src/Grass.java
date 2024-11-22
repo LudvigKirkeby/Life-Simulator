@@ -18,25 +18,24 @@ public class Grass implements Plant, DynamicDisplayInformationProvider, NonBlock
 
     @Override
     public void act(World world) {
-        grow(world);
+        if (0 == new Random().nextInt(10))
+            grow(world);
     }
 
     @Override
     public void grow(World world) {
         Random rand = new Random();
-        if (1 == (rand.nextInt(10) + 1)) {
-            Set<Location> set = world.getSurroundingTiles(world.getLocation(this));
-            List<Location> list = new ArrayList<>(set);
+        Set<Location> set = world.getSurroundingTiles(world.getLocation(this));
+        List<Location> list = new ArrayList<>(set);
 
-            // The following code makes sure grass is not placed on an occupied tile
-            Location target = null;
-            while(!list.isEmpty() && target == null) {
-                Location current = list.get(rand.nextInt(list.size()));
-                if(world.containsNonBlocking(current)) {
-                    list.remove(current);
-                }else {
-                    target = current;
-                }
+        // The following code makes sure grass is not placed on an occupied tile
+        Location target = null;
+        while(!list.isEmpty() && target == null) {
+            Location current = list.get(rand.nextInt(list.size()));
+            if(world.containsNonBlocking(current)) {
+                list.remove(current);
+            }else {
+                target = current;
             }
             // If no available tile was found then don't grow
             if(target == null) return;
