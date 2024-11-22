@@ -16,10 +16,15 @@ public class Placement {
             int y = rand.nextInt(world.getSize());
             Location l = new Location(x, y);
 
-            while(!world.isTileEmpty(l) && (!(object instanceof NonBlocking) || world.containsNonBlocking(l))){
+            while(true) {
                 x = rand.nextInt(world.getSize());
                 y = rand.nextInt(world.getSize());
                 l = new Location(x, y);
+
+                if(!(object instanceof NonBlocking) && world.isTileEmpty(l))
+                    break;
+                if(!world.containsNonBlocking(l))
+                    break;
             }
             // Still sometimes places a NonBlocking object on another NonBlocking object
             world.setTile(l, object);
