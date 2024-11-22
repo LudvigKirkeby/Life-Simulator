@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Hole implements NonBlocking, DynamicDisplayInformationProvider, Actor {
     Rabbit rabbit;
-    int age;
+    private int age;
     TunnelNetwork network;
 
     Hole(TunnelNetwork network) {

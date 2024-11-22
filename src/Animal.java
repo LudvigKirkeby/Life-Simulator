@@ -2,7 +2,6 @@ import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,8 +15,14 @@ public abstract class Animal implements Actor, Edible {
      * @param world Removes this Animal from world
      */
     protected void die(World world) {
-        if(!world.contains(this)) return;
-        world.delete(this);
+        if(world.isOnTile(this)) {
+            Location l = world.getLocation(this);
+            world.delete(this);
+            world.setTile(l, new Carcass());
+        } else {
+            world.delete(this);
+        }
+
     }
 
     /**

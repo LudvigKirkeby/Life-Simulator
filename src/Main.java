@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         int size = 10;
-        Program p = new Program(size, 800, 75);
+        Program p = new Program(size, 800, 10);
 
         World w = p.getWorld();
 

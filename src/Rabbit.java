@@ -32,7 +32,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
     @Override
     public void act(World world) {
         age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 3 år, aka 60 steps.
-        if (age > 12) { // En rabbit dør ved age 12, aka 2400 steps.
+        if (age > new Random().nextDouble(9,300)) { // En rabbit dør ved tidligst ved age 9
            die(world);
            return;
         }
