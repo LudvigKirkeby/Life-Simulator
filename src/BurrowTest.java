@@ -14,17 +14,26 @@ public class BurrowTest {
     }
 
     @Test
-    public void TestHoleDecay() {
+    public void TestNetworkAddRemove() {
+        TunnelNetwork network = new TunnelNetwork();
+        Burrow b = new Burrow();
+        assertTrue(network.contains(b));
+        network.removeBurrow(b);
+        assertFalse(network.contains(b));
+    }
+
+    @Test
+    public void TestBurrowDecay() {
         TunnelNetwork network = new TunnelNetwork();
         Location l = new Location(0,0);
-        Burrow h = new Burrow(network);
-        w.setTile(l,h);
+        Burrow b = new Burrow();
+        w.setTile(l,b);
         w.setCurrentLocation(l);
         // Hole should automatically disappear after 100 steps(100 calls of act-method)
         for(int i = 0; i<100; i++) {
-            h.act(w);
+            b.act(w);
         }
-        assertFalse(w.contains(h));
-        assertFalse(network.contains(h));
+        assertFalse(w.contains(b));
+        assertFalse(network.contains(b));
     }
 }

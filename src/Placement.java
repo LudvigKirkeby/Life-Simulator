@@ -21,9 +21,7 @@ public class Placement {
                 y = rand.nextInt(world.getSize());
                 l = new Location(x, y);
 
-                if(!(object instanceof NonBlocking) && world.isTileEmpty(l))
-                    break;
-                if(!world.containsNonBlocking(l))
+                if(!world.containsNonBlocking(l) || !(object instanceof NonBlocking) && world.isTileEmpty(l))
                     break;
             }
             // Still sometimes places a NonBlocking object on another NonBlocking object

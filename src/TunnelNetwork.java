@@ -13,7 +13,7 @@ import java.util.*;
     burrows.add(burrow);
     }
 
-    public void removeHole(Burrow burrow) {
+    public void removeBurrow(Burrow burrow) {
         burrows.remove(burrow);
     }
 

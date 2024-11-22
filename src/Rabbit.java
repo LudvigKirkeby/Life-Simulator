@@ -4,12 +4,15 @@ import itumulator.world.Location;
 import itumulator.world.World;
 
 import java.awt.Color;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Rabbit extends Animal implements DynamicDisplayInformationProvider, Edible {
     TunnelNetwork network;
     private int cooldown;
+    private int starving = 0;
 
     Rabbit(boolean grownup) {
         this();
@@ -35,11 +38,22 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
            return;
         }
 
+        if (hunger >= 10) {
+            starving++;
+            if (starving > 20) {
+                die(world);
+                return;
+            }
+        }
+
+        if(hunger < 5) {
+            starving = 0;
+        }
+
         if (cooldown > 0) {
             cooldown--;
             return;
         }
-        Location target = world.getCurrentLocation();
 
         if (world.isDay()) { // Rabbit daytime behaviour
 
@@ -80,7 +94,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
                 better(I think), but doesn't fix it.
             */
             try {
-                burrow(world);
+                burrowSelf(world);
             }catch(RuntimeException e) {// Should make a custom exception instead
                 if(e.getMessage().equals("Can't find any hole!")) {
                     if(canDig(world, world.getCurrentLocation()))
@@ -101,22 +115,27 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
     }
 
     protected boolean canDig(World world, Location location) {
-        return !world.containsNonBlocking(location) || world.getNonBlocking(location) instanceof Grass;
+        return !world.containsNonBlocking(location) || world.getNonBlocking(location) instanceof Plant || world.getNonBlocking(location) instanceof Burrow;
     }
 
     protected void digHole (World world, Location location) {
         if (!world.containsNonBlocking(location)) {
-        } else if (world.getNonBlocking(location) instanceof Grass) {
+        } else if (world.getNonBlocking(location) instanceof Plant) {
             world.delete(world.getNonBlocking(location));
+        } else if(world.getNonBlocking(location) instanceof Burrow) {
+            network.addBurrow((Burrow)world.getNonBlocking(location));
+            return;
         } else return;
         energy -= 3;
-        Burrow burrow = new Burrow(network);
+        Burrow burrow = new Burrow();
+        //if(world.containsNonBlocking(location))
+        //    System.out.println(world.getNonBlocking(location).getClass());
         world.setTile(location, burrow);
         network.addBurrow(burrow);
         cooldown = 3;
     }
 
-    protected void burrow (World world) {
+    protected void burrowSelf (World world) {
         if (world.isOnTile(this)) {
             Burrow closest_burrow = getClosestHole(world.getLocation(this), world);
             if (closest_burrow == null) return;
@@ -146,7 +165,14 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
             } else {// Else create a new hole and add it to the network
                 // This method for placing holes randomly stop them from placing on Grass
                 Placement placement = new Placement();
-                placement.placeRandomly(world, new Burrow(network));
+                Set<Location> all_tiles = world.getSurroundingTiles(world.getSize());
+                for (Location l : all_tiles) {
+                    if (canDig(world,l)) {
+                        digHole(world, l);
+                        break;
+                    }
+                }
+                //placement.placeRandomly(world, new Burrow());
                 unburrow(world);
             }
         }
@@ -176,7 +202,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
     }
 
     protected void restoreEnergy() {
-        while (hunger < 10 && energy < 10) {
+        while (hunger < 5 && energy < 10) {
             hunger++;
             if (age < 7) {
                 energy++;
@@ -202,5 +228,4 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
         }
         world.delete(edible);
     }
-
 }

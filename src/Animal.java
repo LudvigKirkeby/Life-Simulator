@@ -19,7 +19,6 @@ public abstract class Animal implements Actor, Edible {
         } else {
             world.delete(this);
         }
-
     }
 
     /**

@@ -9,26 +9,19 @@ import java.awt.Color;
 public class Burrow implements NonBlocking, DynamicDisplayInformationProvider, Actor {
     Rabbit rabbit;
     private int age;
-    TunnelNetwork network;
 
     Burrow() {
-    this.network = new TunnelNetwork();
-    network.addBurrow(this);
     age = 0;
-    }
-
-    Burrow(TunnelNetwork network) {
-        this.network = network;
-        network.addBurrow(this);
-        age = 0;
     }
 
     @Override
     public void act(World world) {
+        if(!world.contains(this)) {
+            return;
+        }
         age++;
         if (age >= 100) {
             world.delete(this);
-            network.removeHole(this);
         }
     }
 
