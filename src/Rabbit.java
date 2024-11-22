@@ -65,9 +65,9 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
                 seek(Rabbit.class, world, world.getLocation(this), view_distance);
 
             try {
-                if (energy > 0) {
+                if (energy > 0 && can_find_mate(Rabbit.class, world)) {
                     energy--;
-                    reproduce(Rabbit.class, this, world);
+                    reproduce(Rabbit.class, world);
                 }
             } catch (Exception e) {
                 System.out.println("Reproduce failure");

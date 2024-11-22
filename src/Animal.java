@@ -2,10 +2,7 @@ import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Animal implements Actor, Edible {
     protected int hunger, view_distance;
@@ -77,26 +74,37 @@ public abstract class Animal implements Actor, Edible {
         return path_to(world, start, world.getLocation(object));
     }
 
+    protected boolean can_find_mate(Class<?> c, World world) {
+        Set<Location> visible_locations = world.getSurroundingTiles(world.getLocation(this), view_distance);
+        for(Location loc : visible_locations) {
+            if(c.isInstance(world.getTile(loc))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Reproduces with the closest animal of the same class, given that they are within adjacent tiles. Reproduces non-stop if the implementation does not have an energy requirement.
      *
      * @param c      The class of the animal to breed with and the baby to be born.
-     * @param animal The animal that breeds.
      * @param world  The world in which it reproduces.
      */
 
-    protected void reproduce(Class c, Animal animal, World world) throws Exception {
-        Animal closest_animal = (Animal) closest_object(c, world.getLocation(animal), world, view_distance, false);
-        if (closest_animal == null) { throw new Exception("Closest animal null"); }
+    protected void reproduce(Class c, World world) throws Exception {
+        if(!this.getGrownup()) return;
+        Animal closest_animal = (Animal) closest_object(c, world.getLocation(this), world, view_distance, false);
+        if (closest_animal == null) { throw new Exception("Closest animal of type "+c.getName()+" null"); }
 
-        Set<Location> closest_animal_tiles = world.getSurroundingTiles(world.getLocation(closest_animal));
-        List<Location> list = new ArrayList<>(closest_animal_tiles);
-        if (list.contains(world.getLocation(this)) && animal.getGrownup()) {
-            Location rl = world.getLocation(this);
-            Set<Location> neighboursToRabbit = world.getEmptySurroundingTiles(rl);
-            List<Location> list2 = new ArrayList<>(neighboursToRabbit);
-            if (!list2.isEmpty()) {
-                Location l = list2.get(new Random().nextInt(list2.size()));
+        Location location = world.getLocation(this);
+
+        Set<Location> surrounding_tiles = world.getSurroundingTiles(location);
+        List<Location> tile_list = new ArrayList<>(surrounding_tiles);
+        if (tile_list.contains(world.getLocation(closest_animal)) && closest_animal.getGrownup()) {
+            Set<Location> neighbours = world.getEmptySurroundingTiles(location);
+            List<Location> neightbor_list = new ArrayList<>(neighbours);
+            if (!neightbor_list.isEmpty()) {
+                Location l = neightbor_list.get(new Random().nextInt(neightbor_list.size()));
                 try {
                     Animal baby = (Animal) c.getDeclaredConstructor().newInstance();
                     world.setTile(l, baby);
@@ -119,7 +127,7 @@ public abstract class Animal implements Actor, Edible {
      * @param include_mid   Whether to include from when searching
      * @return returns the closest object of type c from location within view_distance
      */
-    protected Object closest_object(Class c, Location from, World world, int view_distance, boolean include_mid) {
+    protected Object closest_object(Class<?> c, Location from, World world, int view_distance, boolean include_mid) {
         Set<Location> tiles = world.getSurroundingTiles(from, view_distance);
         if (include_mid) {
             tiles.add(from);
@@ -171,7 +179,7 @@ public abstract class Animal implements Actor, Edible {
      * @param start         Where to seek from
      * @param view_distance How far away the target can be
      */
-    protected void seek(Class c, World world, Location start, int view_distance) {
+    protected void seek(Class<?> c, World world, Location start, int view_distance) {
         Object closest = closest_object(c, world.getCurrentLocation(), world, view_distance, false);
         if (closest != null) {
             List<Location> path = path_to(world, start, world.getLocation(closest));
