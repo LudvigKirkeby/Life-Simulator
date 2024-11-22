@@ -16,10 +16,9 @@ public abstract class Animal implements Actor, Edible {
      * @param world Removes this Animal from world
      */
     protected void die(World world) {
+        if(!world.contains(this)) return;
         world.delete(this);
     }
-
-    abstract boolean getGrownup();
 
     /**
      * @param world  World to path find in
@@ -179,5 +178,5 @@ public abstract class Animal implements Actor, Edible {
         }
     }
 
-
+    abstract boolean getGrownup();
 }
