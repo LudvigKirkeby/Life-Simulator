@@ -17,7 +17,7 @@ public class Reader {
         //instantiation
     }
 
-    public void loadFile(File file) {this.file = file;}
+    public void loadFile(String file_string) {this.file = new File(file_string);}
     public void readFile() {
         if (file == null) {
             throw new IllegalStateException("File not loaded.");
