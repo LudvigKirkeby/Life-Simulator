@@ -42,8 +42,9 @@ public abstract class Animal implements Actor, Edible {
             Location next = final_path.getLast();
             double least_dist = Double.MAX_VALUE;
             for (Location l : world.getEmptySurroundingTiles(next)) {
-                if (!previous_locations.contains(l) && Math.pow(l.getX() - target.getX(), 2) + Math.pow(l.getY() - target.getY(), 2) < least_dist) {
-                    least_dist = Math.pow(l.getX() - target.getX(), 2) + Math.pow(l.getY() - target.getY(), 2);
+                double dist = Math.pow(l.getX() - target.getX(), 2) + Math.pow(l.getY() - target.getY(), 2);
+                if (!previous_locations.contains(l) && dist < least_dist) {
+                    least_dist = dist;
                     next = l;
                 }
             }
