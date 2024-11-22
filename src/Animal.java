@@ -82,7 +82,7 @@ public abstract class Animal implements Actor, Edible {
 
     protected void reproduce(Class c, Animal animal, World world) throws Exception {
         Animal closest_animal = (Animal) closest_object(c, world.getLocation(animal), world, view_distance, false);
-        if (closest_animal != null) { throw new Exception("Closest animal null"); }
+        if (closest_animal == null) { throw new Exception("Closest animal null"); }
 
         Set<Location> closest_animal_tiles = world.getSurroundingTiles(world.getLocation(closest_animal));
         List<Location> list = new ArrayList<>(closest_animal_tiles);
