@@ -189,10 +189,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
     }
 
     public boolean getGrownup() {
-        if (age > 3) {
-            return true;
-        }
-        return false;
+        return age >= 3;
     }
 
     public double getAge() {
