@@ -9,7 +9,7 @@ import java.util.*;
         burrows = new ArrayList<>();
     }
 
-    public void addHole(Burrow burrow) {
+    public void addBurrow(Burrow burrow) {
     burrows.add(burrow);
     }
 
@@ -21,7 +21,7 @@ import java.util.*;
         return burrows.size();
     }
 
-    public Burrow getHole(int pos) {
+    public Burrow getBurrow(int pos) {
         return burrows.get(pos);
     }
 

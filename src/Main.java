@@ -29,7 +29,19 @@ public class Main {
          */
 
         Reader reader = new Reader();
-        reader.loadFile("src/inputs_week-1");
+        /*
+        reader.loadFile("src/inputs_week-1/t1-1a.txt");
+        reader.loadFile("src/inputs_week-1/t1-1b.txt");
+        reader.loadFile("src/inputs_week-1/t1-1c.txt");
+        reader.loadFile("src/inputs_week-1/t1-2a.txt");
+        reader.loadFile("src/inputs_week-1/t1-2b.txt");
+        reader.loadFile("src/inputs_week-1/t1-2cde.txt");
+        reader.loadFile("src/inputs_week-1/t1-2fg.txt");
+        reader.loadFile("src/inputs_week-1/t1-3a.txt");
+        reader.loadFile("src/inputs_week-1/t1-3b.txt");
+        reader.loadFile("src/inputs_week-1/tf1-1.txt");
+        */
+         
         reader.readFile();
 
         Program p = new Program(reader.getWorldSize(), 800, 10);

@@ -112,7 +112,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
         energy -= 3;
         Burrow burrow = new Burrow(network);
         world.setTile(location, burrow);
-        network.addHole(burrow);
+        network.addBurrow(burrow);
         cooldown = 3;
     }
 
@@ -137,7 +137,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
             //!!!!!!TEMPORARY SOLUTION!!!!!!
             network.clean(world);
             if (network.getSize() > 0) { // If the network has any holes, then unburrow
-                Burrow burrow = network.getHole(new Random().nextInt(network.getSize()));
+                Burrow burrow = network.getBurrow(new Random().nextInt(network.getSize()));
                 Location l = world.getLocation(burrow);
                 world.setCurrentLocation(l);
                 if (world.isTileEmpty(l)) {
@@ -164,11 +164,11 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
         Burrow closest_burrow = null;
         double closest_distance = Double.MAX_VALUE;
         for (int i = 0; i < network.getSize(); i++) {
-            Location l = world.getLocation(network.getHole(i));
+            Location l = world.getLocation(network.getBurrow(i));
             double distance = (l.getX() - location.getX()) * (l.getX() - location.getX()) + (l.getY() - location.getY()) * (l.getY() - location.getY());
             if(distance < closest_distance) {
                 closest_distance = distance;
-                closest_burrow = network.getHole(i);
+                closest_burrow = network.getBurrow(i);
             }
 
         }

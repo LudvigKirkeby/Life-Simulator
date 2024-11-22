@@ -95,6 +95,7 @@ public class Reader {
                 }
             } catch(Exception e) {
                 System.out.println("Error in converting from String to Class");
+                e.printStackTrace();
             }
         }
     }

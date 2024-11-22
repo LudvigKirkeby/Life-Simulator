@@ -11,9 +11,15 @@ public class Burrow implements NonBlocking, DynamicDisplayInformationProvider, A
     private int age;
     TunnelNetwork network;
 
+    Burrow() {
+    this.network = new TunnelNetwork();
+    network.addBurrow(this);
+    age = 0;
+    }
+
     Burrow(TunnelNetwork network) {
         this.network = network;
-        network.addHole(this);
+        network.addBurrow(this);
         age = 0;
     }
 
