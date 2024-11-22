@@ -5,14 +5,13 @@ import itumulator.world.NonBlocking;
 import itumulator.world.World;
 
 import java.awt.Color;
-import java.util.*;
 
-public class Hole implements NonBlocking, DynamicDisplayInformationProvider, Actor {
+public class Burrow implements NonBlocking, DynamicDisplayInformationProvider, Actor {
     Rabbit rabbit;
     private int age;
     TunnelNetwork network;
 
-    Hole(TunnelNetwork network) {
+    Burrow(TunnelNetwork network) {
         this.network = network;
         network.addHole(this);
         age = 0;

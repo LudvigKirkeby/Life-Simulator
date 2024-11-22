@@ -4,10 +4,8 @@ import itumulator.world.Location;
 import itumulator.world.World;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class Rabbit extends Animal implements DynamicDisplayInformationProvider, Edible {
     TunnelNetwork network;
@@ -112,23 +110,23 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
             world.delete(world.getNonBlocking(location));
         } else return;
         energy -= 3;
-        Hole hole = new Hole(network);
-        world.setTile(location, hole);
-        network.addHole(hole);
+        Burrow burrow = new Burrow(network);
+        world.setTile(location, burrow);
+        network.addHole(burrow);
         cooldown = 3;
     }
 
     protected void burrow (World world) {
         if (world.isOnTile(this)) {
-            Hole closest_hole = getClosestHole(world.getLocation(this), world);
-            if (closest_hole == null) return;
-            Location target = world.getLocation(closest_hole);
+            Burrow closest_burrow = getClosestHole(world.getLocation(this), world);
+            if (closest_burrow == null) return;
+            Location target = world.getLocation(closest_burrow);
             if (target.equals(world.getLocation(this))) {
                 // Burrow successful!
                 world.remove(this);
                 return;
             }
-            List<Location> path = path_to(world, world.getCurrentLocation(), world.getLocation(closest_hole));
+            List<Location> path = path_to(world, world.getCurrentLocation(), world.getLocation(closest_burrow));
             if (path.isEmpty()) throw new RuntimeException("Can't find any hole!");
             world.move(this, path.getFirst());
         }
@@ -139,8 +137,8 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
             //!!!!!!TEMPORARY SOLUTION!!!!!!
             network.clean(world);
             if (network.getSize() > 0) { // If the network has any holes, then unburrow
-                Hole hole = network.getHole(new Random().nextInt(network.getSize()));
-                Location l = world.getLocation(hole);
+                Burrow burrow = network.getHole(new Random().nextInt(network.getSize()));
+                Location l = world.getLocation(burrow);
                 world.setCurrentLocation(l);
                 if (world.isTileEmpty(l)) {
                     world.setTile(l, this);
@@ -148,13 +146,13 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
             } else {// Else create a new hole and add it to the network
                 // This method for placing holes randomly stop them from placing on Grass
                 Placement placement = new Placement();
-                placement.placeRandomly(world, new Hole(network));
+                placement.placeRandomly(world, new Burrow(network));
                 unburrow(world);
             }
         }
     }
 
-    protected Hole getClosestHole(Location location, World world) {
+    protected Burrow getClosestHole(Location location, World world) {
         //!!!!!!TEMPORARY SOLUTION!!!!!!
         network.clean(world);
 
@@ -163,18 +161,18 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
             digHole(world, location);
             return null;
         }
-        Hole closest_hole = null;
+        Burrow closest_burrow = null;
         double closest_distance = Double.MAX_VALUE;
         for (int i = 0; i < network.getSize(); i++) {
             Location l = world.getLocation(network.getHole(i));
             double distance = (l.getX() - location.getX()) * (l.getX() - location.getX()) + (l.getY() - location.getY()) * (l.getY() - location.getY());
             if(distance < closest_distance) {
                 closest_distance = distance;
-                closest_hole = network.getHole(i);
+                closest_burrow = network.getHole(i);
             }
 
         }
-        return closest_hole;
+        return closest_burrow;
     }
 
     protected void restoreEnergy() {
