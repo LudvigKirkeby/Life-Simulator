@@ -3,37 +3,37 @@ import itumulator.world.World;
 import java.util.*;
 
  class TunnelNetwork {
-    List<Hole> holes;
+    List<Burrow> burrows;
 
     TunnelNetwork() {
-        holes = new ArrayList<>();
+        burrows = new ArrayList<>();
     }
 
-    public void addHole(Hole hole) {
-    holes.add(hole);
+    public void addHole(Burrow burrow) {
+    burrows.add(burrow);
     }
 
-    public void removeHole(Hole hole) {
-        holes.remove(hole);
+    public void removeHole(Burrow burrow) {
+        burrows.remove(burrow);
     }
 
     public int getSize() {
-        return holes.size();
+        return burrows.size();
     }
 
-    public Hole getHole(int pos) {
-        return holes.get(pos);
+    public Burrow getHole(int pos) {
+        return burrows.get(pos);
     }
 
-    public boolean contains(Hole hole) {
-        return holes.contains(hole);
+    public boolean contains(Burrow burrow) {
+        return burrows.contains(burrow);
     }
 
     //Used to make sure deleted holes aren't kept
     public void clean(World world) {
-        for(int i = 0; i<holes.size(); i++) {
-            if(holes.get(i) == null || !world.contains(holes.get(i))) {
-                holes.remove(i);
+        for(int i = 0; i< burrows.size(); i++) {
+            if(burrows.get(i) == null || !world.contains(burrows.get(i))) {
+                burrows.remove(i);
                 i--;
             }
         }
