@@ -165,7 +165,9 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
             } else {// Else create a new hole and add it to the network
                 // This method for placing holes randomly stop them from placing on Grass
                 Placement placement = new Placement();
-                Set<Location> all_tiles = world.getSurroundingTiles(world.getSize());
+
+                Set<Location> all_tiles = world.getSurroundingTiles(new Location(0,0), world.getSize());
+                all_tiles.add(new Location(0,0));
                 for (Location l : all_tiles) {
                     if (canDig(world,l)) {
                         digHole(world, l);
