@@ -5,7 +5,7 @@ import itumulator.world.World;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HoleTest {
+public class BurrowTest {
     World w;
 
     @Before
@@ -17,7 +17,7 @@ public class HoleTest {
     public void TestHoleDecay() {
         TunnelNetwork network = new TunnelNetwork();
         Location l = new Location(0,0);
-        Hole h = new Hole(network);
+        Burrow h = new Burrow(network);
         w.setTile(l,h);
         w.setCurrentLocation(l);
         // Hole should automatically disappear after 100 steps(100 calls of act-method)

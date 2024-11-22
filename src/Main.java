@@ -29,7 +29,7 @@ public class Main {
          */
 
         Reader reader = new Reader();
-        reader.loadFile("src/inputs_week-1");
+        reader.loadFile("src/inputs_week-1/t1-2cde.txt");
         reader.readFile();
 
         Program p = new Program(reader.getWorldSize(), 800, 10);
