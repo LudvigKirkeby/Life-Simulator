@@ -5,15 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/RabbitTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Hole.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/HoleTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Animal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Animal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Burrow.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Burrow.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/BurrowTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/BurrowTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Placement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Placement.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Rabbit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Rabbit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Reader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Reader.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/TunnelNetwork.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/TunnelNetwork.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BurrowTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BurrowTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BurrowTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GrassTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GrassTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rabbit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TunnelNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TunnelNetwork.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,28 +43,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.GrassTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.HoleTest.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/peter/OneDrive/Dokumenter/GitHub/Life-Simulator&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.BurrowTest.executor": "Run",
+    "JUnit.GrassTest.executor": "Run",
+    "JUnit.HoleTest.executor": "Run",
+    "JUnit.RabbitTest.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/peter/OneDrive/Dokumenter/GitHub/Life-Simulator",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="GrassTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="grpro_eksamensprojekt" />
@@ -100,10 +106,29 @@
       <workItem from="1732200225919" duration="1657000" />
       <workItem from="1732280287378" duration="5840000" />
       <workItem from="1732286273744" duration="487000" />
+      <workItem from="1732315975036" duration="2921000" />
+      <workItem from="1732358407846" duration="733000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
