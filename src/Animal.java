@@ -195,4 +195,8 @@ public abstract class Animal implements Actor, Edible {
     }
 
     abstract boolean getGrownup();
+
+    public int getHunger() {
+        return hunger;
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class Rabbit extends Animal implements DynamicDisplayInformationProvider, Edible {
-    private TunnelNetwork network;
+    TunnelNetwork network;
     private int cooldown;
     private int starving = 0;
 
@@ -213,13 +213,6 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
         }
     }
 
-    public void eat(World world, Edible edible) {
-        if (hunger > 0) {
-            hunger -= edible.getFoodValue();
-        }
-        world.delete(edible);
-    }
-
     public boolean getGrownup() {
         return age >= 3;
     }
@@ -230,6 +223,14 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
 
     public int getFoodValue() { return 5; }
 
-    public TunnelNetwork getNetwork() { return network; }
+    public void eat(World world, Edible edible) {
+        if (hunger > 0) {
+            hunger -= edible.getFoodValue();
+        }
+        world.delete(edible);
+    }
 
+    public TunnelNetwork getNetwork() {
+        return network;
+    }
 }
