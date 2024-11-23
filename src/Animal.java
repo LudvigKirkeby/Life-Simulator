@@ -12,12 +12,14 @@ public abstract class Animal implements Actor, Edible {
      * @param world Removes this Animal from world
      */
     protected void die(World world) {
-        if(world.isOnTile(this)) {
-            Location l = world.getLocation(this);
-            world.delete(this);
-            world.setTile(l, new Carcass());
-        } else {
-            world.delete(this);
+        if(world.contains(this)) {
+            if (world.isOnTile(this)) {
+                Location l = world.getLocation(this);
+                world.delete(this);
+                world.setTile(l, new Carcass());
+            }else {
+                world.delete(this);
+            }
         }
     }
 
@@ -28,13 +30,13 @@ public abstract class Animal implements Actor, Edible {
      * @return A path from start to target when successful. Null if start equals target.
      */
     protected List<Location> pathTo(World world, Location start, Location target) {
-        if (target == null) throw new RuntimeException("Target is null!");
-        if (world == null) throw new RuntimeException("World is null!");
+        if (target == null) throw new IllegalArgumentException("Target is null!");
+        if (world == null) throw new IllegalArgumentException("World is null!");
         if (!world.contains(this)) throw new RuntimeException("This is not in the world!");
         if(start.getX()>=world.getSize() || start.getX()<0 || start.getY()>=world.getSize() || start.getY()<0)
-            throw new RuntimeException("Start location is outside the world!");
+            throw new IllegalArgumentException("Start location is not in the world!");
         if(target.getX()>=world.getSize() || target.getX()<0 || target.getY()>=world.getSize() || target.getY()<0)
-            throw new RuntimeException("Target location is outside the world!");
+            throw new IllegalArgumentException("Target location is not in the world!");
 
         if (start.equals(target)) {
             return new ArrayList<>();

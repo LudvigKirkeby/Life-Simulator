@@ -17,13 +17,15 @@ public class AnimalTest {
     @BeforeEach
     public void setUp() {
         world = new World(7);
-        rabbit = new Rabbit();
+        rabbit = new Rabbit(true);
         rabbit_location = new Location(3, 3);
         world.setTile(rabbit_location, rabbit);
         world.setCurrentLocation(rabbit_location);
     }
 
-
+    /*
+        PathTo tests
+    */
     @Test
     public void testPathTo() {
         Location target_location;
@@ -59,5 +61,39 @@ public class AnimalTest {
                 assertEquals(path.getLast(), target_location);
             }
         }
+    }
+
+    @Test
+    public void testPathToNotPossible() {
+        for(int i = 0; i<world.getSize(); i++)
+            world.setTile(new Location(5,i), new Rabbit());
+
+        List<Location> path = rabbit.pathTo(world, rabbit_location, new Location(6,0));
+
+        assertNotNull(path);
+    }
+
+    /*
+        Die tests
+    */
+    @Test
+    public void testDieInWorld() {
+        rabbit.die(world);
+        assertFalse(world.contains(rabbit));
+    }
+
+    @Test
+    public void testDieNotInWorld1() {
+        Rabbit r = new Rabbit();
+        world.add(r);
+        r.die(world);
+        assertFalse(world.contains(r));
+    }
+
+    @Test
+    public void testDieNotInWorld2() {
+        Rabbit r = new Rabbit();
+        r.die(world);
+        assertFalse(world.contains(r));
     }
 }
