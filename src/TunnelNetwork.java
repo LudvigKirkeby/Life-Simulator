@@ -2,7 +2,7 @@ import itumulator.world.World;
 
 import java.util.*;
 
- class TunnelNetwork {
+ public class TunnelNetwork {
     List<Burrow> burrows;
 
     TunnelNetwork() {

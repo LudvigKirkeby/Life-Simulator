@@ -230,8 +230,4 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
         }
         world.delete(edible);
     }
-
-    public TunnelNetwork getNetwork() {
-        return network;
-    }
 }

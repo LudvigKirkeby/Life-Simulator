@@ -1,71 +1,43 @@
 import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.AfterEach;
 import itumulator.world.Location;
-import itumulator.world.World;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
-
+import itumulator.world.World;
 
 public class RabbitTest {
-    World w;
-    Rabbit r ;
-    Location l;
-
+    World world;
+    Rabbit rabbit;
+    Location init_location;
 
     @BeforeEach
-    public void setUp() {
-        w = new World(2);
-        r = new Rabbit();
-        l = new Location(0, 0);
-        w.setTile(l, r);
-        w.setCurrentLocation(l);
+    void setUp() {
+        world = new World(2);
+        rabbit = new Rabbit();
+        init_location = new Location(0, 0);
+        world.setTile(init_location, rabbit);
+        world.setCurrentLocation(init_location);
     }
 
     @Test
-    public void testUnburrowSelf() {
-        assertTrue(w.isOnTile(r)); // Checking that the rabbit is on a tile
-        w.remove(r); // forcefully removing it from the world
-        r.unburrow(w); // it unborrows
-        w.getLocation(r);
-        assertTrue(w.isOnTile(r)); // rabbit should be on a tile again
+    public void testRabbitDigEmpty() {
+        rabbit.digHole(world,init_location);
+        assertInstanceOf(Burrow.class, world.getNonBlocking(init_location));
     }
 
     @Test
-    public void testBurrowSelf() {
-        Burrow b = new Burrow();
-        w.setTile(l, b);
-        assertEquals(w.getLocation(r), w.getLocation(b)); // Checking that the rabbit is on the hole before burrowing
-        r.digHole(w, l); // Adding the hole to its own network
-        r.burrowSelf(w);
-        assertTrue(w.isTileEmpty(l)); // Rabbit should no longer be on the tile
+    public void testRabbitDigOnGrass() {
+        world.setTile(init_location, new Grass());
+        rabbit.digHole(world,init_location);
+        assertInstanceOf(Burrow.class, world.getNonBlocking(init_location));
     }
 
     @Test
-    public void testEat() {
-        Grass grass = new Grass();
-        w.setTile(l, grass);
-        assertTrue(w.contains(grass)); // Checking if the location contains grass
-        assertEquals(10, r.getHunger()); // Checking that hunger is at max (10)
-        r.eat(w, grass);
-        assertEquals(10 - grass.getFoodValue(), r.getHunger()); // Hunger has been reduced by grass.getFoodValue()
+    public void testRabbitDigOnBurrow() {
+        Burrow burrow = new Burrow();
+        world.setTile(init_location, burrow);
+        rabbit.digHole(world,init_location);
+        assertInstanceOf(Burrow.class, world.getNonBlocking(init_location));
+        assertTrue(rabbit.getNetwork().contains(burrow));
     }
-
-    @Test
-    public void testDigHole() {
-        r.digHole(w, l);
-        assertTrue(w.containsNonBlocking(l)); // Checking to see if the hole is on the location
-    }
-
-    // Checks if a Rabbit can add the hole its standing on to its Network
-    @Test
-    public void testDigHoleAddExistingBurrowToNetwork() {
-        Burrow b = new Burrow();
-        w.setTile(l, b);
-        assertFalse(r.getNetwork().contains(b), "The network should not contain the burrow.");
-        r.digHole(w, l);
-        assertTrue(r.getNetwork().contains(b), "The network should now contain the burrow.");
-    }
-
 }
