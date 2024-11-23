@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/RabbitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/AnimalTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Animal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Animal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Burrow.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Burrow.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/BurrowTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/BurrowTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Placement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Placement.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Rabbit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Rabbit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/TunnelNetwork.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/TunnelNetwork.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Animal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BurrowTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BurrowTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GrassTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GrassTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rabbit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TunnelNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TunnelNetwork.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +40,8 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.AnimalTest.executor": "Run",
+    "JUnit.AnimalTest.testPathTo.executor": "Run",
     "JUnit.BurrowTest.executor": "Run",
     "JUnit.GrassTest.executor": "Run",
     "JUnit.HoleTest.executor": "Run",
@@ -67,7 +62,26 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.AnimalTest">
+    <configuration name="AnimalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="grpro_eksamensprojekt" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AnimalTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AnimalTest.testPathTo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="grpro_eksamensprojekt" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AnimalTest" />
+      <option name="METHOD_NAME" value="testPathTo" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GrassTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="grpro_eksamensprojekt" />
       <option name="PACKAGE_NAME" value="" />
@@ -79,6 +93,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AnimalTest" />
+        <item itemvalue="JUnit.AnimalTest.testPathTo" />
         <item itemvalue="JUnit.GrassTest" />
       </list>
     </recent_temporary>
@@ -108,6 +124,7 @@
       <workItem from="1732286273744" duration="487000" />
       <workItem from="1732315975036" duration="2921000" />
       <workItem from="1732358407846" duration="733000" />
+      <workItem from="1732364144512" duration="3469000" />
     </task>
     <servers />
   </component>

@@ -27,10 +27,14 @@ public abstract class Animal implements Actor, Edible {
      * @param target Where to path find to
      * @return A path from start to target when successful. Null if start equals target.
      */
-    protected List<Location> path_to(World world, Location start, Location target) {
+    protected List<Location> pathTo(World world, Location start, Location target) {
         if (target == null) throw new RuntimeException("Target is null!");
         if (world == null) throw new RuntimeException("World is null!");
         if (!world.contains(this)) throw new RuntimeException("This is not in the world!");
+        if(start.getX()>=world.getSize() || start.getX()<0 || start.getY()>=world.getSize() || start.getY()<0)
+            throw new RuntimeException("Start location is outside the world!");
+        if(target.getX()>=world.getSize() || target.getX()<0 || target.getY()>=world.getSize() || target.getY()<0)
+            throw new RuntimeException("Target location is outside the world!");
 
         if (start.equals(target)) {
             return new ArrayList<>();
@@ -69,11 +73,11 @@ public abstract class Animal implements Actor, Edible {
      * @param object Object to path find to
      * @return returns a path from start to object found by path(World world, Location start, Location target)
      */
-    protected List<Location> path_to(World world, Location start, Object object) {
-        return path_to(world, start, world.getLocation(object));
+    protected List<Location> pathTo(World world, Location start, Object object) {
+        return pathTo(world, start, world.getLocation(object));
     }
 
-    protected boolean can_find_mate(Class<?> c, World world) {
+    protected boolean canFindMate(Class<?> c, World world) {
         Set<Location> visible_locations = world.getSurroundingTiles(world.getLocation(this), view_distance);
         for(Location loc : visible_locations) {
             if(c.isInstance(world.getTile(loc))) {
@@ -92,7 +96,7 @@ public abstract class Animal implements Actor, Edible {
 
     protected void reproduce(Class c, World world) throws Exception {
         if(!this.getGrownup()) return;
-        Animal closest_animal = (Animal) closest_object(c, world.getLocation(this), world, view_distance, false);
+        Animal closest_animal = (Animal) closestObject(c, world.getLocation(this), world, view_distance, false);
         if (closest_animal == null) { throw new Exception("Closest animal of type "+c.getName()+" null"); }
 
         Location location = world.getLocation(this);
@@ -126,7 +130,7 @@ public abstract class Animal implements Actor, Edible {
      * @param include_mid   Whether to include from when searching
      * @return returns the closest object of type c from location within view_distance
      */
-    protected Object closest_object(Class<?> c, Location from, World world, int view_distance, boolean include_mid) {
+    protected Object closestObject(Class<?> c, Location from, World world, int view_distance, boolean include_mid) {
         Set<Location> tiles = world.getSurroundingTiles(from, view_distance);
         if (include_mid) {
             tiles.add(from);
@@ -153,7 +157,7 @@ public abstract class Animal implements Actor, Edible {
      * @param from  Location to wander from
      */
     protected void wander(World world, Location from) {
-        Location target = random_move(world, from);
+        Location target = randomMove(world, from);
         if (target == null) return;
         world.move(this, target); // Moves the rabbit to target tile
     }
@@ -163,7 +167,7 @@ public abstract class Animal implements Actor, Edible {
      * @param start The location to wander from
      * @return A random location exactly 1 tile from start
      */
-    protected Location random_move(World world, Location start) {
+    protected Location randomMove(World world, Location start) {
         Set<Location> available_tiles = world.getEmptySurroundingTiles(start);
         if (available_tiles.isEmpty()) return null;
         return (Location) available_tiles.toArray()[new Random().nextInt(available_tiles.size())];
@@ -179,9 +183,9 @@ public abstract class Animal implements Actor, Edible {
      * @param view_distance How far away the target can be
      */
     protected void seek(Class<?> c, World world, Location start, int view_distance) {
-        Object closest = closest_object(c, world.getCurrentLocation(), world, view_distance, false);
+        Object closest = closestObject(c, world.getCurrentLocation(), world, view_distance, false);
         if (closest != null) {
-            List<Location> path = path_to(world, start, world.getLocation(closest));
+            List<Location> path = pathTo(world, start, world.getLocation(closest));
             if (path.isEmpty()) return;
             Location target = path.getFirst();
             world.move(this, target); // Moves the rabbit to target tile

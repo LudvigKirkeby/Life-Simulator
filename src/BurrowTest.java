@@ -1,9 +1,9 @@
 import static org.junit.jupiter.api.Assertions.*;
 //import org.junit.jupiter.api.AfterEach;
-import itumulator.world.Location;
-import itumulator.world.World;
 import org.junit.Before;
 import org.junit.Test;
+import itumulator.world.Location;
+import itumulator.world.World;
 
 public class BurrowTest {
     World w;

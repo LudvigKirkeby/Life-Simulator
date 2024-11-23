@@ -4,7 +4,6 @@ import itumulator.world.Location;
 import itumulator.world.World;
 
 import java.awt.Color;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -77,7 +76,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
                 seek(Rabbit.class, world, world.getLocation(this), view_distance);
 
             try {
-                if (energy > 0 && can_find_mate(Rabbit.class, world)) {
+                if (energy > 0 && canFindMate(Rabbit.class, world)) {
                     energy--;
                     reproduce(Rabbit.class, world);
                 }
@@ -145,7 +144,7 @@ public class Rabbit extends Animal implements DynamicDisplayInformationProvider,
                 world.remove(this);
                 return;
             }
-            List<Location> path = path_to(world, world.getCurrentLocation(), world.getLocation(closest_burrow));
+            List<Location> path = pathTo(world, world.getCurrentLocation(), world.getLocation(closest_burrow));
             if (path.isEmpty()) throw new RuntimeException("Can't find any hole!");
             world.move(this, path.getFirst());
         }
