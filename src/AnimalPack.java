@@ -37,4 +37,8 @@ public class AnimalPack {
             }
         }
     }
+
+    public Class<?> getType() {
+        return type;
+    }
 }

@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Animal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Animal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/AnimalTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/AnimalTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Rabbit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Rabbit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/RabbitTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/RabbitTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AnimalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnimalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AnimalPack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnimalPack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wolf.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +123,7 @@
       <workItem from="1732358407846" duration="733000" />
       <workItem from="1732364144512" duration="3469000" />
       <workItem from="1732378798595" duration="1456000" />
+      <workItem from="1732553143963" duration="1221000" />
     </task>
     <servers />
   </component>

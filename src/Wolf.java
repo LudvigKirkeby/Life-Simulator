@@ -4,10 +4,14 @@ public class Wolf extends Animal {
     AnimalPack pack;
 
     Wolf() {
-        pack = new AnimalPack();
+        pack = new AnimalPack(this.getClass());
     }
 
     Wolf(AnimalPack pack) {
+        if(pack == null)
+            throw new IllegalArgumentException("pack can't be null!");
+        if(pack.getType() != null && !pack.getType().isInstance(this))
+            throw new IllegalArgumentException("pack type can't be " + pack.getType()+" for wolf!");
         this.pack = pack;
     }
 
