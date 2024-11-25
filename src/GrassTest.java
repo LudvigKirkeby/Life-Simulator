@@ -6,7 +6,7 @@ import itumulator.world.World;
 
 public class GrassTest {
     @Test
-    public void testNoAvailableTiles() {
+    public void testNoAvailableTiles() throws Exception {
         World w = new World(2);
         Grass g = new Grass();
         Location l = new Location(0, 0);
@@ -15,7 +15,7 @@ public class GrassTest {
         w.setTile(new Location(0,1), new Grass());
         w.setTile(new Location(1,1), new Grass());
         w.setCurrentLocation(l);
-        g.grow(w);
+        g.grow(Grass.class, w);
     }
 
     @Test

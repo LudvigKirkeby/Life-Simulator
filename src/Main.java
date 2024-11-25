@@ -21,12 +21,12 @@ public class Main {
 
         p.show();
 
-        /*
+
         Placement placement = new Placement();
         int amount = 10;
         for (int i = 0; i < amount; i++) {
             placement.placeRandomly(w, new Grass());
         }
-         */
+
     }
 }

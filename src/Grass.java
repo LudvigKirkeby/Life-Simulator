@@ -11,36 +11,18 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class Grass implements Plant, DynamicDisplayInformationProvider, NonBlocking, Actor {
+public class Grass extends Plant implements DynamicDisplayInformationProvider, NonBlocking, Actor {
 
     Grass() {
     }
 
     @Override
     public void act(World world) {
-        if (0 == new Random().nextInt(10))
-            grow(world);
-    }
-
-    @Override
-    public void grow(World world) {
-        Random rand = new Random();
-        Set<Location> set = world.getSurroundingTiles(world.getLocation(this));
-        List<Location> list = new ArrayList<>(set);
-
-        // The following code makes sure grass is not placed on an occupied tile
-        Location target = null;
-        while(!list.isEmpty() && target == null) {
-            Location current = list.get(rand.nextInt(list.size()));
-            if(world.containsNonBlocking(current)) {
-                list.remove(current);
-            }else {
-                target = current;
-            }
-            // If no available tile was found then don't grow
-            if(target == null) return;
-            // Otherwise grass is placed
-            world.setTile(target, new Grass());
+        if (0 == new Random().nextInt(10)) {
+            try {
+            grow(Grass.class, world);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());}
         }
     }
 
