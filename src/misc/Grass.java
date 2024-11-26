@@ -32,6 +32,6 @@ public class Grass extends Plant implements DynamicDisplayInformationProvider, N
 
     @Override
     public DisplayInformation getInformation() {
-        return new DisplayInformation(Color.GREEN, "grass");
+        return new DisplayInformation(Color.GREEN, "grass", true);
     }
 }

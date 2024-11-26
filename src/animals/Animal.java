@@ -31,6 +31,7 @@ public abstract class Animal  implements DynamicDisplayInformationProvider, Acto
     public Location stepToward(World world, Location target) {
         if(target == null) throw new IllegalArgumentException("target is null!");
         Location step = null, self = world.getLocation(this);
+        if(self.equals(target)) return target;
         Set<Location> surrounding_tiles = world.getEmptySurroundingTiles(self);
         double least_dist = Double.MAX_VALUE;
         for (Location l : surrounding_tiles) {
@@ -182,6 +183,10 @@ public abstract class Animal  implements DynamicDisplayInformationProvider, Acto
         Location target = randomMove(world, from);
         if (target == null) return;
         world.move(this, target); // Moves the rabbit to target tile
+    }
+
+    protected void wander(World world) {
+        wander(world, world.getLocation(this));
     }
 
     /**
