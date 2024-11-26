@@ -100,7 +100,7 @@ public class Reader {
 
                 case "bear":
                     for(int i = 0; i<amount; i++) {
-                        placement.placeRandomly(w, new Bear());
+                       // placement.placeRandomly(w, new Bear());
                     }
                 break;
 

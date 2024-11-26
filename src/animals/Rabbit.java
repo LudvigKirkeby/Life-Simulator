@@ -35,12 +35,13 @@ public class Rabbit extends Animal {
         energy = 10;
         age = 0;
         cooldown = 0;
+        health_points = 6;
     }
 
     @Override
     public void act(World world) {
         age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 3 år, aka 60 steps.
-        if (age > new Random().nextDouble(9,300)) { // En rabbit dør ved tidligst ved age 9
+        if (age > new Random().nextDouble(9,300) || health_points <= 0) { // En rabbit dør ved tidligst ved age 9 eller ved 0 HP
            die(world);
            return;
         }
@@ -234,6 +235,7 @@ public class Rabbit extends Animal {
     public void eat(World world, Edible edible) {
         if (hunger > 0) {
             hunger -= edible.getFoodValue();
+            energy += edible.getFoodValue();
         }
         world.delete(edible);
     }

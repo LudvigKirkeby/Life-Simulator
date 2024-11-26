@@ -9,27 +9,27 @@ import misc.Edible;
 
 import java.util.*;
 
-public abstract class Animal  implements DynamicDisplayInformationProvider, Actor, Edible {
-    protected int hunger, view_distance;
+public abstract class Animal implements DynamicDisplayInformationProvider, Actor, Edible {
+    protected int hunger, view_distance, health_points;
     protected double age, energy;
 
     /**
      * @param world Removes this Animal from world
      */
     public void die(World world) {
-        if(world.contains(this)) {
+        if (world.contains(this)) {
             if (world.isOnTile(this)) {
                 Location l = world.getLocation(this);
                 world.delete(this);
                 world.setTile(l, new Carcass());
-            }else {
+            } else {
                 world.delete(this);
             }
         }
     }
 
     public Location stepToward(World world, Location target) {
-        if(target == null) throw new IllegalArgumentException("target is null!");
+        if (target == null) throw new IllegalArgumentException("target is null!");
         Location step = null, self = world.getLocation(this);
         Set<Location> surrounding_tiles = world.getEmptySurroundingTiles(self);
         double least_dist = Double.MAX_VALUE;
@@ -53,9 +53,9 @@ public abstract class Animal  implements DynamicDisplayInformationProvider, Acto
         if (start == null) throw new IllegalArgumentException("Start is null!");
         if (target == null) throw new IllegalArgumentException("Target is null!");
         if (world == null) throw new IllegalArgumentException("World is null!");
-        if(start.getX()>=world.getSize() || start.getX()<0 || start.getY()>=world.getSize() || start.getY()<0)
+        if (start.getX() >= world.getSize() || start.getX() < 0 || start.getY() >= world.getSize() || start.getY() < 0)
             throw new IllegalArgumentException("Start location is not in the world!");
-        if(target.getX()>=world.getSize() || target.getX()<0 || target.getY()>=world.getSize() || target.getY()<0)
+        if (target.getX() >= world.getSize() || target.getX() < 0 || target.getY() >= world.getSize() || target.getY() < 0)
             throw new IllegalArgumentException("Target location is not in the world!");
 
         if (start.equals(target)) {
@@ -101,8 +101,8 @@ public abstract class Animal  implements DynamicDisplayInformationProvider, Acto
 
     protected boolean canFindMate(Class<?> c, World world) {
         Set<Location> visible_locations = world.getSurroundingTiles(world.getLocation(this), view_distance);
-        for(Location loc : visible_locations) {
-            if(c.isInstance(world.getTile(loc))) {
+        for (Location loc : visible_locations) {
+            if (c.isInstance(world.getTile(loc))) {
                 return true;
             }
         }
@@ -112,14 +112,16 @@ public abstract class Animal  implements DynamicDisplayInformationProvider, Acto
     /**
      * Reproduces with the closest animal of the same class, given that they are within adjacent tiles. Reproduces non-stop if the implementation does not have an energy requirement.
      *
-     * @param c      The class of the animal to breed with and the baby to be born.
-     * @param world  The world in which it reproduces.
+     * @param c     The class of the animal to breed with and the baby to be born.
+     * @param world The world in which it reproduces.
      */
 
     protected void reproduce(Class c, World world) throws Exception {
-        if(!this.getGrownup()) return;
+        if (!this.getGrownup()) return;
         Animal closest_animal = (Animal) closestObject(c, world.getLocation(this), world, view_distance, false);
-        if (closest_animal == null) { throw new Exception("Closest animal of type "+c.getName()+" null"); }
+        if (closest_animal == null) {
+            throw new Exception("Closest animal of type " + c.getName() + " null");
+        }
 
         Location location = world.getLocation(this);
 
@@ -218,7 +220,7 @@ public abstract class Animal  implements DynamicDisplayInformationProvider, Acto
 
     protected void takeStepToward(World world, Location target) {
         Location step = stepToward(world, target);
-        if(step == null) return;
+        if (step == null) return;
         world.move(this, step);
     }
 
@@ -226,5 +228,39 @@ public abstract class Animal  implements DynamicDisplayInformationProvider, Acto
 
     public int getHunger() {
         return hunger;
+    }
+
+    /**
+     * Attacks an enemy in range, reducing their health_points.
+     * @param world         World to attack in
+     * @param amount        Amount of damage to deal
+     * @param attack_own    Whether the animal should be able to attack own species or not
+     */
+
+    protected void attackIfInRange(World world, int amount, boolean attack_own) {
+        Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
+        ArrayList<Location> surroundinglist = new ArrayList<>(surrounding);
+
+        for (Location loc : surroundinglist) {
+            if (world.contains(loc)) {
+                Object o = world.getTile(loc);
+
+                if (!(o instanceof Animal animal)) {
+                    return;
+                } // Not an animal
+                if (attack_own && animal.getClass() == this.getClass()) {
+                    animal.reduceHP(amount);
+                    return;
+                } else if (animal.getClass() != this.getClass()) {
+                    animal.reduceHP(amount);
+                    return;
+                }
+            }
+        }
+    }
+
+    // energy is a double, but animals take full damage to energy per attack (integers)
+    public void reduceHP(int setvalue) {
+        health_points -= setvalue;
     }
 }
