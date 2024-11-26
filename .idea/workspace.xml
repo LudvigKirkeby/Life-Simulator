@@ -6,8 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AnimalPack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnimalPack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wolf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Animal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Grass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Rabbit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Reader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Animal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AnimalPack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AnimalTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bear.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Burrow.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BurrowTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Carcass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Edible.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Grass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GrassTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Plant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Rabbit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RabbitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Wolf.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +77,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.AnimalTest">
+  <component name="RunManager">
     <configuration name="AnimalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="grpro_eksamensprojekt" />
       <option name="PACKAGE_NAME" value="" />
@@ -124,6 +142,7 @@
       <workItem from="1732364144512" duration="3469000" />
       <workItem from="1732378798595" duration="1456000" />
       <workItem from="1732553143963" duration="1221000" />
+      <workItem from="1732621239429" duration="2527000" />
     </task>
     <servers />
   </component>

@@ -4,6 +4,10 @@ import itumulator.executable.DisplayInformation;
 import itumulator.executable.Program;
 import itumulator.world.Location;
 import itumulator.world.World;
+import misc.*;
+import animals.*;
+import utility.Placement;
+import utility.Reader;
 
 import java.util.HashMap;
 
