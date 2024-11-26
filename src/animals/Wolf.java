@@ -1,10 +1,19 @@
 package animals;
 
+import itumulator.executable.DisplayInformation;
+import itumulator.world.Location;
 import itumulator.world.World;
+import misc.Burrow;
+import misc.Cave;
 import misc.Edible;
+import misc.Plant;
+
+import java.awt.*;
+import java.util.List;
 
 public class Wolf extends Animal {
     AnimalPack pack;
+    boolean sleeping;
 
     public Wolf() {
         pack = new AnimalPack(this.getClass());
@@ -20,7 +29,34 @@ public class Wolf extends Animal {
 
     @Override
     public void act(World world) {
+        if(sleeping) {
+            if(world.isDay())
+                sleeping = false;
+            else
+                return;
+        }
 
+        if(energy>5 || world.isNight()) {
+            if(pack.getCenter() != null)
+                goToPack(world);
+            else
+                createHome(world);
+        }
+    }
+
+    public void goToPack(World world) {
+        takeStepToward(world, pack.getCenter());
+    }
+
+    protected boolean canCreateHome(World world, Location location) {
+        return !world.containsNonBlocking(location) || world.getNonBlocking(location) instanceof Plant;
+    }
+
+    public void createHome(World world) {
+        Location self = world.getLocation(this);
+        if(canCreateHome(world, self)) {
+            world.setTile(self, new Cave());
+        }
     }
 
     @Override
@@ -33,5 +69,17 @@ public class Wolf extends Animal {
         if(getGrownup())
             return 4;
         return 2;
+    }
+
+    @Override
+    public DisplayInformation getInformation() {
+        if (getGrownup()) {
+            if(sleeping)
+                return new DisplayInformation(Color.GRAY, "wolf-sleeping");
+            return new DisplayInformation(Color.GRAY, "wolf");
+        }
+        if(sleeping)
+            return new DisplayInformation(Color.GRAY, "wolf-small-sleeping");
+        return new DisplayInformation(Color.GRAY, "wolf-small");
     }
 }

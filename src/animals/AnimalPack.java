@@ -1,11 +1,14 @@
 package animals;
 
+import itumulator.world.Location;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalPack {
-    List<Animal> animals = new ArrayList<Animal>();
+    List<Animal> animals;
     Class<?> type;
+    Location center;
 
     public AnimalPack() {
         animals = new ArrayList<>();
@@ -42,5 +45,13 @@ public class AnimalPack {
 
     public Class<?> getType() {
         return type;
+    }
+
+    public void setCenter(Location center) {
+        this.center = center;
+    }
+
+    public Location getCenter() {
+        return center;
     }
 }

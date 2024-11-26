@@ -1,5 +1,6 @@
 package animals;
 
+import itumulator.executable.DisplayInformation;
 import itumulator.world.World;
 
 public class Bear extends Animal {
@@ -19,5 +20,10 @@ public class Bear extends Animal {
         if(getGrownup())
             return 5;
         return 2;
+    }
+
+    @Override
+    public DisplayInformation getInformation() {
+        return null;
     }
 }

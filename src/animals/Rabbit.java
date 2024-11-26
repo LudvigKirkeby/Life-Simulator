@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class Rabbit extends Animal implements DynamicDisplayInformationProvider, Edible {
+public class Rabbit extends Animal {
     TunnelNetwork network;
     private int cooldown;
     private int starving = 0;

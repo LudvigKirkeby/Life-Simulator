@@ -1,5 +1,6 @@
 package animals;
 
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
@@ -8,7 +9,7 @@ import misc.Edible;
 
 import java.util.*;
 
-public abstract class Animal implements Actor, Edible {
+public abstract class Animal  implements DynamicDisplayInformationProvider, Actor, Edible {
     protected int hunger, view_distance;
     protected double age, energy;
 
@@ -25,6 +26,21 @@ public abstract class Animal implements Actor, Edible {
                 world.delete(this);
             }
         }
+    }
+
+    public Location stepToward(World world, Location target) {
+        if(target == null) throw new IllegalArgumentException("target is null!");
+        Location step = null, self = world.getLocation(this);
+        Set<Location> surrounding_tiles = world.getEmptySurroundingTiles(self);
+        double least_dist = Double.MAX_VALUE;
+        for (Location l : surrounding_tiles) {
+            double dist = Math.pow(l.getX() - target.getX(), 2) + Math.pow(l.getY() - target.getY(), 2);
+            if (dist < least_dist) {
+                least_dist = dist;
+                step = l;
+            }
+        }
+        return step;
     }
 
     /**
@@ -198,6 +214,12 @@ public abstract class Animal implements Actor, Edible {
         } else {
             wander(world, start);
         }
+    }
+
+    protected void takeStepToward(World world, Location target) {
+        Location step = stepToward(world, target);
+        if(step == null) return;
+        world.move(this, step);
     }
 
     public abstract boolean getGrownup();
