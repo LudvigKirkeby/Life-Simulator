@@ -19,16 +19,16 @@ public class AnimalPack {
         this.type = type;
     }
 
-    public void addAnimal(Animal animal) {
+    public void add(Animal animal) {
         if(type != null && !type.isInstance(animal)) return;
         animals.add(animal);
     }
 
-    public void removeAnimal(Animal animal) {
+    public void remove(Animal animal) {
         animals.remove(animal);
     }
 
-    public boolean containsAnimal(Animal animal) {
+    public boolean contains(Animal animal) {
         return animals.contains(animal);
     }
 
@@ -53,5 +53,9 @@ public class AnimalPack {
 
     public Location getCenter() {
         return center;
+    }
+
+    public int size() {
+        return animals.size();
     }
 }

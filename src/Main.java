@@ -32,7 +32,6 @@ public class Main {
 
         placement.placeRandomly(w, new Wolf(pack));
         placement.placeRandomly(w, new Wolf(pack));
-        placement.placeRandomly(w, new Bear(w, 3, 5));
 
         int amount = 10;
         for (int i = 0; i < amount; i++) {

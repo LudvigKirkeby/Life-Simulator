@@ -6,7 +6,7 @@ import itumulator.world.NonBlocking;
 
 import java.awt.*;
 
-public class Cave implements NonBlocking, DynamicDisplayInformationProvider {
+public class Cave implements DynamicDisplayInformationProvider {
 
     @Override
     public DisplayInformation getInformation() {

@@ -10,6 +10,7 @@ import misc.Plant;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Set;
 
 public class Wolf extends Animal {
     AnimalPack pack;
@@ -17,6 +18,7 @@ public class Wolf extends Animal {
 
     public Wolf() {
         pack = new AnimalPack(this.getClass());
+        pack.add(this);
     }
 
     public Wolf(AnimalPack pack) {
@@ -25,10 +27,12 @@ public class Wolf extends Animal {
         if(pack.getType() != null && !pack.getType().isInstance(this))
             throw new IllegalArgumentException("pack type can't be " + pack.getType()+" for wolf!");
         this.pack = pack;
+        pack.add(this);
     }
 
     @Override
     public void act(World world) {
+        age += 0.05;
         if(sleeping) {
             if(world.isDay())
                 sleeping = false;
@@ -36,26 +40,57 @@ public class Wolf extends Animal {
                 return;
         }
 
-        if(energy>5 || world.isNight()) {
-            if(pack.getCenter() != null)
+        if(pack.getCenter() == null)
+            createHome(world);
+
+        if(world.isDay()) {// Daytime behaviour
+            wander(world);
+            //if(energy<3 && pack.getCenter() != null)
+            //    goToPack(world);
+        }else {
+            if(canSleep(world)) {
+                sleeping = true;
+            }else {
                 goToPack(world);
-            else
-                createHome(world);
+            }
         }
     }
 
-    public void goToPack(World world) {
-        takeStepToward(world, pack.getCenter());
+    protected boolean canSleep(World world) {
+        System.out.println(pack.size());
+        Set<Location> surrounding_tiles = world.getSurroundingTiles(world.getLocation(this));
+
+        if(surrounding_tiles.contains(pack.getCenter()))
+            return true;
+
+        int members = 0;
+        for(Location tile : surrounding_tiles) {
+            if(world.getTile(tile) instanceof Wolf wolf) {
+                System.out.println("is sleeping: "+wolf.isSleeping());
+                System.out.println("in pack: "+pack.contains(wolf));
+                if(pack.contains(wolf) && wolf.isSleeping()) {
+                    members++;
+                    if(members >= 3) return true;
+                }
+            }
+        }
+        return false;
     }
 
-    protected boolean canCreateHome(World world, Location location) {
-        return !world.containsNonBlocking(location) || world.getNonBlocking(location) instanceof Plant;
+    public void goToPack(World world) {
+        if(world.getSurroundingTiles().contains(pack.getCenter()))
+            return;
+        takeStepToward(world, pack.getCenter());
     }
 
     public void createHome(World world) {
         Location self = world.getLocation(this);
-        if(canCreateHome(world, self)) {
-            world.setTile(self, new Cave());
+        for(Location tile : world.getEmptySurroundingTiles(self)) {
+            if(world.isTileEmpty(tile)) {
+                world.setTile(tile, new Cave());
+                pack.setCenter(tile);
+                break;
+            }
         }
     }
 
@@ -81,5 +116,9 @@ public class Wolf extends Animal {
         if(sleeping)
             return new DisplayInformation(Color.GRAY, "wolf-small-sleeping");
         return new DisplayInformation(Color.GRAY, "wolf-small");
+    }
+
+    public boolean isSleeping() {
+        return sleeping;
     }
 }
