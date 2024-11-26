@@ -89,9 +89,47 @@ public class Reader {
 
     public void Execute(World w) {
         Placement placement = new Placement();
-        for (String x : entities.keySet()) {
-            int amount = entities.get(x);
-            try {
+        for (String class_name : entities.keySet()) {
+            int amount = entities.get(class_name);
+            switch (class_name) {
+                case "rabbit":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Rabbit());
+                    }
+                break;
+
+                case "bear":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Bear());
+                    }
+                break;
+
+                case "wolf":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Wolf());
+                    }
+                break;
+
+                case "burrow":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Burrow());
+                    }
+                break;
+
+                case "grass":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Grass());
+                    }
+                break;
+
+                case "carcass":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Carcass());
+                    }
+                break;
+            }
+
+            /*try {
                 Class<?> clazz = Class.forName(x.substring(0, 1).toUpperCase() + x.substring(1));
                 for (int i = 0; i < amount; i++) {
                     Object instance = clazz.getDeclaredConstructor().newInstance();
@@ -100,7 +138,7 @@ public class Reader {
             } catch(Exception e) {
                 System.out.println("Error in converting from String to Class");
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 
