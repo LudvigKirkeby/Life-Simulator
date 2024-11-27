@@ -9,7 +9,9 @@ import misc.Edible;
 import misc.Plant;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class Wolf extends Animal {
@@ -33,6 +35,12 @@ public class Wolf extends Animal {
     @Override
     public void act(World world) {
         age += 0.05;
+
+        if (age > new Random().nextDouble(13,800) || health_points <= 0) {// A Wolf can die of age at 13 years
+            die(world);
+            return;
+        }
+
         if(sleeping) {
             if(world.isDay())
                 sleeping = false;
@@ -92,6 +100,19 @@ public class Wolf extends Animal {
                 break;
             }
         }
+    }
+
+    public void attack(World world) {
+        Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
+        List<Location> attack_list = new ArrayList<>(surrounding);
+        for(int i = 0; i < attack_list.size(); i++) {
+            Object o = world.getTile(attack_list.get(i));
+            if(o instanceof Wolf wolf && pack.contains(wolf)) {
+                attack_list.remove(i);
+                i--;
+            }
+        }
+        attackTiles(world,attack_list,2);
     }
 
     @Override

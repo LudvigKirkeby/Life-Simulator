@@ -235,18 +235,44 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         return hunger;
     }
 
+    protected void attackTile(World world, Location tile, int damage) {
+        if (tile.getX() >= world.getSize() || tile.getX() < 0 || tile.getY() >= world.getSize() || tile.getY() < 0)
+            throw new IllegalArgumentException("tile is not in the world!");
+
+        if (world.getTile(tile) instanceof Animal animal) {
+            animal.reduceHP(damage);
+        }
+    }
+
+    protected void attackTiles(World world, List<Location> tiles, int damage) {
+        if (tiles == null)
+            throw new IllegalArgumentException("tiles is null!");
+        if(world == null) throw new IllegalArgumentException("world is null!");
+        for(Location tile : tiles) {
+            attackTile(world, tile, damage);
+        }
+    }
+
     /**
      * Attacks an enemy in range, reducing their health_points.
      * @param world         World to attack in
-     * @param amount        Amount of damage to deal
+     * @param damage        Amount of damage to deal
      * @param attack_own    Whether the animal should be able to attack own species or not
      */
-
-    protected void attackIfInRange(World world, int amount, boolean attack_own) {
+    protected void attackIfInRange(World world, int damage, boolean attack_own) {
         Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
-        ArrayList<Location> surroundinglist = new ArrayList<>(surrounding);
-
-        for (Location loc : surroundinglist) {
+        List<Location> surroundinglist = new ArrayList<>(surrounding);
+        if(attack_own) {
+            for (int i = 0; i < surroundinglist.size(); i++) {
+                Object current = world.getTile(surroundinglist.get(i));
+                if (this.getClass().isInstance(current)){
+                    surroundinglist.remove(i);
+                    i--;
+                }
+            }
+        }
+        attackTiles(world, surroundinglist, damage);
+        /*for (Location loc : surroundinglist) {
             if (world.contains(loc)) {
                 Object o = world.getTile(loc);
 
@@ -261,7 +287,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
                     return;
                 }
             }
-        }
+        }*/
     }
 
     // energy is a double, but animals take full damage to energy per attack (integers)
