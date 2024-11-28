@@ -6,12 +6,13 @@ import itumulator.world.Location;
 import itumulator.world.World;
 import misc.Carcass;
 import misc.Edible;
+import misc.Grass;
 
 import java.util.*;
 
 public abstract class Animal implements DynamicDisplayInformationProvider, Actor, Edible {
-    protected int hunger, view_distance, health_points;
-    protected double age, energy;
+    protected int view_distance;
+    protected double age, energy, hunger, health_points;
 
     /**
      * @param world Removes this Animal from world
@@ -21,21 +22,35 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             if (world.isOnTile(this)) {
                 Location l = world.getLocation(this);
                 world.delete(this);
-                world.setTile(l, new Carcass());
+                world.setTile(l, new Carcass(getFoodValue()));
             } else {
                 world.delete(this);
             }
         }
     }
 
-    public Location stepToward(World world, Location target) {
+    public double distTo(World world, Location to) {
+        return distTo(world, world.getLocation(this), to);
+    }
+
+    public double distTo(World world, Location from, Location to) {
+        if (to == null) throw new IllegalArgumentException("to is null!");
+        if (from == null) throw new IllegalArgumentException("from is null!");
+        if (to.getX() >= world.getSize() || to.getX() < 0 || to.getY() >= world.getSize() || to.getY() < 0)
+            throw new IllegalArgumentException("to location is not in the world!");
+        if (from.getX() >= world.getSize() || from.getX() < 0 || from.getY() >= world.getSize() || from.getY() < 0)
+            throw new IllegalArgumentException("from location is not in the world!");
+        return Math.pow(from.getX() - to.getX(), 2) + Math.pow(from.getY() - to.getY(), 2);
+    }
+
+    public Location getStepToward(World world, Location target) {
         if (target == null) throw new IllegalArgumentException("target is null!");
         Location step = null, self = world.getLocation(this);
         if(self.equals(target)) return target;
         Set<Location> surrounding_tiles = world.getEmptySurroundingTiles(self);
         double least_dist = Double.MAX_VALUE;
         for (Location l : surrounding_tiles) {
-            double dist = Math.pow(l.getX() - target.getX(), 2) + Math.pow(l.getY() - target.getY(), 2);
+            double dist = distTo(world, l, target);
             if (dist < least_dist) {
                 least_dist = dist;
                 step = l;
@@ -69,7 +84,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             Location next = final_path.getLast();
             double least_dist = Double.MAX_VALUE;
             for (Location l : world.getEmptySurroundingTiles(next)) {
-                double dist = Math.pow(l.getX() - target.getX(), 2) + Math.pow(l.getY() - target.getY(), 2);
+                double dist = distTo(world, start, l);
                 if (!previous_locations.contains(l) && dist < least_dist) {
                     least_dist = dist;
                     next = l;
@@ -100,14 +115,19 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         return pathTo(world, start, world.getLocation(object));
     }
 
-    protected boolean canFindMate(Class<?> c, World world) {
+    protected boolean canFind(Class<?> c, World world, Set<Object> exclude) {
         Set<Location> visible_locations = world.getSurroundingTiles(world.getLocation(this), view_distance);
         for (Location loc : visible_locations) {
-            if (c.isInstance(world.getTile(loc))) {
+            Object o = world.getTile(loc);
+            if (!exclude.contains(o) && c.isInstance(o)) {
                 return true;
             }
         }
         return false;
+    }
+
+    protected boolean canFind(Class<?> c, World world) {
+        return canFind(c, world, new HashSet<>());
     }
 
     /**
@@ -117,11 +137,12 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param world The world in which it reproduces.
      */
 
-    protected void reproduce(Class c, World world) throws Exception {
+    protected void reproduce(Class<?> c, World world) {
         if (!this.getGrownup()) return;
         Animal closest_animal = (Animal) closestObject(c, world.getLocation(this), world, view_distance, false);
         if (closest_animal == null) {
-            throw new Exception("Closest animal of type " + c.getName() + " null");
+            //throw new RuntimeException("Closest animal of type " + c.getName() + " null");
+            return;
         }
 
         Location location = world.getLocation(this);
@@ -160,12 +181,23 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         if (include_mid) {
             tiles.add(from);
         }
+        return closestObject(c, from, world, tiles);
+    }
+
+    /**
+     * @param c             The type of object that is being searched for
+     * @param from          Where to search from
+     * @param world         World to search in
+     * @param tiles         How far away the object may be
+     * @return returns the closest object of type c from location within the set tiles.
+     */
+    protected Object closestObject(Class<?> c, Location from, World world, Set<Location> tiles) {
         Object closest_object = null;
         double closest_distance = Double.MAX_VALUE;
         for (Location tile : tiles) {
             Object current = world.getTile(tile);
             if (c.isInstance(current)) {
-                double distance = (tile.getX() - from.getX()) * (tile.getX() - from.getX()) + (tile.getY() - from.getY()) * (tile.getY() - from.getY());
+                double distance = distTo(world, from, tile);
                 if (distance < closest_distance) {
                     closest_distance = distance;
                     closest_object = world.getTile(tile);
@@ -212,26 +244,23 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param view_distance How far away the target can be
      */
     protected void seek(Class<?> c, World world, Location start, int view_distance) {
-        Object closest = closestObject(c, world.getCurrentLocation(), world, view_distance, false);
+        Object closest = closestObject(c, world.getLocation(this), world, view_distance, false);
         if (closest != null) {
-            List<Location> path = pathTo(world, start, world.getLocation(closest));
-            if (path.isEmpty()) return;
-            Location target = path.getFirst();
-            world.move(this, target); // Moves the rabbit to target tile
+            takeStepToward(world, world.getLocation(closest));
         } else {
             wander(world, start);
         }
     }
 
     protected void takeStepToward(World world, Location target) {
-        Location step = stepToward(world, target);
+        Location step = getStepToward(world, target);
         if (step == null) return;
         world.move(this, step);
     }
 
     public abstract boolean getGrownup();
 
-    public int getHunger() {
+    public double getHunger() {
         return hunger;
     }
 
@@ -241,6 +270,9 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
 
         if (world.getTile(tile) instanceof Animal animal) {
             animal.reduceHP(damage);
+        }else if(world.getTile(tile) instanceof Edible edible) {
+            hunger -= edible.getFoodValue();
+            world.delete(edible);
         }
     }
 
@@ -290,8 +322,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         }*/
     }
 
-    // energy is a double, but animals take full damage to energy per attack (integers)
-    public void reduceHP(int setvalue) {
+    public void reduceHP(double setvalue) {
         health_points -= setvalue;
     }
 }

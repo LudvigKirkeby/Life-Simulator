@@ -40,7 +40,7 @@ public class Bear extends Animal {
                 if (readyToMate()) {
                     seek(Bear.class, world, world.getLocation(this), view_distance);
 
-                    if (canFindMate(Bear.class, world)) {
+                    if (canFind(Bear.class, world)) {
                         energy -= 4;
                         reproduce(Bear.class, world);
                     }

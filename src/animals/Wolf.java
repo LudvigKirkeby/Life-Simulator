@@ -3,24 +3,20 @@ package animals;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
-import misc.Burrow;
 import misc.Cave;
 import misc.Edible;
 import misc.Plant;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 public class Wolf extends Animal {
     AnimalPack pack;
     boolean sleeping;
 
     public Wolf() {
-        pack = new AnimalPack(this.getClass());
-        pack.add(this);
+        this(new AnimalPack(Wolf.class));
     }
 
     public Wolf(AnimalPack pack) {
@@ -30,33 +26,54 @@ public class Wolf extends Animal {
             throw new IllegalArgumentException("pack type can't be " + pack.getType()+" for wolf!");
         this.pack = pack;
         pack.add(this);
+        view_distance = 8;
+        hunger = 10;
+        energy = 10;
+        age = 0;
+        health_points = 6;
     }
 
     @Override
     public void act(World world) {
         age += 0.05;
 
+        if(hunger >= 15) {
+            reduceHP(0.25);
+            hunger = 15;
+        }
+
+
         if (age > new Random().nextDouble(13,800) || health_points <= 0) {// A Wolf can die of age at 13 years
+            pack.remove(this);
             die(world);
             return;
         }
 
         if(sleeping) {
+            hunger += 0.05;
             if(world.isDay())
                 sleeping = false;
             else
                 return;
         }
+        hunger += 0.05;
 
         if(pack.getCenter() == null)
             createHome(world);
 
         if(world.isDay()) {// Daytime behaviour
-            wander(world);
-            //if(energy<3 && pack.getCenter() != null)
-            //    goToPack(world);
+            if(hunger >= 5) {
+                if(!tryAttack(world)) {
+                    wander(world);
+                }
+            }else {
+                goToPack(world);
+                if(inSafety(world) && canFindPackMember(world)) {
+                    reproduce(Wolf.class, world);
+                }
+            }
         }else {
-            if(canSleep(world)) {
+            if(inSafety(world)) {
                 sleeping = true;
             }else {
                 goToPack(world);
@@ -64,8 +81,7 @@ public class Wolf extends Animal {
         }
     }
 
-    protected boolean canSleep(World world) {
-        System.out.println(pack.size());
+    protected boolean inSafety(World world) {
         Set<Location> surrounding_tiles = world.getSurroundingTiles(world.getLocation(this));
 
         if(surrounding_tiles.contains(pack.getCenter()))
@@ -74,8 +90,6 @@ public class Wolf extends Animal {
         int members = 0;
         for(Location tile : surrounding_tiles) {
             if(world.getTile(tile) instanceof Wolf wolf) {
-                System.out.println("is sleeping: "+wolf.isSleeping());
-                System.out.println("in pack: "+pack.contains(wolf));
                 if(pack.contains(wolf) && wolf.isSleeping()) {
                     members++;
                     if(members >= 3) return true;
@@ -100,6 +114,40 @@ public class Wolf extends Animal {
                 break;
             }
         }
+    }
+
+    public boolean canFindPackMember(World world) {
+        Object o = closestObject(Wolf.class, world.getLocation(this),world,1,false);
+        return o instanceof Animal a && pack.contains(a);
+    }
+
+    /**
+     *
+     * @param world The world to find an Object to attack in
+     * @return whether the wolf attacked or went toward something to attack.
+     */
+    public boolean tryAttack(World world) {
+        Location own_location = world.getLocation(this);
+        Set<Location> surrounding = world.getSurroundingTiles(own_location,view_distance);
+        Set<Location> search_locations = new HashSet<>();
+        for(Animal animal : pack.getAnimals()) {
+            surrounding.remove(world.getLocation(animal));
+        }
+        for(Location tile : surrounding) {
+            if(!(world.getTile(tile) instanceof Plant))
+                search_locations.add(tile);
+        }
+        if (!search_locations.isEmpty()) {
+            Object target = closestObject(Edible.class, own_location, world, search_locations);
+            if (target != null && world.contains(target)) {
+                Location t_loc = world.getLocation(target);
+                if(world.getSurroundingTiles(world.getLocation(this)).contains(t_loc)) {
+                    attack(world);
+                }else takeStepToward(world, world.getLocation(target));
+                return true;
+            }
+        }
+        return false;
     }
 
     public void attack(World world) {

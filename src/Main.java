@@ -32,6 +32,10 @@ public class Main {
 
         placement.placeRandomly(w, new Wolf(pack));
         placement.placeRandomly(w, new Wolf(pack));
+        placement.placeRandomly(w, new Rabbit());
+        placement.placeRandomly(w, new Rabbit());
+        placement.placeRandomly(w, new Rabbit());
+        placement.placeRandomly(w, new Rabbit());
 
         int amount = 10;
         for (int i = 0; i < amount; i++) {

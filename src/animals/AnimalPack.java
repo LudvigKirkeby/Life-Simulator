@@ -3,19 +3,21 @@ package animals;
 import itumulator.world.Location;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AnimalPack {
-    List<Animal> animals;
+    Set<Animal> animals;
     Class<?> type;
     Location center;
 
     public AnimalPack() {
-        animals = new ArrayList<>();
+        animals = new HashSet<>();
     }
 
     public AnimalPack(Class<?> type) {
-        animals = new ArrayList<>();
+        animals = new HashSet<>();
         this.type = type;
     }
 
@@ -35,12 +37,11 @@ public class AnimalPack {
     public void setType(Class<?> type) {
         this.type = type;
         if(type == null) return;
-        for(int i = 0; i<animals.size(); i++) {
-            if(!type.isInstance(animals.get(i))) {
-                animals.remove(i);
-                i--;
-            }
+        Set<Animal> new_animals = new HashSet<>();
+        for(Animal animal : animals) {
+            if(type.isInstance(animal)) new_animals.add(animal);
         }
+        animals = new_animals;
     }
 
     public Class<?> getType() {
@@ -57,5 +58,9 @@ public class AnimalPack {
 
     public int size() {
         return animals.size();
+    }
+
+    public Set<Animal> getAnimals() {
+        return animals;
     }
 }

@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Animal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animals/AnimalPack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/AnimalPack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animals/Bear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Bear.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Rabbit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Wolf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/Carcass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Carcass.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +94,7 @@
       <workItem from="1732553143963" duration="1221000" />
       <workItem from="1732633617491" duration="7724000" />
       <workItem from="1732723555755" duration="2170000" />
+      <workItem from="1732808443857" duration="8974000" />
     </task>
     <servers />
   </component>

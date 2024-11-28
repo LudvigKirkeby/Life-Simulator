@@ -31,7 +31,7 @@ public class Rabbit extends Animal {
     public Rabbit() {
         network = new TunnelNetwork();
         view_distance = 8;
-        hunger = 10;
+        hunger = 0;
         energy = 10;
         age = 0;
         cooldown = 0;
@@ -45,6 +45,7 @@ public class Rabbit extends Animal {
            die(world);
            return;
         }
+
 
         if (hunger >= 10) {
             starving++;
@@ -67,25 +68,21 @@ public class Rabbit extends Animal {
 
             unburrow(world);
 
-            if(!world.isOnTile(this)) {
-                return;
+            hunger += 0.05;
+            if(!world.isOnTile(this)) return; // Checks if Rabbit is in Burrow(sleeping)
+            hunger += 0.05;
+
+            if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass grass) {
+                eat(world, grass);
             }
 
-            if(!world.isOnTile(this)) return;
-            wander(world, world.getLocation(this));
-
-            if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
-                eat(world, ((Grass)world.getNonBlocking(world.getCurrentLocation())));
-            }
-
-            if (hunger > 6)
+            if (hunger > 3)
                 seek(Grass.class, world, world.getLocation(this), view_distance);
-
-            if (hunger <= 10)
+            else
                 seek(Rabbit.class, world, world.getLocation(this), view_distance);
 
             try {
-                if (energy > 0 && canFindMate(Rabbit.class, world)) {
+                if (energy > 0 && canFind(Rabbit.class, world)) {
                     energy--;
                     reproduce(Rabbit.class, world);
                 }
@@ -153,9 +150,7 @@ public class Rabbit extends Animal {
                 world.remove(this);
                 return;
             }
-            List<Location> path = pathTo(world, world.getCurrentLocation(), world.getLocation(closest_burrow));
-            if (path.isEmpty()) throw new RuntimeException("Can't find any hole!");
-            world.move(this, path.getFirst());
+            takeStepToward(world, target);
         }
     }
 
@@ -173,12 +168,11 @@ public class Rabbit extends Animal {
             } else {// Else create a new hole and add it to the network
                 // This method for placing holes randomly stop them from placing on Grass
                 Placement placement = new Placement();
-
                 Set<Location> all_tiles = world.getSurroundingTiles(new Location(0,0), world.getSize());
                 all_tiles.add(new Location(0,0));
                 for (Location l : all_tiles) {
                     if (canDig(world,l)) {
-                        digHole(world, l);
+                        digHole(world,l);
                         break;
                     }
                 }
@@ -201,7 +195,7 @@ public class Rabbit extends Animal {
         double closest_distance = Double.MAX_VALUE;
         for (int i = 0; i < network.getSize(); i++) {
             Location l = world.getLocation(network.getBurrow(i));
-            double distance = (l.getX() - location.getX()) * (l.getX() - location.getX()) + (l.getY() - location.getY()) * (l.getY() - location.getY());
+            double distance = distTo(world, location, l);
             if(distance < closest_distance) {
                 closest_distance = distance;
                 closest_burrow = network.getBurrow(i);
