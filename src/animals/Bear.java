@@ -14,7 +14,6 @@ public class Bear extends Animal {
     private Location center;
     private boolean sleeping;
     private int cooldown;
-    private boolean attack;
 
     public Bear() {
         age = 0;
@@ -49,14 +48,12 @@ public class Bear extends Animal {
 
         if (world.isDay()) {
             sleeping = false;
-            attack = true;
 
             try {
                 if (ReadyToMate() && canFind(Bear.class, world)) {
                     seek(Bear.class, world, world.getLocation(this), view_distance);
                     reproduce(Bear.class, world);
                     energy -= 6;
-                    attack = false;
                 }
             } catch (Exception e) {
                 System.out.println("Bear breeding issue");
