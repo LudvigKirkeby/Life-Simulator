@@ -137,13 +137,16 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param world The world in which it reproduces.
      */
 
-    protected void reproduce(Class<?> c, World world) {
-        if (!this.getGrownup()) return;
+    protected Set<Animal> reproduce(Class<?> c, World world) {
+        Set<Animal> babies = new HashSet<>();
+        if (!this.getGrownup()) return babies;
         Animal closest_animal = (Animal) closestObject(c, world.getLocation(this), world, view_distance, false);
-        if (closest_animal == null) {throw new RuntimeException("Closest animal of type " + c.getName() + " null");}
+        if (closest_animal == null) {
+            //throw new RuntimeException("Closest animal of type " + c.getName() + " null");
+            return babies;
+        }
 
         Location location = world.getLocation(this);
-
         Set<Location> surrounding_tiles = world.getSurroundingTiles(location);
         List<Location> tile_list = new ArrayList<>(surrounding_tiles);
         if (tile_list.contains(world.getLocation(closest_animal)) && closest_animal.getGrownup()) {
@@ -154,15 +157,16 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
                 try {
                     Animal baby = (Animal) c.getDeclaredConstructor().newInstance();
                     world.setTile(l, baby);
+                    babies.add(baby);
                 } catch (Exception e) {
                     System.out.println("Baby instantiation failed || Could not place baby");
                     e.printStackTrace();
                 }
             } else {
-                return;
+                return babies;
             }
         }
-
+        return babies;
     }
 
     /**
@@ -286,12 +290,12 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * Attacks an enemy in range, reducing their health_points.
      * @param world         World to attack in
      * @param damage        Amount of damage to deal
-     * @param do_not_attack_own_species Will attack its own species if set to false.
+     * @param attack_own    Whether the animal should be able to attack own species or not
      */
-    protected void attackIfInRange(World world, int damage, boolean do_not_attack_own_species) {
+    protected void attackIfInRange(World world, int damage, boolean attack_own) {
         Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
         List<Location> surroundinglist = new ArrayList<>(surrounding);
-        if(do_not_attack_own_species) {
+        if(attack_own) {
             for (int i = 0; i < surroundinglist.size(); i++) {
                 Object current = world.getTile(surroundinglist.get(i));
                 if (this.getClass().isInstance(current)){
@@ -301,6 +305,22 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             }
         }
         attackTiles(world, surroundinglist, damage);
+        /*for (Location loc : surroundinglist) {
+            if (world.contains(loc)) {
+                Object o = world.getTile(loc);
+
+                if (!(o instanceof Animal animal)) {
+                    return;
+                } // Not an animal
+                if (attack_own && animal.getClass() == this.getClass()) {
+                    animal.reduceHP(amount);
+                    return;
+                } else if (animal.getClass() != this.getClass()) {
+                    animal.reduceHP(amount);
+                    return;
+                }
+            }
+        }*/
     }
 
     public void reduceHP(double setvalue) {
