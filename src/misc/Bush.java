@@ -15,7 +15,7 @@ public class Bush extends Plant implements Actor, DynamicDisplayInformationProvi
 
     @Override
     public void act(World world) {
-        timeToRipen += 0.1;
+        timeToRipen += 0.03;
         if (0 == new Random().nextInt(70)) {
             try {
                 grow(Bush.class, world);
@@ -47,6 +47,7 @@ public class Bush extends Plant implements Actor, DynamicDisplayInformationProvi
 
     public void eatBerries() {
     hasBerries = false;
+    getInformation();
     }
 
 }

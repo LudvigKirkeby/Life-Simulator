@@ -35,6 +35,9 @@ public class Bear extends Animal {
     @Override
     public void act(World world) {
 
+        hunger += 0.05;
+        age += 0.05;
+
         if (center == null) {
             center = new Location(new Random().nextInt(world.getSize()), new Random().nextInt(world.getSize()));
         }
@@ -44,7 +47,11 @@ public class Bear extends Animal {
             territorylist = new ArrayList<Location>(territory);
         }
 
-        age += 0.05;
+
+        if(hunger >= 15) {
+            reduceHP(0.25);
+            hunger = 15;
+        }
 
         if (age > new Random().nextDouble(25, 900) || health_points <= 0) { // En bjørn dør tidligst ved alderen 25
             die(world);
@@ -91,7 +98,7 @@ public class Bear extends Animal {
                     pathTo(world, world.getLocation(this), world.getLocation(b));
                     Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
                     if (surrounding.contains(world.getLocation(b)) && b.getRipe()) {
-                        if (hunger > 0) {
+                        if (hunger >= b.getFoodValue()) {
                             b.eatBerries(); // sets ripe to false
                             hunger -= b.getFoodValue();
                         }
@@ -103,6 +110,7 @@ public class Bear extends Animal {
                         return;
                     }
                     Object o = world.getTile(x);
+                    if (!(o instanceof Animal)) {return;}
                     seek(o.getClass(), world, world.getLocation(this), view_distance);
                     if (!(o instanceof Bear && ReadyToMate())) { // If its not a bear and this is not ready to mate, then attack
                         attackIfInRange(world, 3, false); // NOTE: False means it actually does attack its own species.
@@ -128,14 +136,6 @@ public class Bear extends Animal {
         if (getGrownup())
             return 10;
         return 3;
-    }
-
-    public void eat(World world, Edible edible) {
-        if (hunger > 0) {
-            hunger -= edible.getFoodValue();
-            energy += edible.getFoodValue();
-        }
-        world.delete(edible);
     }
 
     @Override

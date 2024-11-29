@@ -6,13 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Bear.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Bear.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/AnimalPack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/AnimalPack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Bear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Bear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Rabbit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Wolf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/Carcass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Carcass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/Bush.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Bush.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,5 +115,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Reader" memberName="file" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

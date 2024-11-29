@@ -29,11 +29,10 @@ public class Main {
         Placement placement = new Placement();
         placement.placeRandomly(w, new Bear(1, 2));
         placement.placeRandomly(w, new Bush());
+        placement.placeRandomly(w, new Grass());
         //placement.placeRandomly(w, new Bear(1, 1));
 
         /*
-
-
         AnimalPack pack = new AnimalPack(Wolf.class);
         placement.placeRandomly(w, new Wolf(pack));
         placement.placeRandomly(w, new Wolf(pack));
