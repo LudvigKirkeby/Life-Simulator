@@ -11,84 +11,93 @@ import java.util.Set;
 
 public class Bear extends Animal {
     private ArrayList<Location> territorylist;
+    private Location center;
     private boolean sleeping;
     private int cooldown;
+    private boolean attack;
 
-    public Bear(World w, int x, int y) {
-        Location center = new Location(x, y);
-        Set<Location> territory = w.getSurroundingTiles(center, 3);
-        territorylist = new ArrayList<Location>(territory);
+    public Bear() {
         age = 0;
         cooldown = 0;
-        health_points = 80;
-        view_distance = territory.size() * 2;
+        health_points = 20;
+        view_distance = 10;
+    }
+
+    public Bear(int x, int y) {
+        this();
+        this.center = new Location(x, y);
     }
 
     @Override
     public void act(World world) {
+
+        if (center == null) {
+            center = new Location(new Random().nextInt(world.getSize()), new Random().nextInt(world.getSize()));
+        }
+
+        if (territorylist == null) {
+            Set<Location> territory = world.getSurroundingTiles(center, 3);
+            territorylist = new ArrayList<Location>(territory);
+        }
+
         age += 0.05;
 
-        if (age > new Random().nextDouble(25,900) || health_points <= 0) { // En bjørn dør tidligst ved alderen 25
+        if (age > new Random().nextDouble(25, 900) || health_points <= 0) { // En bjørn dør tidligst ved alderen 25
             die(world);
             return;
         }
 
         if (world.isDay()) {
             sleeping = false;
+            attack = true;
 
             try {
-                if (readyToMate()) {
+                if (ReadyToMate() && canFind(Bear.class, world)) {
                     seek(Bear.class, world, world.getLocation(this), view_distance);
-
-                    if (canFind(Bear.class, world)) {
-                        energy -= 4;
-                        reproduce(Bear.class, world);
-                    }
+                    reproduce(Bear.class, world);
+                    energy -= 6;
+                    attack = false;
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("Bear breeding issue");
             }
 
-            if (territorylist == null) {return;}
+            if (territorylist == null) {
+                return;
+            }
+
             if (!territorylist.contains(world.getLocation(this))) {
-                Location locationinterritory = territorylist.get(new Random().nextInt(territorylist.size()));
-                takeStepToward(world, locationinterritory);
+                Location location_in_territory = territorylist.get(new Random().nextInt(territorylist.size()));
+                takeStepToward(world, location_in_territory);
             } else {
 
+                // Makes it so the bear moves slowly
                 if (cooldown > 0) {
                     cooldown--;
                     return;
                 }
-
                 wander(world, world.getLocation(this));
                 cooldown = 3;
             }
 
+            // Seek and attack intruder in the territory unless child
+            if (!getGrownup()) {return;}
             for (Location x : territorylist) {
-                if (world.contains(x)) {
+                if (!world.isTileEmpty(x)) {
                     Object o = world.getTile(x);
-                    if (!(o instanceof Bear)) {
                     seek(o.getClass(), world, world.getLocation(this), view_distance);
+                    if (!(o instanceof Bear && ReadyToMate())) { // If its not a bear and this is not ready to mate, then attack
+                        attackIfInRange(world, 3, false);
                     }
                 }
             }
-
-
-
-
         } else if (world.isNight()) {
-         sleeping = true;
+            sleeping = true;
         }
-        // If outside of territory, move to a random tile in territory
-
     }
 
-    public boolean readyToMate() {
-        if (age > 4 && energy > 2) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean ReadyToMate() {
+        return getGrownup() && Math.abs(age % 4) < 0.05; // Checking if the age is 2, 4, 6, etc. because bears mate once every 2 years. Failure check cus double
     }
 
     @Override
@@ -98,19 +107,19 @@ public class Bear extends Animal {
 
     @Override
     public int getFoodValue() {
-        if(getGrownup())
-            return 5;
-        return 2;
+        if (getGrownup())
+            return 10;
+        return 3;
     }
 
     @Override
-    public DisplayInformation getInformation () {
+    public DisplayInformation getInformation() {
         if (getGrownup()) {
-            if(sleeping)
+            if (sleeping)
                 return new DisplayInformation(Color.GRAY, "bear-sleeping");
             return new DisplayInformation(Color.GRAY, "bear");
         }
-        if(sleeping)
+        if (sleeping)
             return new DisplayInformation(Color.GRAY, "bear-small-sleeping");
         return new DisplayInformation(Color.GRAY, "bear-small");
     }

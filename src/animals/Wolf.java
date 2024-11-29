@@ -42,7 +42,6 @@ public class Wolf extends Animal {
             hunger = 15;
         }
 
-
         if (age > new Random().nextDouble(13,800) || health_points <= 0) {// A Wolf can die of age at 13 years
             pack.remove(this);
             die(world);
@@ -127,6 +126,8 @@ public class Wolf extends Animal {
      * @return whether the wolf attacked or went toward something to attack.
      */
     public boolean tryAttack(World world) {
+        if (!getGrownup()){return false;} // no child attacks
+
         Location own_location = world.getLocation(this);
         Set<Location> surrounding = world.getSurroundingTiles(own_location,view_distance);
         Set<Location> search_locations = new HashSet<>();

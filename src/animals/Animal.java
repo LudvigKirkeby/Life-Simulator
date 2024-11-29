@@ -140,10 +140,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     protected void reproduce(Class<?> c, World world) {
         if (!this.getGrownup()) return;
         Animal closest_animal = (Animal) closestObject(c, world.getLocation(this), world, view_distance, false);
-        if (closest_animal == null) {
-            //throw new RuntimeException("Closest animal of type " + c.getName() + " null");
-            return;
-        }
+        if (closest_animal == null) {throw new RuntimeException("Closest animal of type " + c.getName() + " null");}
 
         Location location = world.getLocation(this);
 
@@ -289,12 +286,12 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * Attacks an enemy in range, reducing their health_points.
      * @param world         World to attack in
      * @param damage        Amount of damage to deal
-     * @param attack_own    Whether the animal should be able to attack own species or not
+     * @param do_not_attack_own_species Will attack its own species if set to false.
      */
-    protected void attackIfInRange(World world, int damage, boolean attack_own) {
+    protected void attackIfInRange(World world, int damage, boolean do_not_attack_own_species) {
         Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
         List<Location> surroundinglist = new ArrayList<>(surrounding);
-        if(attack_own) {
+        if(do_not_attack_own_species) {
             for (int i = 0; i < surroundinglist.size(); i++) {
                 Object current = world.getTile(surroundinglist.get(i));
                 if (this.getClass().isInstance(current)){
@@ -304,22 +301,6 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             }
         }
         attackTiles(world, surroundinglist, damage);
-        /*for (Location loc : surroundinglist) {
-            if (world.contains(loc)) {
-                Object o = world.getTile(loc);
-
-                if (!(o instanceof Animal animal)) {
-                    return;
-                } // Not an animal
-                if (attack_own && animal.getClass() == this.getClass()) {
-                    animal.reduceHP(amount);
-                    return;
-                } else if (animal.getClass() != this.getClass()) {
-                    animal.reduceHP(amount);
-                    return;
-                }
-            }
-        }*/
     }
 
     public void reduceHP(double setvalue) {

@@ -22,14 +22,15 @@ public class Main {
         Program p = new Program(reader.getWorldSize(), 800, 10);
         World w = p.getWorld();
         reader.Execute(w);*/
-        Program p = new Program(25, 800, 10);
+        Program p = new Program(25, 800, 100);
         World w = p.getWorld();
         p.show();
 
         Placement placement = new Placement();
+        //placement.placeRandomly(w, new Bear(1, 3));
+        //placement.placeRandomly(w, new Bear(1, 1));
 
         AnimalPack pack = new AnimalPack(Wolf.class);
-
         placement.placeRandomly(w, new Wolf(pack));
         placement.placeRandomly(w, new Wolf(pack));
         placement.placeRandomly(w, new Rabbit());
