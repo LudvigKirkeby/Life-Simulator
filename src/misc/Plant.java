@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public abstract class Plant implements NonBlocking, Edible {
+public abstract class Plant implements NonBlocking {
 
     public void grow(Class c, World world) throws Exception {
 

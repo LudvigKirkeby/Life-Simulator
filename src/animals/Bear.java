@@ -3,9 +3,12 @@ package animals;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
+import misc.Bush;
+import misc.Edible;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,6 +21,8 @@ public class Bear extends Animal {
     public Bear() {
         age = 0;
         cooldown = 0;
+        hunger = 10;
+        energy = 10;
         health_points = 20;
         view_distance = 10;
     }
@@ -77,14 +82,30 @@ public class Bear extends Animal {
                 cooldown = 3;
             }
 
-            // Seek and attack intruder in the territory unless child
-            if (!getGrownup()) {return;}
+            // Behaviour regarding the territory
             for (Location x : territorylist) {
+
+                if (world.getTile(x) instanceof Bush) {
+                    Object o = world.getTile(x);
+                    Bush b = (Bush) o;
+                    pathTo(world, world.getLocation(this), world.getLocation(b));
+                    Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
+                    if (surrounding.contains(world.getLocation(b)) && b.getRipe()) {
+                        if (hunger > 0) {
+                            b.eatBerries(); // sets ripe to false
+                            hunger -= b.getFoodValue();
+                        }
+                    }
+                }
+
                 if (!world.isTileEmpty(x)) {
+                    if (!getGrownup()) {
+                        return;
+                    }
                     Object o = world.getTile(x);
                     seek(o.getClass(), world, world.getLocation(this), view_distance);
                     if (!(o instanceof Bear && ReadyToMate())) { // If its not a bear and this is not ready to mate, then attack
-                        attackIfInRange(world, 3, false);
+                        attackIfInRange(world, 3, false); // NOTE: False means it actually does attack its own species.
                     }
                 }
             }
@@ -107,6 +128,14 @@ public class Bear extends Animal {
         if (getGrownup())
             return 10;
         return 3;
+    }
+
+    public void eat(World world, Edible edible) {
+        if (hunger > 0) {
+            hunger -= edible.getFoodValue();
+            energy += edible.getFoodValue();
+        }
+        world.delete(edible);
     }
 
     @Override
