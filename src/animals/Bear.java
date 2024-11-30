@@ -42,39 +42,23 @@ public class Bear extends Animal {
         hunger += 0.05;
         age += 0.05;
 
-        if (hunger > 15) {health_points -= 0.5;}
-
-        if (getGrownup() && children != null) {children.remove(this);} // Bears can be attacked by their parents when grown up
-
-        if (center == null) {
-            center = new Location(new Random().nextInt(world.getSize()), new Random().nextInt(world.getSize()));
-        }
-
-        if (territorylist == null) {
-            Set<Location> territory = world.getSurroundingTiles(center, 1);
-            territorylist = new ArrayList<Location>(territory);
-        }
+        if (hunger > 15) {health_points -= 0.5;} // starving
 
         if (age > new Random().nextDouble(25, 900) || health_points <= 0) { // En bjørn dør tidligst ved alderen 25
             die(world);
             return;
         }
 
+        setTerritoryIfNull(world); // For children
+
         if (world.isDay()) {
             sleeping = false;
 
-            if (ReadyToMate() && canFind(Bear.class, world)) {
-                seek(Bear.class, world, world.getLocation(this), world.getSize()); // Seeks a bear anywhere in the world
-                Set<Animal> newchildren = reproduce(Bear.class, world);
-                if (newchildren != null && !newchildren.isEmpty()) {
-                    children.addAll(newchildren);
-                    mating = false;
-                }
-            }
+            mateIfReady(world);
 
-            if (territorylist == null) {
-                return;
-            }
+            children.removeIf(Animal::getGrownup); // Makes sure that bears can fight their parents when grownup.
+
+            if (territorylist == null) {return;}
 
             if (!territorylist.contains(world.getLocation(this)) && !mating) {
                 Location location_in_territory = territorylist.get(new Random().nextInt(territorylist.size()));
@@ -93,36 +77,68 @@ public class Bear extends Animal {
             // Behaviour regarding the territory
             for (Location x : territorylist) {
 
-                if (world.getTile(x) instanceof Bush) {
-                    Object o = world.getTile(x);
-                    Bush b = (Bush) o;
-                    pathTo(world, world.getLocation(this), world.getLocation(b));
-                    Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
-                    if (surrounding.contains(world.getLocation(b)) && b.getRipe()) {
-                        if (hunger >= b.getFoodValue()) {
-                            b.eatBerries(); // sets ripe to false
-                            hunger -= b.getFoodValue();
-                        }
-                    }
-                }
+                findAndEatBerries(world, x);
 
+                attack(world, x);
 
-                if (getGrownup() && !world.isTileEmpty(x)) {
-                    Object o = world.getTile(x);
-
-                    if (o.equals(this)) {return;}
-
-                    if (children == null || children.contains(o)) {return;}
-
-                    if (o instanceof Bear && ReadyToMate()) {return;}
-
-                    seek(o.getClass(), world, world.getLocation(this), territorylist.size());
-                    attackIfInRange(world, 3, false);
-                    System.out.println(health_points);
-                }
             }
         } else if (world.isNight()) {
             sleeping = true;
+        }
+    }
+
+    private void mateIfReady(World world) {
+        if (ReadyToMate() && canFind(Bear.class, world)) {
+            seek(Bear.class, world, world.getLocation(this), world.getSize()); // Seeks a bear anywhere in the world
+            Set<Animal> newchildren = reproduce(Bear.class, world);
+            if (newchildren != null && !newchildren.isEmpty()) {
+                children.addAll(newchildren);
+                mating = false;
+                energy -= 6;
+            }
+        }
+    }
+
+    private void findAndEatBerries(World world, Location x) {
+        if (world.getTile(x) instanceof Bush) {
+            Object o = world.getTile(x);
+            Bush b = (Bush) o;
+            pathTo(world, world.getLocation(this), world.getLocation(b));
+            Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
+            if (surrounding.contains(world.getLocation(b)) && b.getRipe()) {
+                if (hunger >= b.getFoodValue()) {
+                    b.eatBerries(); // sets ripe to false
+                    hunger -= b.getFoodValue();
+                    energy += b.getFoodValue();
+                }
+            }
+        }
+    }
+
+    private void attack(World world, Location x) {
+        if (getGrownup() && !world.isTileEmpty(x)) {
+            Object o = world.getTile(x);
+
+            if (o.equals(this)) {return;}
+
+            if (children == null || children.contains(o)) {return;}
+
+            if (o instanceof Bear && ReadyToMate()) {return;}
+
+            seek(o.getClass(), world, world.getLocation(this), territorylist.size());
+            attackIfInRange(world, 3, false);
+            System.out.println(health_points);
+        }
+    }
+
+    private void setTerritoryIfNull(World world) {
+        if (center == null) {
+            center = new Location(new Random().nextInt(world.getSize()), new Random().nextInt(world.getSize()));
+        }
+
+        if (territorylist == null) {
+            Set<Location> territory = world.getSurroundingTiles(center, 1);
+            territorylist = new ArrayList<Location>(territory);
         }
     }
 
