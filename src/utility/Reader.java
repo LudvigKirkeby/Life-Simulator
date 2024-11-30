@@ -4,6 +4,7 @@ import itumulator.world.World;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -43,7 +44,7 @@ public class Reader {
         entities = new ArrayList<EntityData>();
         //instantiation
     }
-
+    public void loadFile(String file_string) {this.file = new File(file_string);}
     public void readFile() { //still a bit weird, I acknowledge that
         if (file == null) {
             throw new IllegalStateException("File not loaded.");
