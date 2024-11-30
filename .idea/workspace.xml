@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Bear.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Bear.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/Bear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Bear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/Bush.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Bush.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animals/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Wolf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/Placement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Placement.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +91,7 @@
       <workItem from="1732633617491" duration="7724000" />
       <workItem from="1732723555755" duration="2170000" />
       <workItem from="1732808443857" duration="8974000" />
+      <workItem from="1732968184858" duration="1797000" />
     </task>
     <servers />
   </component>

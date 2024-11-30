@@ -22,13 +22,12 @@ public class Main {
         Program p = new Program(reader.getWorldSize(), 800, 10);
         World w = p.getWorld();
         reader.Execute(w);*/
-        Program p = new Program(8, 800, 100);
+        Program p = new Program(3, 800, 100);
         World w = p.getWorld();
         p.show();
 
         Placement placement = new Placement();
-        placement.placeRandomly(w, new Bear(0, 0));
-        placement.placeRandomly(w, new Bear(6, 6));
+        placement.placeRandomly(w, new Bear(1, 2));
         placement.placeRandomly(w, new Bush());
         placement.placeRandomly(w, new Grass());
         //placement.placeRandomly(w, new Bear(1, 1));
