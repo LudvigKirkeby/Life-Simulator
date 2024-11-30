@@ -127,7 +127,6 @@ public class Bear extends Animal {
 
             seek(o.getClass(), world, world.getLocation(this), territorylist.size());
             attackIfInRange(world, 3, false);
-            System.out.println(health_points);
         }
     }
 
