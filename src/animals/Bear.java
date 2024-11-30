@@ -5,17 +5,19 @@ import itumulator.world.Location;
 import itumulator.world.World;
 import misc.Bush;
 import misc.Edible;
+import misc.Grass;
+import misc.Plant;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 public class Bear extends Animal {
-    private ArrayList<Location> territorylist;
+    private List<Location> territorylist;
+    private Set<Animal> children;
     private Location center;
     private boolean sleeping;
+    private boolean mating;
     private int cooldown;
 
     public Bear() {
@@ -25,6 +27,8 @@ public class Bear extends Animal {
         energy = 10;
         health_points = 20;
         view_distance = 10;
+        mating = false;
+        children = new HashSet<>();
     }
 
     public Bear(int x, int y) {
@@ -38,19 +42,17 @@ public class Bear extends Animal {
         hunger += 0.05;
         age += 0.05;
 
+        if (hunger > 15) {health_points -= 0.5;}
+
+        if (getGrownup() && children != null) {children.remove(this);} // Bears can be attacked by their parents when grown up
+
         if (center == null) {
             center = new Location(new Random().nextInt(world.getSize()), new Random().nextInt(world.getSize()));
         }
 
         if (territorylist == null) {
-            Set<Location> territory = world.getSurroundingTiles(center, 3);
+            Set<Location> territory = world.getSurroundingTiles(center, 1);
             territorylist = new ArrayList<Location>(territory);
-        }
-
-
-        if(hunger >= 15) {
-            reduceHP(0.25);
-            hunger = 15;
         }
 
         if (age > new Random().nextDouble(25, 900) || health_points <= 0) { // En bjørn dør tidligst ved alderen 25
@@ -61,21 +63,20 @@ public class Bear extends Animal {
         if (world.isDay()) {
             sleeping = false;
 
-            try {
-                if (ReadyToMate() && canFind(Bear.class, world)) {
-                    seek(Bear.class, world, world.getLocation(this), view_distance);
-                    reproduce(Bear.class, world);
-                    energy -= 6;
+            if (ReadyToMate() && canFind(Bear.class, world)) {
+                seek(Bear.class, world, world.getLocation(this), world.getSize()); // Seeks a bear anywhere in the world
+                Set<Animal> newchildren = reproduce(Bear.class, world);
+                if (newchildren != null && !newchildren.isEmpty()) {
+                    children.addAll(newchildren);
+                    mating = false;
                 }
-            } catch (Exception e) {
-                System.out.println("Bear breeding issue");
             }
 
             if (territorylist == null) {
                 return;
             }
 
-            if (!territorylist.contains(world.getLocation(this))) {
+            if (!territorylist.contains(world.getLocation(this)) && !mating) {
                 Location location_in_territory = territorylist.get(new Random().nextInt(territorylist.size()));
                 takeStepToward(world, location_in_territory);
             } else {
@@ -105,16 +106,19 @@ public class Bear extends Animal {
                     }
                 }
 
-                if (!world.isTileEmpty(x)) {
-                    if (!getGrownup()) {
-                        return;
-                    }
+
+                if (getGrownup() && !world.isTileEmpty(x)) {
                     Object o = world.getTile(x);
-                    if (!(o instanceof Animal)) {return;}
-                    seek(o.getClass(), world, world.getLocation(this), view_distance);
-                    if (!(o instanceof Bear && ReadyToMate())) { // If its not a bear and this is not ready to mate, then attack
-                        attackIfInRange(world, 3, false); // NOTE: False means it actually does attack its own species.
-                    }
+
+                    if (o.equals(this)) {return;}
+
+                    if (children == null || children.contains(o)) {return;}
+
+                    if (o instanceof Bear && ReadyToMate()) {return;}
+
+                    seek(o.getClass(), world, world.getLocation(this), territorylist.size());
+                    attackIfInRange(world, 3, false);
+                    System.out.println(health_points);
                 }
             }
         } else if (world.isNight()) {
@@ -122,13 +126,19 @@ public class Bear extends Animal {
         }
     }
 
-    public boolean ReadyToMate() {
-        return getGrownup() && Math.abs(age % 4) < 0.05; // Checking if the age is 2, 4, 6, etc. because bears mate once every 2 years. Failure check cus double
+    private boolean ReadyToMate() {
+        if (mating) {return true;}
+        mating = getGrownup() && isMatingSeason();
+        return mating;
+    }
+
+    private boolean isMatingSeason() {
+        return (age % 4) < 0.05; // Checking if the age is 4, 8, etc. because bears mate once every 2 years. Failure check cus double
     }
 
     @Override
     public boolean getGrownup() {
-        return age > 3; // Just set it to a temporary value
+        return age > 3;
     }
 
     @Override

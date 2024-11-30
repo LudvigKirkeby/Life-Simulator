@@ -47,7 +47,6 @@ public class Bush extends Plant implements Actor, DynamicDisplayInformationProvi
 
     public void eatBerries() {
     hasBerries = false;
-    getInformation();
     }
 
 }
