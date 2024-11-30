@@ -68,7 +68,12 @@ public class Wolf extends Animal {
             }else {
                 goToPack(world);
                 if(inSafety(world) && canFindPackMember(world)) {
-                    reproduce(Wolf.class, world);
+                    Set<Animal> babies = reproduce(Wolf.class, world);
+                    for(Animal a : babies) {
+                        if(a instanceof Wolf wolf) {
+                            wolf.setPack(pack);
+                        }
+                    }
                 }
             }
         }else {
@@ -162,6 +167,10 @@ public class Wolf extends Animal {
             }
         }
         attackTiles(world,attack_list,2);
+    }
+
+    public void setPack(AnimalPack pack) {
+        this.pack = pack;
     }
 
     @Override
