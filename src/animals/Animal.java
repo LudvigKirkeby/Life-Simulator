@@ -326,4 +326,16 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     public void reduceHP(double setvalue) {
         health_points -= setvalue;
     }
+
+    public void setHunger(double hunger) {
+        this.hunger = hunger;
+    }
+
+    public void setAge(double age) {
+        this.age = age;
+    }
+
+    public double getHP() {
+        return health_points;
+    }
 }

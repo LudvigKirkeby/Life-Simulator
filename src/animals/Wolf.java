@@ -30,7 +30,7 @@ public class Wolf extends Animal {
         hunger = 10;
         energy = 10;
         age = 0;
-        health_points = 6;
+        health_points = 12;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Wolf extends Animal {
             createHome(world);
 
         if(world.isDay()) {// Daytime behaviour
-            if(hunger >= 5) {
+            if(hunger >= 3) {
                 if(!tryAttack(world)) {
                     wander(world);
                 }
@@ -166,7 +166,7 @@ public class Wolf extends Animal {
                 i--;
             }
         }
-        attackTiles(world,attack_list,2);
+        attackTiles(world,attack_list,3);
     }
 
     public void setPack(AnimalPack pack) {
