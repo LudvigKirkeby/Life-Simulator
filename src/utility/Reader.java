@@ -132,8 +132,9 @@ public class Reader {
                 break;
 
                 case "wolf":
+                    AnimalPack pack = new AnimalPack(Wolf.class);
                     for(int i = 0; i<amount; i++) {
-                        placement.placeRandomly(w, new Wolf());
+                        placement.placeRandomly(w, new Wolf(pack));
                     }
                 break;
 
