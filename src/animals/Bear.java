@@ -3,10 +3,7 @@ package animals;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
-import misc.Bush;
-import misc.Edible;
-import misc.Grass;
-import misc.Plant;
+import misc.*;
 
 import java.awt.*;
 import java.util.*;
@@ -173,4 +170,9 @@ public class Bear extends Animal {
         return new DisplayInformation(Color.GRAY, "bear-small");
     }
 
+    public List<Class<?>> getEdibleClasses() {
+        List<Class<?>> classes = new ArrayList<>();
+        classes.add(Carcass.class);
+        return classes;
+    }
 }

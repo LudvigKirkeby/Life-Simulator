@@ -114,11 +114,11 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     }
 
     /**
-     * 
-     * @param tile  tile to eat from
+     *
      * @param world world tile is in
+     * @param tile  tile to eat from
      */
-    protected void eat(Location tile, World world) {
+    protected void eat(World world, Location tile) {
         for(Class<?> c : getEdibleClasses()) {
             if(c.isInstance(world.getTile(tile))) {
                 double food = ((Edible)world.getTile(tile)).getEaten(world);
@@ -231,12 +231,9 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
 
         if (world.getTile(tile) instanceof Animal animal) {
             animal.reduceHP(damage);
+        }else {
+            eat(world, tile);
         }
-    }
-
-
-    protected void eat(Edible edible) {
-
     }
     /*
      else if (world.getTile(tile) instanceof Edible edible) {

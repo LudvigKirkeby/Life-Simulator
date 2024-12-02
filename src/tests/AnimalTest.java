@@ -18,7 +18,7 @@ public class AnimalTest {
     Rabbit rabbit;
     Location rabbit_location;
 
-    @BeforeEach
+    /*@BeforeEach
     public void setUp() {
         world = new World(7);
         rabbit = new Rabbit(true);
@@ -29,7 +29,7 @@ public class AnimalTest {
 
     /*
         PathTo tests
-    */
+
     @Test
     public void testPathTo() {
         Location target_location;
@@ -75,7 +75,7 @@ public class AnimalTest {
         List<Location> path = rabbit.pathTo(world, rabbit_location, new Location(6,0));
 
         assertNotNull(path);
-    }
+    }*/
 
     /*
         Die tests

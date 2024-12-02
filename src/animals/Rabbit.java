@@ -4,14 +4,12 @@ import itumulator.executable.DisplayInformation;
 import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.Location;
 import itumulator.world.World;
-import misc.Burrow;
-import misc.Edible;
-import misc.Grass;
-import misc.Plant;
+import misc.*;
 import utility.Placement;
 import utility.TunnelNetwork;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -235,5 +233,11 @@ public class Rabbit extends Animal {
 
     public TunnelNetwork getNetwork() {
         return network;
+    }
+
+    public List<Class<?>> getEdibleClasses() {
+        List<Class<?>> classes = new ArrayList<>();
+        classes.add(Grass.class);
+        return classes;
     }
 }

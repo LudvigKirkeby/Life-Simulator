@@ -4,6 +4,7 @@ import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
 import misc.Cave;
+import misc.Carcass;
 import misc.Edible;
 import misc.Plant;
 
@@ -199,5 +200,11 @@ public class Wolf extends Animal {
 
     public boolean isSleeping() {
         return sleeping;
+    }
+
+    public List<Class<?>> getEdibleClasses() {
+        List<Class<?>> classes = new ArrayList<>();
+        classes.add(Carcass.class);
+        return classes;
     }
 }

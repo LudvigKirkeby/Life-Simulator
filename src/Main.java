@@ -19,7 +19,7 @@ public class Main {
         reader.loadFile("src/inputs_week-2/tf2-1.txt");
         reader.readFile();
 
-        Program p = new Program(reader.getWorldSize(), 800, 100);
+        Program p = new Program(reader.getWorldSize(), 800, 10);
         World w = p.getWorld();
         reader.Execute(w);
         p.show();
