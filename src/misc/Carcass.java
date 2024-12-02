@@ -25,6 +25,12 @@ public class Carcass implements Edible, Actor, DynamicDisplayInformationProvider
     }
 
     @Override
+    public int getEaten(World world) {
+        world.delete(this);
+        return getFoodValue();
+    }
+
+    @Override
     public DisplayInformation getInformation() {
         if (food_value > 2)
             return new DisplayInformation(Color.BLACK, "carcass");

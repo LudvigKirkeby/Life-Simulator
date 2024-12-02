@@ -322,6 +322,12 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             }
         }*/
     }
+    
+    @Override
+    public int getEaten(World world) {
+        die(world);
+        return getFoodValue();
+    }
 
     public void reduceHP(double setvalue) {
         health_points -= setvalue;

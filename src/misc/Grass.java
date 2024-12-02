@@ -31,6 +31,12 @@ public class Grass extends Plant implements DynamicDisplayInformationProvider, N
     }
 
     @Override
+    public int getEaten(World world) {
+        world.delete(this);
+        return getFoodValue();
+    }
+
+    @Override
     public DisplayInformation getInformation() {
         return new DisplayInformation(Color.GREEN, "grass", true);
     }
