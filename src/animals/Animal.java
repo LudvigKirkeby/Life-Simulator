@@ -18,14 +18,14 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param world Removes this Animal from world
      */
     public void die(World world) {
-        if (world.contains(this)) {
-            if (world.isOnTile(this)) {
-                Location l = world.getLocation(this);
-                world.delete(this);
-                world.setTile(l, new Carcass(getFoodValue()));
-            } else {
-                world.delete(this);
-            }
+        if (!world.contains(this)) {return;}
+
+        if (world.isOnTile(this)) {
+            Location l = world.getLocation(this);
+            world.delete(this);
+            world.setTile(l, new Carcass(getFoodValue()));
+        } else {
+            world.delete(this);
         }
     }
 
@@ -46,7 +46,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     public Location getStepToward(World world, Location target) {
         if (target == null) throw new IllegalArgumentException("target is null!");
         Location step = null, self = world.getLocation(this);
-        if(self.equals(target)) return target;
+        if (self.equals(target)) return target;
         Set<Location> surrounding_tiles = world.getEmptySurroundingTiles(self);
         double least_dist = Double.MAX_VALUE;
         for (Location l : surrounding_tiles) {
@@ -57,62 +57,6 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             }
         }
         return step;
-    }
-
-    /**
-     * @param world  World to path find in
-     * @param start  The start of the path
-     * @param target Where to path find to
-     * @return A path from start to target when successful.
-     */
-    public List<Location> pathTo(World world, Location start, Location target) {
-        if (start == null) throw new IllegalArgumentException("Start is null!");
-        if (target == null) throw new IllegalArgumentException("Target is null!");
-        if (world == null) throw new IllegalArgumentException("World is null!");
-        if (start.getX() >= world.getSize() || start.getX() < 0 || start.getY() >= world.getSize() || start.getY() < 0)
-            throw new IllegalArgumentException("Start location is not in the world!");
-        if (target.getX() >= world.getSize() || target.getX() < 0 || target.getY() >= world.getSize() || target.getY() < 0)
-            throw new IllegalArgumentException("Target location is not in the world!");
-
-        if (start.equals(target)) {
-            return new ArrayList<>();
-        }
-        List<Location> final_path = new ArrayList<>();
-        List<Location> previous_locations = new ArrayList<>();
-        final_path.add(start);
-        while (true) {
-            Location next = final_path.getLast();
-            double least_dist = Double.MAX_VALUE;
-            for (Location l : world.getEmptySurroundingTiles(next)) {
-                double dist = distTo(world, start, l);
-                if (!previous_locations.contains(l) && dist < least_dist) {
-                    least_dist = dist;
-                    next = l;
-                }
-            }
-            if (next.equals(final_path.getLast())) {
-                final_path.removeFirst();
-                return final_path;
-            }
-            previous_locations.add(next);
-            final_path.add(next);
-            if (next.equals(target)) {
-                final_path.removeFirst();
-                return final_path;
-            }
-        }
-    }
-
-    /**
-     * Finds a path from Location start to an Object in world using path(World world, Location start, Location target)
-     *
-     * @param world  World where the Animal(this) and the target(object) are placed.
-     * @param start  Location to start from
-     * @param object Object to path find to
-     * @return returns a path from start to object found by path(World world, Location start, Location target)
-     */
-    public List<Location> pathTo(World world, Location start, Object object) {
-        return pathTo(world, start, world.getLocation(object));
     }
 
     protected boolean canFind(Class<?> c, World world, Set<Object> exclude) {
@@ -186,10 +130,10 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     }
 
     /**
-     * @param c             The type of object that is being searched for
-     * @param from          Where to search from
-     * @param world         World to search in
-     * @param tiles         How far away the object may be
+     * @param c     The type of object that is being searched for
+     * @param from  Where to search from
+     * @param world World to search in
+     * @param tiles How far away the object may be
      * @return returns the closest object of type c from location within the set tiles.
      */
     protected Object closestObject(Class<?> c, Location from, World world, Set<Location> tiles) {
@@ -271,34 +215,43 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
 
         if (world.getTile(tile) instanceof Animal animal) {
             animal.reduceHP(damage);
-        }else if(world.getTile(tile) instanceof Edible edible) {
-            hunger -= edible.getFoodValue();
-            world.delete(edible);
         }
     }
+
+
+    protected void eat(Edible edible) {
+
+    }
+    /*
+     else if (world.getTile(tile) instanceof Edible edible) {
+        hunger -= edible.getFoodValue();
+        world.delete(edible);
+    }
+     */
 
     protected void attackTiles(World world, List<Location> tiles, int damage) {
         if (tiles == null)
             throw new IllegalArgumentException("tiles is null!");
-        if(world == null) throw new IllegalArgumentException("world is null!");
-        for(Location tile : tiles) {
+        if (world == null) throw new IllegalArgumentException("world is null!");
+        for (Location tile : tiles) {
             attackTile(world, tile, damage);
         }
     }
 
     /**
      * Attacks an enemy in range, reducing their health_points.
-     * @param world         World to attack in
-     * @param damage        Amount of damage to deal
-     * @param attack_own    Whether the animal should be able to attack own species or not
+     *
+     * @param world      World to attack in
+     * @param damage     Amount of damage to deal
+     * @param attack_own Whether the animal should be able to attack own species or not
      */
     protected void attackIfInRange(World world, int damage, boolean attack_own) {
         Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
         List<Location> surroundinglist = new ArrayList<>(surrounding);
-        if(attack_own) {
+        if (attack_own) {
             for (int i = 0; i < surroundinglist.size(); i++) {
                 Object current = world.getTile(surroundinglist.get(i));
-                if (this.getClass().isInstance(current)){
+                if (this.getClass().isInstance(current)) {
                     surroundinglist.remove(i);
                     i--;
                 }
@@ -322,7 +275,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             }
         }*/
     }
-    
+
     @Override
     public int getEaten(World world) {
         die(world);

@@ -103,7 +103,6 @@ public class Bear extends Animal {
         if (world.getTile(x) instanceof Bush) {
             Object o = world.getTile(x);
             Bush b = (Bush) o;
-            pathTo(world, world.getLocation(this), world.getLocation(b));
             Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
             if (surrounding.contains(world.getLocation(b)) && b.getRipe()) {
                 if (hunger >= b.getFoodValue()) {
