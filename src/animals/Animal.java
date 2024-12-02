@@ -114,6 +114,22 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     }
 
     /**
+     * 
+     * @param tile  tile to eat from
+     * @param world world tile is in
+     */
+    protected void eat(Location tile, World world) {
+        for(Class<?> c : getEdibleClasses()) {
+            if(c.isInstance(world.getTile(tile))) {
+                double food = ((Edible)world.getTile(tile)).getEaten(world);
+                hunger -= food;
+                energy += food;
+                return;
+            }
+        }
+    }
+
+    /**
      * @param c             The type of object that is being searched for
      * @param from          Where to search from
      * @param world         World to search in
@@ -280,5 +296,11 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
 
     public double getHP() {
         return health_points;
+    }
+
+    public List<Class<?>> getEdibleClasses() {
+        List<Class<?>> classes = new ArrayList<>();
+        classes.add(Edible.class);
+        return classes;
     }
 }
