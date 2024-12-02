@@ -4,14 +4,15 @@ import animals.Animal;
 import itumulator.world.World;
 import misc.Burrow;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
- public class TunnelNetwork {
-    private Set<Burrow> burrows;
+ public class TunnelNetwork implements Iterable<Burrow> {
+    private List<Burrow> burrows;
 
     public TunnelNetwork() {
-        burrows = new HashSet<>();
+        burrows = new ArrayList<>();
     }
 
     public void addBurrow(Burrow burrow) {
@@ -20,6 +21,10 @@ import java.util.Set;
 
     public void removeBurrow(Burrow burrow) {
         burrows.remove(burrow);
+    }
+
+    public Burrow getBurrow(int index) {
+        return burrows.get(index);
     }
 
     public int getSize() {
@@ -32,10 +37,16 @@ import java.util.Set;
 
     //Used to make sure deleted holes aren't kept
     public void clean(World world) {
-        Set<Burrow> new_burrows = new HashSet<>();
-        for(Burrow burrow : burrows) {
-            if(world.contains(burrow) && world.isOnTile(burrow)) new_burrows.add(burrow);
+        for(int i = 0; i < burrows.size(); i++) {
+            if(!world.contains(burrows.get(i))) {
+                burrows.remove(i);
+                i--;
+            }
         }
-        burrows = new_burrows;
     }
-}
+
+     @Override
+     public Iterator<Burrow> iterator() {
+         return burrows.iterator();
+     }
+ }

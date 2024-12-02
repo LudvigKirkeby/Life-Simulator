@@ -193,12 +193,12 @@ public class Rabbit extends Animal {
         }
         Burrow closest_burrow = null;
         double closest_distance = Double.MAX_VALUE;
-        for (int i = 0; i < network.getSize(); i++) {
-            Location l = world.getLocation(network.getBurrow(i));
+        for (Burrow b : network) {
+            Location l = world.getLocation(b);
             double distance = distTo(world, location, l);
             if(distance < closest_distance) {
                 closest_distance = distance;
-                closest_burrow = network.getBurrow(i);
+                closest_burrow = b;
             }
 
         }
