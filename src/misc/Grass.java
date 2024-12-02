@@ -26,12 +26,12 @@ public class Grass extends Plant implements DynamicDisplayInformationProvider, N
     }
 
     @Override
-    public int getFoodValue() {
+    public double getFoodValue() {
         return 1;
     }
 
     @Override
-    public int getEaten(World world) {
+    public double getEaten(World world) {
         world.delete(this);
         return getFoodValue();
     }
