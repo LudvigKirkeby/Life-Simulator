@@ -27,7 +27,7 @@ public class Wolf extends Animal {
         this.pack = pack;
         pack.add(this);
         view_distance = 8;
-        hunger = 10;
+        hunger = 0;
         energy = 10;
         age = 0;
         health_points = 12;
