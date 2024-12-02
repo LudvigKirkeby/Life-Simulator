@@ -18,12 +18,11 @@ public class Bear extends Animal {
     private Location center;
     private boolean sleeping;
     private boolean mating;
-    private int cooldown;
 
     public Bear() {
         age = 0;
         cooldown = 0;
-        hunger = 10;
+        hunger = 0;
         energy = 10;
         health_points = 20;
         view_distance = 10;
@@ -104,11 +103,11 @@ public class Bear extends Animal {
             Object o = world.getTile(x);
             Bush b = (Bush) o;
             Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
-            if (surrounding.contains(world.getLocation(b)) && b.getRipe()) {
+            if (surrounding.contains(world.getLocation(b))) {
                 if (hunger >= b.getFoodValue()) {
-                    b.eatBerries(); // sets ripe to false
-                    hunger -= b.getFoodValue();
-                    energy += b.getFoodValue();
+                    double foodvalue = b.getEaten(world);
+                    hunger -= foodvalue;
+                    energy += foodvalue;
                 }
             }
         }

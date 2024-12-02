@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class Grass extends Plant implements DynamicDisplayInformationProvider, NonBlocking, Actor, Edible {
+public class Grass extends Plant implements DynamicDisplayInformationProvider, Actor, Edible {
 
     @Override
     public void act(World world) {

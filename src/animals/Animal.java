@@ -11,7 +11,7 @@ import misc.Grass;
 import java.util.*;
 
 public abstract class Animal implements DynamicDisplayInformationProvider, Actor, Edible {
-    protected int view_distance;
+    protected int view_distance, cooldown;
     protected double age, energy, hunger, health_points;
 
     /**

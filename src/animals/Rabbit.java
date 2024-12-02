@@ -18,7 +18,6 @@ import java.util.Set;
 
 public class Rabbit extends Animal {
     TunnelNetwork network;
-    private int cooldown;
     private int starving = 0;
 
     public Rabbit(boolean grownup) {
