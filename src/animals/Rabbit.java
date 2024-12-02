@@ -224,7 +224,7 @@ public class Rabbit extends Animal {
         return age;
     }
 
-    public int getFoodValue() { return 5; }
+    public double getFoodValue() { return 5; }
 
     public void eat(World world, Edible edible) {
         if (hunger > 0) {

@@ -179,7 +179,7 @@ public class Wolf extends Animal {
     }
 
     @Override
-    public int getFoodValue() {
+    public double getFoodValue() {
         if(getGrownup())
             return 4;
         return 2;

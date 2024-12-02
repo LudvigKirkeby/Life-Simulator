@@ -156,7 +156,7 @@ public class Bear extends Animal {
     }
 
     @Override
-    public int getFoodValue() {
+    public double getFoodValue() {
         if (getGrownup())
             return 10;
         return 3;

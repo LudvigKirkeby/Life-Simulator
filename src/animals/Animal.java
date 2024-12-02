@@ -258,26 +258,10 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             }
         }
         attackTiles(world, surroundinglist, damage);
-        /*for (Location loc : surroundinglist) {
-            if (world.contains(loc)) {
-                Object o = world.getTile(loc);
-
-                if (!(o instanceof Animal animal)) {
-                    return;
-                } // Not an animal
-                if (attack_own && animal.getClass() == this.getClass()) {
-                    animal.reduceHP(amount);
-                    return;
-                } else if (animal.getClass() != this.getClass()) {
-                    animal.reduceHP(amount);
-                    return;
-                }
-            }
-        }*/
     }
 
     @Override
-    public int getEaten(World world) {
+    public double getEaten(World world) {
         die(world);
         return getFoodValue();
     }
