@@ -31,7 +31,9 @@ public class Fungi implements Actor, DynamicDisplayInformationProvider {
         Set<Location> tiles = world.getSurroundingTiles(world.getLocation(this), 2);
         for (Location loc : tiles) {
             if (world.getTile(loc) instanceof Carcass c && !c.getFungi()) {
-            c.spawnFungi();
+                if (new Random().nextInt(9) == 0) {
+                    c.spawnFungi();
+                }
             }
         }
     }
