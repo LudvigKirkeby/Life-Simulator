@@ -156,6 +156,12 @@ public class Reader {
                     }
                 break;
 
+                case "carcass fungi":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Carcass(true));
+                    }
+                break;
+
                 case "berry":
                     for(int i = 0; i<amount; i++) {
                         placement.placeRandomly(w, new Bush());

@@ -15,13 +15,23 @@ public class Main {
 
     public static void main(String[] args) {
 
+        /*
         Reader reader = new Reader();
-        reader.loadFile("src/inputs_week-2/t2-6a.txt");
+        reader.loadFile("src/inputs_week-3/t3-2ab.txt");
         reader.readFile();
 
-        Program p = new Program(reader.getWorldSize(), 800, 10);
+         */
+
+        Placement placement = new Placement();
+
+        //reader.getWorldSize()
+        Program p = new Program(2, 800, 10);
         World w = p.getWorld();
-        reader.Execute(w);
+        placement.placeRandomly(w, new Carcass(true));
+        placement.placeRandomly(w, new Carcass());
+        placement.placeRandomly(w, new Carcass());
+        placement.placeRandomly(w, new Carcass());
+        //reader.Execute(w);
         p.show();
 
     }

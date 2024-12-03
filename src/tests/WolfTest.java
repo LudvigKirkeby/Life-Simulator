@@ -55,7 +55,7 @@ public class WolfTest {
 
     @Test
     public void testEatsCarcass() {
-        Carcass carcass = new Carcass(5);
+        Carcass carcass = new Carcass(5, false);
         world.setTile(new Location(1, 0), carcass);
         wolf.setAge(5); // Makes sure getGrownUp() is true
         wolf.setHunger(4); // If the wolf is not hungry then it won't hunt
