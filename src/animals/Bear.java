@@ -96,9 +96,7 @@ public class Bear extends Animal {
     }
 
     private void findAndEatBerries(World world, Location x) {
-        if (world.getTile(x) instanceof Bush) {
-            Object o = world.getTile(x);
-            Bush b = (Bush) o;
+        if (world.getTile(x) instanceof Bush b) {
             Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
             if (surrounding.contains(world.getLocation(b))) {
                 if (hunger >= b.getFoodValue()) {
@@ -131,7 +129,7 @@ public class Bear extends Animal {
         }
 
         if (territorylist == null) {
-            Set<Location> territory = world.getSurroundingTiles(center, 1);
+            Set<Location> territory = world.getSurroundingTiles(center, 3);
             territorylist = new ArrayList<Location>(territory);
         }
     }

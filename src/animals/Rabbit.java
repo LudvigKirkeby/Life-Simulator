@@ -223,6 +223,7 @@ public class Rabbit extends Animal {
 
     public double getFoodValue() { return 5; }
 
+
     public void eat(World world, Edible edible) {
         if (hunger > 0) {
             hunger -= edible.getFoodValue();

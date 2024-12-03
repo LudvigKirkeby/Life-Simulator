@@ -155,6 +155,12 @@ public class Reader {
                         placement.placeRandomly(w, new Carcass());
                     }
                 break;
+
+                case "berry":
+                    for(int i = 0; i<amount; i++) {
+                        placement.placeRandomly(w, new Bush());
+                    }
+                break;
             }
 
             /*try {

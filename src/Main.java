@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
 
         Reader reader = new Reader();
-        reader.loadFile("src/inputs_week-2/tf2-1.txt");
+        reader.loadFile("src/inputs_week-2/t2-6a.txt");
         reader.readFile();
 
         Program p = new Program(reader.getWorldSize(), 800, 10);
