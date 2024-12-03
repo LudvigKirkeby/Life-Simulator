@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/misc/Fungi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/Carcass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Carcass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Reader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Rabbit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/Grass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Grass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/RabbitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/RabbitTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,33 +36,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.AnimalTest.executor": "Run",
-    "JUnit.AnimalTest.testPathTo.executor": "Run",
-    "JUnit.BurrowTest.executor": "Run",
-    "JUnit.GrassTest.executor": "Run",
-    "JUnit.HoleTest.executor": "Run",
-    "JUnit.RabbitTest.executor": "Run",
-    "JUnit.WolfTest.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/vitus/Skrivebord/IntelliJProjekter/Life-Simulator/src/inputs_week-2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.AnimalTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AnimalTest.testPathTo.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BurrowTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GrassTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.HoleTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RabbitTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.WolfTest.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vitus/Skrivebord/IntelliJProjekter/Life-Simulator/src/inputs_week-2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\vitus\Skrivebord\IntelliJProjekter\Life-Simulator\src\inputs_week-2" />
@@ -109,6 +108,7 @@
       <workItem from="1733065480426" duration="142000" />
       <workItem from="1733096130963" duration="254000" />
       <workItem from="1733153899299" duration="4506000" />
+      <workItem from="1733240594266" duration="2293000" />
     </task>
     <servers />
   </component>
@@ -133,6 +133,15 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/utility/Reader.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Reader" memberName="file" />
