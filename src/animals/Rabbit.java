@@ -130,8 +130,6 @@ public class Rabbit extends Animal {
         } else return;
         energy -= 3;
         Burrow burrow = new Burrow();
-        //if(world.containsNonBlocking(location))
-        //    System.out.println(world.getNonBlocking(location).getClass());
         world.setTile(location, burrow);
         network.addBurrow(burrow);
         cooldown = 3;
@@ -153,7 +151,6 @@ public class Rabbit extends Animal {
 
     public void unburrow(World world) {
         if (!world.isOnTile(this)) {
-            //!!!!!!TEMPORARY SOLUTION!!!!!!
             network.clean(world);
             if (network.getSize() > 0) { // If the network has any holes, then unburrow
                 Burrow burrow = network.getBurrow(new Random().nextInt(network.getSize()));
@@ -163,8 +160,6 @@ public class Rabbit extends Animal {
                     world.setTile(l, this);
                 }
             } else {// Else create a new hole and add it to the network
-                // This method for placing holes randomly stop them from placing on Grass
-                Placement placement = new Placement();
                 Set<Location> all_tiles = world.getSurroundingTiles(new Location(0,0), world.getSize());
                 all_tiles.add(new Location(0,0));
                 for (Location l : all_tiles) {
@@ -173,14 +168,12 @@ public class Rabbit extends Animal {
                         break;
                     }
                 }
-                //placement.placeRandomly(world, new Burrow());
                 unburrow(world);
             }
         }
     }
 
     protected Burrow getClosestHole(Location location, World world) {
-        //!!!!!!TEMPORARY SOLUTION!!!!!!
         network.clean(world);
 
         if(network.getSize()==0){
@@ -213,6 +206,7 @@ public class Rabbit extends Animal {
         }
     }
 
+    @Override
     public boolean getGrownup() {
         return age >= 3;
     }
@@ -221,21 +215,14 @@ public class Rabbit extends Animal {
         return age;
     }
 
-    public double getFoodValue() { return 5; }
-
-
-    /*public void eat(World world, Edible edible) {
-        if (hunger > 0) {
-            hunger -= edible.getFoodValue();
-            energy += edible.getFoodValue();
-        }
-        world.delete(edible);
-    }*/
-
     public TunnelNetwork getNetwork() {
         return network;
     }
 
+    @Override
+    public double getFoodValue() { return 5; }
+
+    @Override
     public List<Class<?>> getEdibleClasses() {
         List<Class<?>> classes = new ArrayList<>();
         classes.add(Grass.class);
