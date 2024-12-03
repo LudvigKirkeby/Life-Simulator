@@ -49,9 +49,10 @@ public class Wolf extends Animal {
             return;
         }
 
+        hunger += 0.05;
         if(sleeping) {
-            hunger += 0.05;
-            if(world.isDay())
+            health_points += 1;
+            if(world.isDay() && health_points >= 10)
                 sleeping = false;
             else
                 return;
@@ -61,14 +62,27 @@ public class Wolf extends Animal {
         if(pack.getCenter() == null)
             createHome(world);
 
+        // Called just in case a wolf in pack somehow got removed from the world
+        // without being removed from the pack
+        pack.clean(world);
+
         if(world.isDay()) {// Daytime behaviour
-            if(hunger >= 3) {
+            if(health_points < 4) {
+                goToCave(world);
+                if(inSafety(world)) {
+                    sleeping = true;
+                }
+            }else if(hunger >= 3) {
                 if(!tryAttack(world)) {
-                    wander(world);
+                    Location nearest_member = nearestPackMemberLocation(world);
+                    if(nearest_member != null && distTo(world, nearest_member)>=2)
+                        takeStepToward(world, nearest_member);
+                    else
+                        wander(world);
                 }
             }else {
-                goToPack(world);
-                if(inSafety(world) && canFindPackMember(world)) {
+                goToCave(world);
+                if(inSafety(world) && nextToPackMember(world)) {
                     Set<Animal> babies = reproduce(Wolf.class, world);
                     for(Animal a : babies) {
                         if(a instanceof Wolf wolf) {
@@ -81,7 +95,7 @@ public class Wolf extends Animal {
             if(inSafety(world)) {
                 sleeping = true;
             }else {
-                goToPack(world);
+                goToCave(world);
             }
         }
     }
@@ -104,7 +118,23 @@ public class Wolf extends Animal {
         return false;
     }
 
-    public void goToPack(World world) {
+    public Location nearestPackMemberLocation(World world) {
+        Set<Location> tiles = world.getSurroundingTiles(world.getLocation(this), view_distance);
+        Location location = null;
+        double nearest_dist = Double.MAX_VALUE;
+        for(Location l : tiles) {
+            if(world.getTile(l) instanceof Wolf wolf) {
+                double dist = distTo(world, l);
+                if(pack.contains(wolf) && dist < nearest_dist) {
+                    nearest_dist = dist;
+                    location = l;
+                }
+            }
+        }
+        return location;
+    }
+
+    public void goToCave(World world) {
         if(world.getSurroundingTiles().contains(pack.getCenter()))
             return;
         takeStepToward(world, pack.getCenter());
@@ -121,7 +151,7 @@ public class Wolf extends Animal {
         }
     }
 
-    public boolean canFindPackMember(World world) {
+    public boolean nextToPackMember(World world) {
         Object o = closestObject(Wolf.class, world.getLocation(this),world,1,false);
         return o instanceof Animal a && pack.contains(a);
     }
@@ -162,9 +192,14 @@ public class Wolf extends Animal {
         List<Location> attack_list = new ArrayList<>(surrounding);
         for(int i = 0; i < attack_list.size(); i++) {
             Object o = world.getTile(attack_list.get(i));
-            if(o instanceof Wolf wolf && pack.contains(wolf)) {
-                attack_list.remove(i);
-                i--;
+            if(o instanceof Wolf wolf) {
+                if(pack.contains(wolf)) {
+                    attack_list.remove(i);
+                    i--;
+                }else if(wolf.getHP() < 4) {
+                    attack_list.remove(i);
+                    wolf.setPack(pack);
+                }
             }
         }
         attackTiles(world,attack_list,3);

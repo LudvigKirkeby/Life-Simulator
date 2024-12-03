@@ -3,11 +3,9 @@ package animals;
 import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
-import itumulator.world.NonBlocking;
 import itumulator.world.World;
 import misc.Carcass;
 import misc.Edible;
-import misc.Grass;
 
 import java.util.*;
 
@@ -244,12 +242,6 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
             eat(world, tile);
         }
     }
-    /*
-     else if (world.getTile(tile) instanceof Edible edible) {
-        hunger -= edible.getFoodValue();
-        world.delete(edible);
-    }
-     */
 
     protected void attackTiles(World world, List<Location> tiles, int damage) {
         if (tiles == null)

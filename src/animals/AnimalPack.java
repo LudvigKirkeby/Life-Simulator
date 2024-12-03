@@ -1,6 +1,7 @@
 package animals;
 
 import itumulator.world.Location;
+import itumulator.world.World;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -42,6 +43,15 @@ public class AnimalPack {
             if(type.isInstance(animal)) new_animals.add(animal);
         }
         animals = new_animals;
+    }
+
+
+    public void clean(World world) {
+        Set<Animal> remaining_animals = new HashSet<>();
+        for(Animal animal : animals) {
+            if(world.contains(animal) && world.isOnTile(animal)) remaining_animals.add(animal);
+        }
+        animals = remaining_animals;
     }
 
     public Class<?> getType() {
