@@ -3,6 +3,7 @@ package animals;
 import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
+import itumulator.world.NonBlocking;
 import itumulator.world.World;
 import misc.Carcass;
 import misc.Edible;
@@ -113,17 +114,25 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         return babies;
     }
 
+    public void eat(World world, Edible edible) {
+        double food = edible.getEaten(world);
+        System.out.println(food);
+        hunger -= food;
+        energy += food;
+    }
+
     /**
      *
      * @param world world tile is in
      * @param tile  tile to eat from
      */
-    protected void eat(World world, Location tile) {
+    public void eat(World world, Location tile) {
         for(Class<?> c : getEdibleClasses()) {
-            if(c.isInstance(world.getTile(tile))) {
-                double food = ((Edible)world.getTile(tile)).getEaten(world);
-                hunger -= food;
-                energy += food;
+            if(c.isInstance(world.getNonBlocking(tile))) {
+                eat(world, (Edible)world.getNonBlocking(tile));
+                return;
+            } else if (c.isInstance(world.getTile(tile))) {
+                eat(world, (Edible)world.getTile(tile));
                 return;
             }
         }

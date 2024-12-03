@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/Bear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Bear.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animals/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Animal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Rabbit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Reader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/Grass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Grass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/RabbitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/RabbitTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +108,7 @@
       <workItem from="1733065480426" duration="142000" />
       <workItem from="1733096130963" duration="254000" />
       <workItem from="1733153899299" duration="4506000" />
+      <workItem from="1733240594266" duration="2293000" />
     </task>
     <servers />
   </component>

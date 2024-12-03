@@ -69,8 +69,8 @@ public class Rabbit extends Animal {
             if(!world.isOnTile(this)) return; // Checks if Rabbit is in Burrow(sleeping)
             hunger += 0.05;
 
-            if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass grass) {
-                eat(world, grass);
+            if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
+                eat(world, world.getCurrentLocation());
             }
 
             if (hunger > 3)
@@ -224,13 +224,13 @@ public class Rabbit extends Animal {
     public double getFoodValue() { return 5; }
 
 
-    public void eat(World world, Edible edible) {
+    /*public void eat(World world, Edible edible) {
         if (hunger > 0) {
             hunger -= edible.getFoodValue();
             energy += edible.getFoodValue();
         }
         world.delete(edible);
-    }
+    }*/
 
     public TunnelNetwork getNetwork() {
         return network;

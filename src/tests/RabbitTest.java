@@ -67,11 +67,12 @@ public class RabbitTest {
 
     @Test
     public void testEat() {
+        rabbit.setHunger(10);
         Grass grass = new Grass();
         world.setTile(init_location, grass);
         assertTrue(world.contains(grass)); // Checking if the location contains grass
         assertEquals(10, rabbit.getHunger()); // Checking that hunger is at max (10)
-        rabbit.eat(world, grass);
+        rabbit.eat(world, init_location);
         assertEquals(10 - grass.getFoodValue(), rabbit.getHunger()); // Hunger has been reduced by grass.getFoodValue()
     }
 }

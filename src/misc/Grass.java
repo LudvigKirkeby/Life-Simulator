@@ -17,6 +17,7 @@ public class Grass extends Plant implements DynamicDisplayInformationProvider, A
 
     @Override
     public void act(World world) {
+        if(!world.contains(this) || world.isOnTile(this)) return;
         if (0 == new Random().nextInt(10)) {
             try {
             grow(Grass.class, world);
