@@ -28,11 +28,11 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         }
     }
 
-    public double distTo(World world, Location to) {
-        return distTo(world, world.getLocation(this), to);
+    public double distToSquared(World world, Location to) {
+        return distToSquared(world, world.getLocation(this), to);
     }
 
-    public double distTo(World world, Location from, Location to) {
+    public double distToSquared(World world, Location from, Location to) {
         if (to == null) throw new IllegalArgumentException("to is null!");
         if (from == null) throw new IllegalArgumentException("from is null!");
         if (to.getX() >= world.getSize() || to.getX() < 0 || to.getY() >= world.getSize() || to.getY() < 0)
@@ -49,7 +49,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         Set<Location> surrounding_tiles = world.getEmptySurroundingTiles(self);
         double least_dist = Double.MAX_VALUE;
         for (Location l : surrounding_tiles) {
-            double dist = distTo(world, l, target);
+            double dist = distToSquared(world, l, target);
             if (dist < least_dist) {
                 least_dist = dist;
                 step = l;
@@ -165,7 +165,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         for (Location tile : tiles) {
             Object current = world.getTile(tile);
             if (c.isInstance(current)) {
-                double distance = distTo(world, from, tile);
+                double distance = distToSquared(world, from, tile);
                 if (distance < closest_distance) {
                     closest_distance = distance;
                     closest_object = world.getTile(tile);
@@ -220,7 +220,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         }
     }
 
-    protected void takeStepToward(World world, Location target) {
+    public void takeStepToward(World world, Location target) {
         Location step = getStepToward(world, target);
         if (step == null) return;
         world.move(this, step);
@@ -232,7 +232,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         return hunger;
     }
 
-    protected void attackTile(World world, Location tile, int damage) {
+    public void attackTile(World world, Location tile, int damage) {
         if (tile.getX() >= world.getSize() || tile.getX() < 0 || tile.getY() >= world.getSize() || tile.getY() < 0)
             throw new IllegalArgumentException("tile is not in the world!");
 

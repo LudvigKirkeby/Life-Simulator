@@ -10,9 +10,10 @@
       <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Animal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Animal.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Rabbit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Rabbit.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/AnimalPack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/AnimalPack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Rabbit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/animals/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Wolf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/AnimalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/AnimalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/RabbitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/RabbitTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +112,7 @@
       <workItem from="1733096130963" duration="254000" />
       <workItem from="1733153899299" duration="4506000" />
       <workItem from="1733240594266" duration="3924000" />
+      <workItem from="1733302346695" duration="1988000" />
     </task>
     <servers />
   </component>

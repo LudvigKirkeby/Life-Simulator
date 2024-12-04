@@ -1,11 +1,9 @@
 package animals;
 
 import itumulator.executable.DisplayInformation;
-import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.Location;
 import itumulator.world.World;
 import misc.*;
-import utility.Placement;
 import utility.TunnelNetwork;
 
 import java.awt.Color;
@@ -185,7 +183,7 @@ public class Rabbit extends Animal {
         double closest_distance = Double.MAX_VALUE;
         for (Burrow b : network) {
             Location l = world.getLocation(b);
-            double distance = distTo(world, location, l);
+            double distance = distToSquared(world, location, l);
             if(distance < closest_distance) {
                 closest_distance = distance;
                 closest_burrow = b;

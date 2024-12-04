@@ -75,7 +75,7 @@ public class Wolf extends Animal {
             }else if(hunger >= 3) {
                 if(!tryAttack(world)) {
                     Location nearest_member = nearestPackMemberLocation(world);
-                    if(nearest_member != null && distTo(world, nearest_member)>=2)
+                    if(nearest_member != null && distToSquared(world, nearest_member)>=2)
                         takeStepToward(world, nearest_member);
                     else
                         wander(world);
@@ -124,7 +124,7 @@ public class Wolf extends Animal {
         double nearest_dist = Double.MAX_VALUE;
         for(Location l : tiles) {
             if(world.getTile(l) instanceof Wolf wolf) {
-                double dist = distTo(world, l);
+                double dist = distToSquared(world, l);
                 if(pack.contains(wolf) && dist < nearest_dist) {
                     nearest_dist = dist;
                     location = l;
