@@ -114,7 +114,6 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
 
     public void eat(World world, Edible edible) {
         double food = edible.getEaten(world);
-        System.out.println(food);
         hunger -= food;
         energy += food;
     }
@@ -280,8 +279,8 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         return getFoodValue();
     }
 
-    public void reduceHP(double setvalue) {
-        health_points -= setvalue;
+    public void reduceHP(double amount) {
+        setHealth(health_points-amount);
     }
 
     public void setHunger(double hunger) {
@@ -290,6 +289,14 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
 
     public void setAge(double age) {
         this.age = age;
+    }
+
+    public void setHealth(double health) {
+        if(health<0) {
+            health_points = 0;
+            return;
+        }
+        health_points = health;
     }
 
     public double getHP() {

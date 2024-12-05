@@ -75,10 +75,11 @@ public class Wolf extends Animal {
             }else if(hunger >= 3) {
                 if(!tryAttack(world)) {
                     Location nearest_member = nearestPackMemberLocation(world);
-                    if(nearest_member != null && distToSquared(world, nearest_member)>=2)
+                    if(nearest_member != null && distToSquared(world, nearest_member)>=2) {
                         takeStepToward(world, nearest_member);
-                    else
+                    }else {
                         wander(world);
+                    }
                 }
             }else {
                 goToCave(world);
@@ -196,7 +197,7 @@ public class Wolf extends Animal {
                 if(pack.contains(wolf)) {
                     attack_list.remove(i);
                     i--;
-                }else if(wolf.getHP() < 4) {
+                }else if(wolf.getHP() <= 4) {
                     attack_list.remove(i);
                     wolf.setPack(pack);
                 }
@@ -207,6 +208,10 @@ public class Wolf extends Animal {
 
     public void setPack(AnimalPack pack) {
         this.pack = pack;
+    }
+
+    public AnimalPack getPack() {
+        return pack;
     }
 
     @Override
