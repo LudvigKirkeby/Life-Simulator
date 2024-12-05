@@ -49,4 +49,10 @@ public class Bush extends Plant implements Actor, Edible, DynamicDisplayInformat
             return new DisplayInformation(Color.GREEN, "bush-berries", false);
         return new DisplayInformation(Color.RED, "bush", false);
     }
+
+    public void setRipe() { // for testing
+    hasBerries = true;
+    }
 }
+
+

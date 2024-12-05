@@ -34,7 +34,6 @@ public class Bear extends Animal {
 
     @Override
     public void act(World world) {
-
         hunger += 0.05;
         age += 0.05;
 
@@ -109,7 +108,7 @@ public class Bear extends Animal {
     }
 
     private void attack(World world, Location x) {
-        if (getGrownup() && !world.isTileEmpty(x)) {
+        if (getGrownup() && !world.isTileEmpty(x) || world.getTile(x) instanceof Carcass) {
             Object o = world.getTile(x);
 
             if (o.equals(this)) {return;}
@@ -129,8 +128,9 @@ public class Bear extends Animal {
         }
 
         if (territorylist == null) {
-            Set<Location> territory = world.getSurroundingTiles(center, 3);
+            Set<Location> territory = world.getSurroundingTiles(center, 2);
             territorylist = new ArrayList<Location>(territory);
+            territorylist.add(center);
         }
     }
 
@@ -172,5 +172,17 @@ public class Bear extends Animal {
         List<Class<?>> classes = new ArrayList<>();
         classes.add(Carcass.class);
         return classes;
+    }
+
+    public List<Location> getTerritoryList() {
+        return territorylist;
+    }
+
+    public void setMating(boolean matingvalue) { // for testing
+        mating = matingvalue;
+    }
+
+    public Set<Animal> getChildren() {
+        return children;
     }
 }
