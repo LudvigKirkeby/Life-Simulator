@@ -41,7 +41,7 @@ public class CarcassTest {
         carcass.setHasFungi(true);
         for(double expected = 1; expected>0; expected-=0.5) {
             // Accounts for floating-point error
-            assertEquals(Math.round(expected*1000)/1000,Math.round(carcass.getFoodValue()*1000)/1000);
+            assertEquals(Math.round(expected*1000)/1000.0,Math.round(carcass.getFoodValue()*1000)/1000.0);
             carcass.act(world);
         }
         // Carcass should disappear when food_value is at 0 and place a fungus instead if has_fungi is true
