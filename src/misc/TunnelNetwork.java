@@ -1,8 +1,6 @@
-package utility;
+package misc;
 
-import animals.Animal;
 import itumulator.world.World;
-import misc.Burrow;
 
 import java.util.ArrayList;
 import java.util.Iterator;

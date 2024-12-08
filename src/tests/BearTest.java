@@ -2,20 +2,15 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 //import org.junit.jupiter.api.AfterEach;
-import animals.AnimalPack;
 import animals.Bear;
 import animals.Rabbit;
 import misc.Bush;
 import misc.Carcass;
-import misc.Cave;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import animals.Wolf;
 import itumulator.world.Location;
 import itumulator.world.World;
-
-import java.util.Random;
-import java.util.Set;
 
 /*
     Should test:

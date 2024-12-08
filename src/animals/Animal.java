@@ -369,7 +369,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     }
 
     /**
-     * Sets health_points field on Animal to health. If health<0, then health_points is set to 0.
+     * Sets health_points field on Animal to health. If health is less than 0, then health_points is set to 0.
      * @param health Value to set health_points to
      */
     public void setHealth(double health) {

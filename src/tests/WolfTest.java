@@ -2,7 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 //import org.junit.jupiter.api.AfterEach;
-import animals.AnimalPack;
+import misc.AnimalPack;
 import animals.Rabbit;
 import misc.Carcass;
 import misc.Cave;

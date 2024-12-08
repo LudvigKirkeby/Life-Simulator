@@ -4,8 +4,6 @@ import itumulator.world.World;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -4,7 +4,7 @@ import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
 import misc.*;
-import utility.TunnelNetwork;
+import misc.TunnelNetwork;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -23,6 +23,16 @@ public class Rabbit extends Animal {
         }
     }
 
+    /**
+     * Initializes variables.
+     * - network = a new TunnelNetwork instance.
+     * - view_distance = 8
+     * - hunger = 0
+     * - energy = 10
+     * - age = 0
+     * - cooldown = 0
+     * - health_points = 6
+     */
     public Rabbit() {
         network = new TunnelNetwork();
         view_distance = 8;
@@ -114,10 +124,21 @@ public class Rabbit extends Animal {
         return new DisplayInformation(Color.BLACK, "rabbit-small");
     }
 
+    /**
+     * Checks if the tile at the given Location in world either has no nonblocking, contains an instance of a Plant or contains an instance of a Burrow.
+     * @param world World that the tile is in.
+     * @param location Location to check for 'digability'.
+     * @return If it is possible to dig at Location parameter in the World parameter.
+     */
     protected boolean canDig(World world, Location location) {
         return !world.containsNonBlocking(location) || world.getNonBlocking(location) instanceof Plant || world.getNonBlocking(location) instanceof Burrow;
     }
 
+    /**
+     * Instantiates a Burrow and places it in world at location if possible. If there is already a Burrow at the location in the world, then the Burrow is added to this Rabbits TunnelNetwork.
+     * @param world World to dig in
+     * @param location Location in world to dig at
+     */
     public void digHole(World world, Location location) {
         if (!world.containsNonBlocking(location)) {
         } else if (world.getNonBlocking(location) instanceof Plant) {
@@ -133,6 +154,10 @@ public class Rabbit extends Animal {
         cooldown = 3;
     }
 
+    /**
+     * If this is on a Burrow, then enter(remove from world parameters tiles). Else take a step toward the nearest Burrow in the TunnelNetwork burrows on this.
+     * @param world World that this is in
+     */
     public void burrowSelf(World world) {
         if (world.isOnTile(this)) {
             Burrow closest_burrow = getClosestHole(world.getLocation(this), world);
@@ -147,6 +172,10 @@ public class Rabbit extends Animal {
         }
     }
 
+    /**
+     * Places this back in world on one of the Burrows in the TunnelNetwork this Rabbit has. If no Burrow is available to leave from then a new hole is dug and unburrow is called again.
+     * @param world World this will be placed in
+     */
     public void unburrow(World world) {
         if (!world.isOnTile(this)) {
             network.clean(world);
@@ -171,6 +200,12 @@ public class Rabbit extends Animal {
         }
     }
 
+    /**
+     * If this Rabbits TunnelNetwork is empty then digHole(...) is called and the method stops.
+     * @param location Location to search from
+     * @param world World to search in
+     * @return The closest Burrow in this Rabbit's TunnelNetwork to location in world.
+     */
     protected Burrow getClosestHole(Location location, World world) {
         network.clean(world);
 
@@ -204,22 +239,37 @@ public class Rabbit extends Animal {
         }
     }
 
+    /**
+     * @return Whether this is grown up, defined by if age is larger than or equal to 3.
+     */
     @Override
     public boolean getGrownup() {
         return age >= 3;
     }
 
+    /**
+     * @return Value of age field inherited from Animal.
+     */
     public double getAge() {
         return age;
     }
 
+    /**
+     * @return Reference to this Rabbit's TunnelNetwork, stored in the network field.
+     */
     public TunnelNetwork getNetwork() {
         return network;
     }
 
+    /**
+     * @return Food value of Rabbit, which is 5.
+     */
     @Override
     public double getFoodValue() { return 5; }
 
+    /**
+     * @return A List of edible classes. For Rabbits, it only contains Grass.
+     */
     @Override
     public List<Class<?>> getEdibleClasses() {
         List<Class<?>> classes = new ArrayList<>();

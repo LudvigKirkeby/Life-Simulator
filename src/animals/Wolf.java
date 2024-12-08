@@ -3,10 +3,7 @@ package animals;
 import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
-import misc.Cave;
-import misc.Carcass;
-import misc.Edible;
-import misc.Plant;
+import misc.*;
 
 import java.awt.*;
 import java.util.*;
@@ -16,10 +13,23 @@ public class Wolf extends Animal {
     AnimalPack pack;
     boolean sleeping;
 
+    /**
+     * Calls other constructor with a new AnimalPack with type Wolf.
+     */
     public Wolf() {
         this(new AnimalPack(Wolf.class));
     }
 
+    /**
+     * Pack is set to the parameter pack. this is added to the pack.
+     * Initialises the wolf's variables.
+     * - view_distance = 8
+     * - hunger = 0
+     * - energy = 10
+     * - age = 0
+     * - health_points = 12
+     * @param pack AnimalPack that this wolf will be part of.
+     */
     public Wolf(AnimalPack pack) {
         if(pack == null)
             throw new IllegalArgumentException("pack can't be null!");
@@ -101,6 +111,11 @@ public class Wolf extends Animal {
         }
     }
 
+    /**
+     * Safety is defined as either being next to the center of the pack or being surrounded by 3 or more pack members.
+     * @param world World that this is in
+     * @return Whether either safety condition is met.
+     */
     protected boolean inSafety(World world) {
         Set<Location> surrounding_tiles = world.getSurroundingTiles(world.getLocation(this));
 
@@ -119,6 +134,11 @@ public class Wolf extends Animal {
         return false;
     }
 
+    /**
+     * Checks tiles within view_distance to try and find the nearest member of the pack to this.
+     * @param world World that this is in
+     * @return Location of the nearest pack member.
+     */
     public Location nearestPackMemberLocation(World world) {
         Set<Location> tiles = world.getSurroundingTiles(world.getLocation(this), view_distance);
         Location location = null;
@@ -135,12 +155,20 @@ public class Wolf extends Animal {
         return location;
     }
 
+    /**
+     * Makes this head towards the center of the pack.
+     * @param world World that this and the pack center is in.
+     */
     public void goToCave(World world) {
         if(world.getSurroundingTiles().contains(pack.getCenter()))
             return;
         takeStepToward(world, pack.getCenter());
     }
 
+    /**
+     * Sets center of pack to a location next to this in world and places a Cave-object there.
+     * @param world World this is in and where the home will be created.
+     */
     public void createHome(World world) {
         Location self = world.getLocation(this);
         for(Location tile : world.getEmptySurroundingTiles(self)) {
@@ -152,15 +180,22 @@ public class Wolf extends Animal {
         }
     }
 
+    /**
+     * Checks if the surrounding tiles in world from the location of this contain a wolf
+     * @param world World this is in
+     * @return Whether there is a pack member on one of the eight tiles around this in world.
+     */
     public boolean nextToPackMember(World world) {
-        Object o = closestObject(Wolf.class, world.getLocation(this),world,1,false);
-        return o instanceof Animal a && pack.contains(a);
+        for(Location tile : world.getSurroundingTiles(world.getLocation(this))) {
+            if(world.getTile(tile) instanceof Wolf wolf && pack.contains(wolf)) return true;
+        }
+        return false;
     }
 
     /**
-     *
+     * Tries to find something to attack within view_distance in the supplied World. If it is close enough to attack then it calls attack(World)-method. Else takes a step toward the found prey.
      * @param world The world to find an Object to attack in
-     * @return whether the wolf attacked or went toward something to attack.
+     * @return Whether the wolf attacked or went toward something to attack.
      */
     public boolean tryAttack(World world) {
         if (!getGrownup()){return false;} // no child attacks
@@ -188,6 +223,12 @@ public class Wolf extends Animal {
         return false;
     }
 
+    /**
+     * Attacks surrounding tiles with attackTiles(...)-method.
+     * If one of the tiles contains a wolf from this wolf's pack, then that tile is removed from the attack list.
+     * If a tile contains a wolf from a different pack with less than or exactly 4 health, then that wolf becomes a part of this wolf's pack and is removed from the attack list.
+     * @param world World this is in and where the attack will take place
+     */
     public void attack(World world) {
         Set<Location> surrounding = world.getSurroundingTiles(world.getLocation(this));
         List<Location> attack_list = new ArrayList<>(surrounding);
@@ -206,19 +247,32 @@ public class Wolf extends Animal {
         attackTiles(world,attack_list,3);
     }
 
+    /**
+     * Sets this wolf's pack to pack parameter.
+     * @param pack new pack
+     */
     public void setPack(AnimalPack pack) {
         this.pack = pack;
     }
 
+    /**
+     * @return This wolf's pack.
+     */
     public AnimalPack getPack() {
         return pack;
     }
 
+    /**
+     * @return Whether this wolf is grown up or not, defined by if age is larger than 3.
+     */
     @Override
     public boolean getGrownup() {
         return age > 3; // Just set it to a temporary value
     }
 
+    /**
+     * @return If grown up returns 4, else returns 2.
+     */
     @Override
     public double getFoodValue() {
         if(getGrownup())
@@ -238,10 +292,16 @@ public class Wolf extends Animal {
         return new DisplayInformation(Color.GRAY, "wolf-small");
     }
 
+    /**
+     * @return Value of sleeping field.
+     */
     public boolean isSleeping() {
         return sleeping;
     }
 
+    /**
+     * @return List of classes containing the Carcass class.
+     */
     public List<Class<?>> getEdibleClasses() {
         List<Class<?>> classes = new ArrayList<>();
         classes.add(Carcass.class);

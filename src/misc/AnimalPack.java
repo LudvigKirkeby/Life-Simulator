@@ -1,11 +1,10 @@
-package animals;
+package misc;
 
+import animals.Animal;
 import itumulator.world.Location;
 import itumulator.world.World;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class AnimalPack {
