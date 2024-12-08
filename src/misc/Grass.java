@@ -26,11 +26,18 @@ public class Grass extends Plant implements DynamicDisplayInformationProvider, A
         }
     }
 
+    /**
+     * @return The grass' food value.
+     */
     @Override
     public double getFoodValue() {
         return 1;
     }
 
+    /**
+     * Deletes the object and returns its food value when it is eaten.
+     * @param world The world to delete it in.
+     */
     @Override
     public double getEaten(World world) {
         world.delete(this);

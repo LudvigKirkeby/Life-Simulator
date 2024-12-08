@@ -34,6 +34,10 @@ public class Bush extends Plant implements Actor, Edible, DynamicDisplayInformat
         return 4;
     }
 
+    /**
+     * @return food value of eating Berries, which are removed from the bush by setting hasBerries to false.
+     * @param world Parameter is not used in this implementation, but the method is implemented from an Interface.
+     */
     @Override
     public double getEaten(World world) {
         if (hasBerries) {
@@ -50,6 +54,9 @@ public class Bush extends Plant implements Actor, Edible, DynamicDisplayInformat
         return new DisplayInformation(Color.RED, "bush", false);
     }
 
+    /**
+     * Forces berries on the bush. Used for testing.
+     */
     public void setRipe() { // for testing
     hasBerries = true;
     }
