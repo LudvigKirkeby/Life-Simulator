@@ -15,6 +15,10 @@ public class Burrow implements NonBlocking, DynamicDisplayInformationProvider, A
     age = 0;
     }
 
+    /**
+     * Used to make a burrow age and disappear after 100 calls to this method.
+     * @param world The world that contains this burrow
+     */
     @Override
     public void act(World world) {
         if(!world.contains(this)) {
