@@ -12,7 +12,12 @@ import java.util.Set;
 
 public class Placement {
     Random rand = new Random();
-    // Placerer et Object et antal gange randomly.
+
+    /**
+     * Places a given object on a random Location in the world.
+     * @param object The object to be placed.
+     * @param world the world to place it in.
+     */
     public void placeRandomly(World world, Object object) {
             int x = rand.nextInt(world.getSize());
             int y = rand.nextInt(world.getSize());

@@ -82,6 +82,10 @@ public class Bear extends Animal {
         }
     }
 
+    /**
+     * Seeks another bear and produces a child, iff the Bear is in range of the other bear. When a child is produced, the returned set of animals is added to a local list of children.
+     * @param world World to mate in.
+     */
     private void mateIfReady(World world) {
         if (ReadyToMate() && canFind(Bear.class, world)) {
             seek(Bear.class, world, world.getLocation(this), world.getSize()); // Seeks a bear anywhere in the world
@@ -93,6 +97,12 @@ public class Bear extends Animal {
             }
         }
     }
+
+    /**
+     * Seeks an object and attacks a Location with this object, iff the Bear is in range of that Location.
+     * @param x Location to check for berries.
+     * @param world World to eat berries in.
+     */
 
     private void findAndEatBerries(World world, Location x) {
         if (world.getTile(x) instanceof Bush b) {
@@ -106,6 +116,13 @@ public class Bear extends Animal {
             }
         }
     }
+
+
+    /**
+     * Seeks an object and attacks a Location with this object, iff the Bear is in a tile adjacent to that Location.
+     * @param x Location to check for object to attack.
+     * @param world World to attack in.
+     */
 
     private void attack(World world, Location x) {
         if (getGrownup() && !world.isTileEmpty(x) || world.getTile(x) instanceof Carcass) {
@@ -122,6 +139,10 @@ public class Bear extends Animal {
         }
     }
 
+    /**
+     * Sets a territory in case the bear has none. If the bear already has a center, it sets a new territory based on that. Otherwise, it denotes a random center to make a territory from.
+     * @param world World to set the territory in.
+     */
     private void setTerritoryIfNull(World world) {
         if (center == null) {
             center = new Location(new Random().nextInt(world.getSize()), new Random().nextInt(world.getSize()));
@@ -134,21 +155,34 @@ public class Bear extends Animal {
         }
     }
 
+    /**
+     * @return True if grownup and age is a multiple of 4
+     */
+
     private boolean ReadyToMate() {
         if (mating) {return true;}
         mating = getGrownup() && isMatingSeason();
         return mating;
     }
 
+    /**
+     * @return true everytime the bears age hits a multiple of 4.
+     */
     private boolean isMatingSeason() {
         return (age % 4) < 0.05; // Checking if the age is 4, 8, etc. because bears mate once every 2 years. Failure check cus double
     }
 
+    /**
+     * @return Whether this bear is grown up or not, defined by if age is larger than 3.
+     */
     @Override
     public boolean getGrownup() {
         return age > 3;
     }
 
+    /**
+     * @return If grown up returns 10, else returns 3.
+     */
     @Override
     public double getFoodValue() {
         if (getGrownup())
@@ -168,20 +202,33 @@ public class Bear extends Animal {
         return new DisplayInformation(Color.GRAY, "bear-small");
     }
 
+    /**
+     * @return List of classes containing the Carcass class.
+     */
     public List<Class<?>> getEdibleClasses() {
         List<Class<?>> classes = new ArrayList<>();
         classes.add(Carcass.class);
         return classes;
     }
 
+    /**
+     * @return List of Locations representing the bears territory.
+     */
     public List<Location> getTerritoryList() {
         return territorylist;
     }
 
+    /**
+     * Used for testing.
+     * @param matingvalue Set to true to force breeding.
+     */
     public void setMating(boolean matingvalue) { // for testing
         mating = matingvalue;
     }
 
+    /**
+     * @return the set of Children that the bear has.
+     */
     public Set<Animal> getChildren() {
         return children;
     }
