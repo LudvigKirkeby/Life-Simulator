@@ -214,14 +214,6 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     }
 
     /**
-     * Short form of wander(World, Location)
-     * @param world World to wander in
-     */
-    protected void wander(World world) {
-        wander(world, world.getLocation(this));
-    }
-
-    /**
      * @param world The world to wander in
      * @param start The location to wander from
      * @return A random location exactly 1 tile from start

@@ -89,7 +89,7 @@ public class Wolf extends Animal {
                     if(nearest_member != null && distToSquared(world, nearest_member)>=2) {
                         takeStepToward(world, nearest_member);
                     }else {
-                        wander(world);
+                        wander(world, world.getLocation(this));
                     }
                 }
             }else {
