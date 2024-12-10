@@ -101,11 +101,9 @@ public class Rabbit extends Animal {
             try {
                 burrowSelf(world);
             }catch(RuntimeException e) {// Should make a custom exception instead
-                if(e.getMessage().equals("Can't find any hole!")) {
-                    if(canDig(world, world.getCurrentLocation()))
-                        digHole(world, world.getCurrentLocation());
-                    else wander(world, world.getCurrentLocation());
-                }
+                if(canDig(world, world.getCurrentLocation()))
+                    digHole(world, world.getCurrentLocation());
+                else wander(world, world.getCurrentLocation());
             }
 
             restoreEnergy();
