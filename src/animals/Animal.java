@@ -33,7 +33,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * Short form of distSquared(World, Location, Location). Assumes parameter from is Location of this in world.
      * @param world World that this and to are in
      * @param to Location two for distance calculation
-     * @return the squared distance between Location of this in world and to.
+     * @return The squared distance between Location of this in world and to.
      */
     public double distToSquared(World world, Location to) {
         return distToSquared(world, world.getLocation(this), to);
@@ -44,7 +44,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param world World that from and to are in
      * @param from Location one for the calculation
      * @param to Location two for the calculation
-     * @return the squared distance between from and to.
+     * @return The squared distance between from and to.
      */
     public double distToSquared(World world, Location from, Location to) {
         if (to == null) throw new IllegalArgumentException("to is null!");
@@ -57,10 +57,9 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     }
 
     /**
-     * Returns the closest Location from getEmptySurroundingTiles(...) to target in world.
      * @param world World that this and target are in
      * @param target Location to take a step toward
-     * @return
+     * @return The closest Location from getEmptySurroundingTiles(...) to target in world.
      */
     public Location getStepToward(World world, Location target) {
         if (target == null) throw new IllegalArgumentException("target is null!");
@@ -83,7 +82,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param c Class to check for
      * @param world World to check in
      * @param exclude Objects that shouldn't be included in the search
-     * @return true or false depending on whether an instance of class c is found or not.
+     * @return True or false depending on whether an instance of class c is found or not.
      */
     protected boolean canFind(Class<?> c, World world, Set<Object> exclude) {
         Set<Location> visible_locations = world.getSurroundingTiles(world.getLocation(this), view_distance);
@@ -174,7 +173,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param world         World to search in
      * @param view_distance How far away the object may be
      * @param include_mid   Whether to include from when searching
-     * @return returns the closest object of type c from location within view_distance
+     * @return The closest object of type c from location within view_distance
      */
     protected Object closestObject(Class<?> c, Location from, World world, int view_distance, boolean include_mid) {
         Set<Location> tiles = world.getSurroundingTiles(from, view_distance);
@@ -189,7 +188,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * @param from  Where to search from
      * @param world World to search in
      * @param tiles How far away the object may be
-     * @return returns the closest object of type c from location within the set tiles.
+     * @return The closest object of type c from location within the set tiles.
      */
     protected Object closestObject(Class<?> c, Location from, World world, Set<Location> tiles) {
         Object closest_object = null;
@@ -268,12 +267,12 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     }
 
     /**
-     * @return whether this Animal is grown up.
+     * @return Whether this Animal is grown up.
      */
     public abstract boolean getGrownup();
 
     /**
-     * @return hunger field from Animal.
+     * @return Hunger field from Animal.
      */
     public double getHunger() {
         return hunger;
@@ -336,7 +335,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
     /**
      * Kills animal with die(...)-method.
      * @param world World that this object is in.
-     * @return food value of this through getFoodValue()-method.
+     * @return Food value of this through getFoodValue()-method.
      */
     @Override
     public double getEaten(World world) {
@@ -382,7 +381,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
 
     /**
      *
-     * @return health_points
+     * @return Value of health_points field
      */
     public double getHP() {
         return health_points;

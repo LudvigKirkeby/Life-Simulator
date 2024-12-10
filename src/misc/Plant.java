@@ -17,7 +17,7 @@ public abstract class Plant implements NonBlocking {
      * @param c The class to place another instance of. Unless the plant turns into another species, this class will always be an instance of itself.
      * @param world The world to grow in.
      */
-    public void grow(Class c, World world) throws Exception {
+    public void grow(Class<?> c, World world) throws Exception {
 
         Set<Location> set = world.getSurroundingTiles(world.getLocation(this));
         List<Location> list = new ArrayList<>(set);
