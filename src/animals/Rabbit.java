@@ -161,7 +161,7 @@ public class Rabbit extends Animal {
     public void burrowSelf(World world) {
         if (world.isOnTile(this)) {
             Burrow closest_burrow = getClosestHole(world.getLocation(this), world);
-            if (closest_burrow == null) return;
+            if (closest_burrow == null) throw new RuntimeException("Burrow could not be found!");
             Location target = world.getLocation(closest_burrow);
             if (target.equals(world.getLocation(this))) {
                 // Burrow successful!

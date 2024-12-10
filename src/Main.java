@@ -17,7 +17,7 @@ public class Main {
 
 
         Reader reader = new Reader();
-        reader.loadFile("src/inputs_week-2/t2-3a.txt");
+        reader.loadFile("src/inputs_week-1/t1-2cde.txt");
         reader.readFile();
 
         //Placement placement = new Placement();

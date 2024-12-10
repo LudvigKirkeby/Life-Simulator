@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="332ce2ec-ece0-4807-82bd-cc4c357eb327" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animals/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/Plant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Plant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Animal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Animal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/AnimalPack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Rabbit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Rabbit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Wolf.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/grpro_eksamensprojekt/animals/Wolf.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animals/Rabbit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +117,7 @@
       <workItem from="1733407178315" duration="4126000" />
       <workItem from="1733469032220" duration="349000" />
       <workItem from="1733653696931" duration="7220000" />
-      <workItem from="1733829626531" duration="2160000" />
+      <workItem from="1733829626531" duration="3315000" />
     </task>
     <servers />
   </component>
