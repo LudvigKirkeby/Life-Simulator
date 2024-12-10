@@ -81,22 +81,17 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
      * Checks if any of the tiles within view_distance of this is the given class c.
      * @param c Class to check for
      * @param world World to check in
-     * @param exclude Objects that shouldn't be included in the search
      * @return True or false depending on whether an instance of class c is found or not.
      */
-    protected boolean canFind(Class<?> c, World world, Set<Object> exclude) {
+    protected boolean canFind(Class<?> c, World world) {
         Set<Location> visible_locations = world.getSurroundingTiles(world.getLocation(this), view_distance);
         for (Location loc : visible_locations) {
             Object o = world.getTile(loc);
-            if (!exclude.contains(o) && c.isInstance(o)) {
+            if (c.isInstance(o)) {
                 return true;
             }
         }
         return false;
-    }
-
-    protected boolean canFind(Class<?> c, World world) {
-        return canFind(c, world, new HashSet<>());
     }
 
     /**
