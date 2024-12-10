@@ -98,11 +98,6 @@ public class Rabbit extends Animal {
             if(new Random().nextInt(5) == 0 && energy > 2)
                 digHole(world, world.getLocation(this));
         } else { // Nighttime behaviour
-            /*
-                This was an attempt to make Rabbits not sit idly on a tile
-                when they cannot find a hole at night. Makes the problem
-                better(I think), but doesn't fix it.
-            */
             try {
                 burrowSelf(world);
             }catch(RuntimeException e) {// Should make a custom exception instead
