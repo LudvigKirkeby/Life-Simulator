@@ -68,7 +68,15 @@ public class Reader {
 
                     ArrayList<Integer> data = new ArrayList<>();
                     String entityName = parts[0];
-                    String amountPart = parts[1];
+                    String amountPart;
+                    if (entityName.equals("cordyceps") ) {
+                        continue;
+                    }
+                    if(entityName.equals("carcass") && parts[1].equals("fungi")) {
+                        amountPart = parts[2];
+                    } else {
+                        amountPart = parts[1];
+                    }
                     int amount;
 
                     if (amountPart.contains("-")) {
@@ -86,7 +94,10 @@ public class Reader {
                         amount = Integer.parseInt(amountPart);
                     }
                     data.add(amount);
-                    if(parts.length > 2) { // bad code, TODO refactor
+                    if(entityName.equals("carcass") && parts[1].equals("fungi")) {
+                        data.add(-1);
+                    }
+                    if(!entityName.equals("carcass") && parts.length > 2) { // bad code, TODO refactor
                         for(int i = 2; i < parts.length; i++) {
                             Pattern pattern = Pattern.compile("[0-9]+]");
                             Matcher matcher = pattern.matcher(parts[i]);
@@ -152,13 +163,11 @@ public class Reader {
 
                 case "carcass":
                     for(int i = 0; i<amount; i++) {
-                        placement.placeRandomly(w, new Carcass());
-                    }
-                break;
-
-                case "carcass fungi":
-                    for(int i = 0; i<amount; i++) {
-                        placement.placeRandomly(w, new Carcass(true));
+                        if(data.size() == 2) {
+                            placement.placeRandomly(w, new Carcass());
+                        } else {
+                            placement.placeRandomly(w, new Carcass(true));
+                        }
                     }
                 break;
 
