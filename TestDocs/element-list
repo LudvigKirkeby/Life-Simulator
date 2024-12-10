@@ -9,5 +9,6 @@ itumulator.executable
 itumulator.simulator
 itumulator.world
 misc
+plants
 tests
 utility
