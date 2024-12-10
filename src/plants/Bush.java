@@ -5,7 +5,6 @@ import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.World;
 import misc.Edible;
-
 import java.awt.*;
 import java.util.Random;
 

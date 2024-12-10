@@ -1,4 +1,4 @@
-package misc;
+package plants;
 
 import itumulator.world.Location;
 import itumulator.world.NonBlocking;

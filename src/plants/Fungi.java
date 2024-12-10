@@ -14,7 +14,7 @@ import java.util.Set;
 public class Fungi implements Actor, DynamicDisplayInformationProvider {
     private double timetodeath;
 
-    Fungi(double foodvalue) {
+    public Fungi(double foodvalue) {
         this.timetodeath = foodvalue;
     }
 

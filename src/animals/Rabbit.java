@@ -5,6 +5,7 @@ import itumulator.world.Location;
 import itumulator.world.World;
 import misc.*;
 import misc.TunnelNetwork;
+import plants.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
