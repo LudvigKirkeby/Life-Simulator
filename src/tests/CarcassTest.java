@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import itumulator.world.World;
 import itumulator.world.Location;
 import misc.Carcass;
-import misc.Fungi;
+import plants.Fungi;
 
 public class CarcassTest {
     World world;

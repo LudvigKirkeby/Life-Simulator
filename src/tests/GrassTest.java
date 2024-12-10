@@ -2,7 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 //import org.junit.jupiter.api.AfterEach;
-import misc.Grass;
+import plants.Grass;
 import org.junit.jupiter.api.Test;
 import itumulator.world.Location;
 import itumulator.world.World;

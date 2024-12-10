@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //import org.junit.jupiter.api.AfterEach;
 import animals.Bear;
 import animals.Rabbit;
-import misc.Bush;
+import plants.Bush;
 import misc.Carcass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

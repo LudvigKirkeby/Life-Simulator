@@ -4,6 +4,7 @@ import itumulator.executable.DisplayInformation;
 import itumulator.world.Location;
 import itumulator.world.World;
 import misc.*;
+import plants.Plant;
 
 import java.awt.*;
 import java.util.*;

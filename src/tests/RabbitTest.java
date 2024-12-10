@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import animals.Rabbit;
 import itumulator.world.Location;
 import misc.Burrow;
-import misc.Grass;
+import plants.Grass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import itumulator.world.World;

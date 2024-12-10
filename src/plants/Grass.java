@@ -1,17 +1,13 @@
-package misc;
+package plants;
 
 import itumulator.executable.DisplayInformation;
 import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
-import itumulator.world.Location;
-import itumulator.world.NonBlocking;
 import itumulator.world.World;
+import misc.Edible;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class Grass extends Plant implements DynamicDisplayInformationProvider, Actor, Edible {
 

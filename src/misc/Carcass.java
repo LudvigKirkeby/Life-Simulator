@@ -5,6 +5,7 @@ import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
+import plants.Fungi;
 
 import java.awt.*;
 import java.util.Random;

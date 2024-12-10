@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 import animals.*;
 import misc.*;
+import plants.Bush;
+import plants.Grass;
 
 class EntityData { //data storage class. For internal Reader use only
     private final String type;

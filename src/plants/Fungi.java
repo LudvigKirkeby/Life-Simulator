@@ -1,13 +1,13 @@
-package misc;
+package plants;
 
 import itumulator.executable.DisplayInformation;
 import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.Location;
 import itumulator.world.World;
 import itumulator.simulator.Actor;
+import misc.Carcass;
 
 import java.awt.*;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
