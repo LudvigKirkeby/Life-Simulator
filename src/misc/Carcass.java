@@ -53,10 +53,6 @@ public class Carcass implements Edible, Actor, DynamicDisplayInformationProvider
         return has_fungi;
     }
 
-    public void setHasFungi(boolean has_fungi) {
-        this.has_fungi = has_fungi;
-    }
-
     public void spawnFungi() {
         has_fungi = true;
     }
