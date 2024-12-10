@@ -29,7 +29,7 @@ public class CarcassTest {
         for(double expected = 1; expected>0; expected-=0.2) {
             assertEquals(expected,carcass.getFoodValue());
             carcass.act(world);
-            carcass.setHasFungi(false);
+            carcass.spawnFungi();
         }
         // Carcass should disappear when food_value is at 0
         assertFalse(world.contains(carcass));
@@ -38,7 +38,7 @@ public class CarcassTest {
     @Test
     public void testCarcassDecayFungi() {
         // Carcass should decay at a rate of 0.5 per act call when it has fungi
-        carcass.setHasFungi(true);
+        carcass.spawnFungi();
         for(double expected = 1; expected>0; expected-=0.5) {
             // Accounts for floating-point error
             assertEquals(Math.round(expected*1000)/1000.0,Math.round(carcass.getFoodValue()*1000)/1000.0);
