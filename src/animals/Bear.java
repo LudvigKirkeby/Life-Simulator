@@ -209,6 +209,7 @@ public class Bear extends Animal {
     public List<Class<?>> getEdibleClasses() {
         List<Class<?>> classes = new ArrayList<>();
         classes.add(Carcass.class);
+        classes.add(Bush.class);
         return classes;
     }
 
