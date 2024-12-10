@@ -35,10 +35,12 @@ public class Bear extends Animal {
 
     @Override
     public void act(World world) {
-        hunger += 0.05;
+        hunger += 0.20;
         age += 0.05;
 
-        if (hunger > 15) {health_points -= 0.5;} // starving
+        System.out.println(health_points);
+
+        if (hunger > 10) {reduceHP(0.25);} // starving
 
         if (age > new Random().nextDouble(25, 900) || health_points <= 0) { // En bjørn dør tidligst ved alderen 25
             die(world);
@@ -80,6 +82,7 @@ public class Bear extends Animal {
             }
         } else if (world.isNight()) {
             sleeping = true;
+            if (hunger < 10 && health_points < 20) {health_points += 0.6;}
         }
     }
 

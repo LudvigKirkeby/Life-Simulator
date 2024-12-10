@@ -15,7 +15,6 @@ import java.util.Set;
 
 public class Rabbit extends Animal {
     TunnelNetwork network;
-    private int starving = 0;
 
     public Rabbit(boolean grownup) {
         this();
@@ -47,22 +46,15 @@ public class Rabbit extends Animal {
     @Override
     public void act(World world) {
         age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 3 år, aka 60 steps.
+        hunger += 0.15;
+        System.out.println(health_points);
         if (age > new Random().nextDouble(9,300) || health_points <= 0) { // En rabbit dør ved tidligst ved age 9 eller ved 0 HP
            die(world);
            return;
         }
 
-
         if (hunger >= 10) {
-            starving++;
-            if (starving > 20) {
-                die(world);
-                return;
-            }
-        }
-
-        if(hunger < 5) {
-            starving = 0;
+            reduceHP(0.25);
         }
 
         if (cooldown > 0) {
@@ -74,9 +66,7 @@ public class Rabbit extends Animal {
 
             unburrow(world);
 
-            hunger += 0.05;
             if(!world.isOnTile(this)) return; // Checks if Rabbit is in Burrow(sleeping)
-            hunger += 0.05;
 
             if(world.getNonBlocking(world.getCurrentLocation()) instanceof Grass) {
                 eat(world, world.getCurrentLocation());
@@ -101,6 +91,7 @@ public class Rabbit extends Animal {
         } else { // Nighttime behaviour
             try {
                 burrowSelf(world);
+                if (hunger < 10 && health_points < 6) {health_points += 0.25;}
             }catch(RuntimeException e) {// Should make a custom exception instead
                 if(canDig(world, world.getCurrentLocation()))
                     digHole(world, world.getCurrentLocation());

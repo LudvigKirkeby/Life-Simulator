@@ -48,8 +48,11 @@ public class Wolf extends Animal {
     @Override
     public void act(World world) {
         age += 0.05;
+        hunger += 0.20;
 
-        if(hunger >= 15) {
+        System.out.println(health_points);
+
+        if(hunger >= 10) {
             reduceHP(0.25);
             hunger = 15;
         }
@@ -60,15 +63,13 @@ public class Wolf extends Animal {
             return;
         }
 
-        hunger += 0.05;
         if(sleeping) {
-            health_points += 1;
+            if (hunger < 10 && health_points < 12) {health_points += 0.4;}
             if(world.isDay() && health_points >= 10)
                 sleeping = false;
             else
                 return;
         }
-        hunger += 0.05;
 
         if(pack.getCenter() == null)
             createHome(world);
