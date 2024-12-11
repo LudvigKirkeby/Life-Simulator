@@ -51,8 +51,8 @@ public class Wolf extends Animal {
         hunger += 0.10;
 
         if(hunger >= 10) {
-            reduceHP(0.25);
-            hunger = 15;
+            reduceHP(0.4);
+            hunger = 10;
         }
 
         if (age > new Random().nextDouble(13,800) || health_points <= 0) {// A Wolf can die of age at 13 years
@@ -62,7 +62,8 @@ public class Wolf extends Animal {
         }
 
         if(sleeping) {
-            if (hunger < 10 && health_points < 12) {health_points += 0.4;}
+            if (hunger < 10 && health_points < 12)
+                health_points += 0.5;
             if(world.isDay() && health_points >= 10)
                 sleeping = false;
             else
@@ -72,7 +73,7 @@ public class Wolf extends Animal {
         if(pack.getCenter() == null)
             createHome(world);
 
-        // Called just in case a wolf in pack somehow got removed from the world
+        // Called just in case a wolf in pack got removed from the world
         // without being removed from the pack
         pack.clean(world);
 
@@ -204,7 +205,7 @@ public class Wolf extends Animal {
         Location own_location = world.getLocation(this);
         Set<Location> surrounding = world.getSurroundingTiles(own_location,view_distance);
         Set<Location> search_locations = new HashSet<>();
-        for(Animal animal : pack.getAnimals()) {
+        for(Animal animal : pack) {
             surrounding.remove(world.getLocation(animal));
         }
         for(Location tile : surrounding) {

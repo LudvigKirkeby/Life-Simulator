@@ -143,6 +143,7 @@ public abstract class Animal implements DynamicDisplayInformationProvider, Actor
         double food = edible.getEaten(world);
         hunger -= food;
         energy += food;
+        if(hunger<0) hunger = 0;
     }
 
     /**

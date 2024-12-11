@@ -24,7 +24,7 @@ public class Main {
 
         reader.readFile();
 
-        Program p = new Program(reader.getWorldSize(), 800, 100);
+        Program p = new Program(reader.getWorldSize(), 800, 20);
         World w = p.getWorld();
 
         reader.Execute(w);

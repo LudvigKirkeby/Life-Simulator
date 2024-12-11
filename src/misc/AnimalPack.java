@@ -5,9 +5,10 @@ import itumulator.world.Location;
 import itumulator.world.World;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-public class AnimalPack {
+public class AnimalPack implements Iterable<Animal> {
     Set<Animal> animals;
     Class<?> type;
     Location center;
@@ -113,5 +114,10 @@ public class AnimalPack {
      */
     public Set<Animal> getAnimals() {
         return animals;
+    }
+
+    @Override
+    public Iterator<Animal> iterator() {
+        return animals.iterator();
     }
 }
