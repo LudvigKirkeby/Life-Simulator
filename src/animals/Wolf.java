@@ -77,7 +77,7 @@ public class Wolf extends Animal {
         pack.clean(world);
 
         if(world.isDay()) {// Daytime behaviour
-            if(health_points < 4) {
+            if(health_points < 3) {
                 goToCave(world);
                 if(inSafety(world)) {
                     sleeping = true;
@@ -95,6 +95,7 @@ public class Wolf extends Animal {
                 goToCave(world);
                 if(inSafety(world) && nextToPackMember(world)) {
                     Set<Animal> babies = reproduce(Wolf.class, world);
+                    energy -= 4;
                     for(Animal a : babies) {
                         if(a instanceof Wolf wolf) {
                             wolf.setPack(pack);
