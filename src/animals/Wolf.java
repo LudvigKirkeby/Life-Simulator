@@ -93,7 +93,7 @@ public class Wolf extends Animal {
                 }
             }else {
                 goToCave(world);
-                if(inSafety(world) && nextToPackMember(world)) {
+                if(inSafety(world) && nextToPackMember(world) && energy > 6) {
                     Set<Animal> babies = reproduce(Wolf.class, world);
                     energy -= 4;
                     for(Animal a : babies) {
