@@ -151,7 +151,7 @@ public class Bear extends Animal {
         }
 
         if (territorylist == null) {
-            Set<Location> territory = world.getSurroundingTiles(center, 2);
+            Set<Location> territory = world.getSurroundingTiles(center, 3);
             territorylist = new ArrayList<Location>(territory);
             territorylist.add(center);
         }
