@@ -49,7 +49,6 @@ public class Wolf extends Animal {
     public void act(World world) {
         age += 0.05;
         hunger += 0.10;
-        System.out.println("hunger: "+hunger);
 
         if(hunger >= 10) {
             reduceHP(0.4);
