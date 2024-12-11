@@ -20,11 +20,11 @@ public class Main {
         Reader reader = new Reader();
         //reader.loadFile("src/inputs_week-1/tf1-1.txt");
         //reader.loadFile("src/inputs_week-2/t2-4b.txt");
-        //reader.loadFile("src/inputs_week-3/t3-2ab.txt");
+        reader.loadFile("src/inputs_week-3/t3-2ab.txt");
 
         reader.readFile();
 
-        Program p = new Program(reader.getWorldSize(), 800, 20);
+        Program p = new Program(reader.getWorldSize(), 800, 100);
         World w = p.getWorld();
 
         reader.Execute(w);

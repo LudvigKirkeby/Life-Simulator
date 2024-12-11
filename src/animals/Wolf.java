@@ -38,7 +38,7 @@ public class Wolf extends Animal {
             throw new IllegalArgumentException("pack type can't be " + pack.getType()+" for wolf!");
         this.pack = pack;
         pack.add(this);
-        view_distance = 8;
+        view_distance = 100;
         hunger = 0;
         energy = 10;
         age = 0;
