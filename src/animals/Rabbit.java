@@ -47,7 +47,6 @@ public class Rabbit extends Animal {
     public void act(World world) {
         age += 0.05; // 1 år per 20 steps. En rabbit er gammel efter 3 år, aka 60 steps.
         hunger += 0.15;
-        System.out.println(health_points);
         if (age > new Random().nextDouble(9,300) || health_points <= 0) { // En rabbit dør ved tidligst ved age 9 eller ved 0 HP
            die(world);
            return;

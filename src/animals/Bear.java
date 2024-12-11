@@ -38,8 +38,6 @@ public class Bear extends Animal {
         hunger += 0.20;
         age += 0.05;
 
-        System.out.println(health_points);
-
         if (hunger > 10) {reduceHP(0.25);} // starving
 
         if (age > new Random().nextDouble(25, 900) || health_points <= 0) { // En bjørn dør tidligst ved alderen 25

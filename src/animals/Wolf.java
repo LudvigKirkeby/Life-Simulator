@@ -48,9 +48,7 @@ public class Wolf extends Animal {
     @Override
     public void act(World world) {
         age += 0.05;
-        hunger += 0.20;
-
-        System.out.println(health_points);
+        hunger += 0.10;
 
         if(hunger >= 10) {
             reduceHP(0.25);
